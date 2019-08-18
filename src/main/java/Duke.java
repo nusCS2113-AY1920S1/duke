@@ -11,19 +11,24 @@ public class Duke {
 
         System.out.println("Hello from\n" + logo);
 
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<Task> list = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
         while (!input.equals("bye")) {
+            String[] splitStr = input.split(" ");
             if (input.equals("list")) {
                 for (int i = 0; i < list.size(); i++) {
                     System.out.print(i + 1);
-                    System.out.println(". " + list.get(i));
+                    System.out.println(". " + "[" + list.get(i).getStatusIcon() + "] " + list.get(i).description);
                 }
+            } else if (splitStr[0].equals("done")) {
+                int n = Integer.parseInt(splitStr[1]);
+                list.get(n - 1).completeTask();
             } else {
-                list.add(input);
+                Task t = new Task(input);
+                list.add(t);
                 System.out.println("added: " + input);
             }
             input = scanner.nextLine();
