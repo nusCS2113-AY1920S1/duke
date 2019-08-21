@@ -9,16 +9,19 @@ public class Duke {
             + "|____/ \\__,_|_|\\_\\___|\n";
 
     private final static String LINE = "________________________________________________";
-    private final static String STRING_VAR_HOLDER = "coded_start";
+
+    // Main
     public static void main(String[] args) {
         initialise();
     }
 
+    // Method that is supposed to run when program is launched.
+    // Prints out Logo, Welcome msg, and echoes user input until user_input=="bye", which terminates the method.
     private static void initialise() {
         // Welcome Message
         System.out.println("Hello from the other sideeeeeeeeeeee\n" + LOGO); // Logo
         System.out.println("Duke: Hello! I'm Duke.\nDuke: What can I do for you?");
-        System.out.println(LINE);
+        printSeparator();
         // Begin taking in input
         Scanner scanner = new Scanner(System.in);
         String user_input;
@@ -32,9 +35,11 @@ public class Duke {
                 System.out.println("Duke: " + user_input +"\n");
             }
         }
+        printSeparator();
+    }
 
+    // Prints out a standardized line separator
+    private static void printSeparator() {
         System.out.println(LINE);
-
-
     }
 }
