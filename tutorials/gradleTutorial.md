@@ -59,6 +59,16 @@ You can click on the Gradle icon in the Gradle toolbar and create a new run conf
 
 ![Gradle icon](assets/GradleIcon.png)
 
+Note that when you attempt to run a program that takes in data from the standard input, the program will fail with an exception. To resolve this, you can implement [Text UI Testing](textUiTestingTutorial.md). Alternatively, add the following lines to your `build.gradle`:
+
+```groovy
+run {
+  standardInput = System.in
+}
+```
+
+This will ensure that the program takes in input from the standard input.
+
 ## Adding Plugins
 
 Gradle plugins are reusable units of build logic. Most common build tasks are provided as core plugins by Gradle. Given below are instructions on how to use some useful plugins:
