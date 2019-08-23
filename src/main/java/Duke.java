@@ -1,13 +1,41 @@
 import java.util.Scanner;
 import java.util.*; 
+//this is the Task class
+class Task{ 
+    private boolean status; 
+    private String name; 
+    public Task(boolean to_add_status, String name_to_add){ 
+        status = to_add_status; 
+        name = name_to_add; 
+    }
+    public void change_status(boolean to_change_status){ 
+        status  = to_change_status;  
+    }
+    public void change_task(String to_change_task){ 
+        name = to_change_task;
+    }
+    public boolean get_status(){
+        return status; 
+    }
+    public String get_name(){ 
+        return name; 
+    }
+}
 
 public class Duke {
-    public static void print_list(List<String> list1){ 
+    public static void print_list(List<Task> list1){ 
         int i = 0; 
-        for (String temp : list1) {
+        for (Task temp : list1) {
             System.out.print(i+1);
             System.out.print("."); 
-            System.out.println(temp);
+            boolean status = temp.get_status(); 
+            if(status == true){ 
+                System.out.print("[✓] ");
+            }
+            else{
+                System.out.print("[✗] ");
+            }
+            System.out.println(temp.get_name());
             i +=1; 
 		}
         //System.out.println(list1);
@@ -20,7 +48,7 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
-        List<String> l1 = new ArrayList<String>(); 
+        List<Task> l1 = new ArrayList<Task>(); 
         while(true){  
             Scanner input = new Scanner(System.in);
             String command = input.nextLine();; 
@@ -37,11 +65,27 @@ public class Duke {
                 print_list(l1);
                 //System.out.println(l1);
             }
-            else{        
-                l1.add(command);
-                System.out.println("added: " + command);
+            else{ 
+                String[] values = command.split(" ");
+                
+                if(done.equals(values[0])){ 
+                    System.out.println("Nice! I've marked this task as done: ");
+                    int index =  Integer.parseInt(values[1]);
+                    System.out.println("  [✓] "+l1.get(index-1).get_name());
+                    
+                    
+                    
+                    l1.get(index-1).change_status(true);
+                }
+                else{ 
+                    
+                    Task c1 = new Task(false,command);
+                    l1.add(c1);
+                    System.out.println("added: " + command);
+                }
                
             }
+
             //l1.add(0, 1);  // adds 1 at 0 index 
             // adds 2 at 1 index 
             //System.out.println(l1);  // [1, 2] 
