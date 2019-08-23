@@ -39,8 +39,7 @@ public class Duke {
                 System.out.print("added: ");
                 System.out.println(command);
             }
-            //l1.add(0, 1);  // adds 1 at 0 index 
-            // adds 2 at 1 index 
+
             //System.out.println(l1);  // [1, 2] 
             //System.out.println(command);
         }
