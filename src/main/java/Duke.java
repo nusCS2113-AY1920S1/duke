@@ -24,10 +24,9 @@ public class Duke {
         while(true){  
             Scanner input = new Scanner(System.in);
             String command = input.nextLine();; 
-            //String s=String.valueOf(number);
-            //Objects.equals("bye", command)
             String end =  "bye";
             String show_data = "list";
+            
             if(end.equals(command)){ 
                 System.out.println("Bye. Hope to see you again soon!");
                 return; 
