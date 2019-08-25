@@ -33,9 +33,12 @@ run {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.0'
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.0')
 }
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
