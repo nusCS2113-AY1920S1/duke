@@ -13,10 +13,10 @@ public class TaskManager {
     public boolean run() {
         Scanner scan = new Scanner(System.in);
         String userInput = scan.nextLine();
-        task = new Task(userInput);
-        if (task.getTaskName().equals("bye")) {
+        if (userInput.equals("bye")) {
             return false;
         } else {
+            task = new Task(userInput);
             return true;
         }
     }

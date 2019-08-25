@@ -11,8 +11,4 @@ public class Task {
         MessageFormatter.showTaskSuccessMessage(this.taskName);
     }
 
-    public String getTaskName() {
-        return taskName;
-    }
-
 }
