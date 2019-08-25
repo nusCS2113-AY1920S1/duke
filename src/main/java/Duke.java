@@ -1,10 +1,23 @@
+package com.nwjbrandon.duke;
+
+import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.utilities.MessageFormatter;
+import com.nwjbrandon.duke.services.tasks.TaskManager;
+import com.nwjbrandon.duke.services.tasks.Task;
+
 public class Duke {
-    public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+
+    public Duke() {
     }
+
+    public static void main(String[] args) {
+        Messages.greetingMessage();
+        TaskManager taskManager = new TaskManager();
+        while(taskManager.run()) {
+            Task task = taskManager.getTask();
+            MessageFormatter.getTaskSuccessMessage(task);
+        }
+        Messages.farewellMessage();
+    }
+
 }
