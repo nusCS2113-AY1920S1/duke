@@ -2,7 +2,7 @@ package com.nwjbrandon.duke.constants;
 
 public class Messages {
 
-    private static String divider = "____________________________________________________________";
+    public static String divider = "____________________________________________________________";
 
     public Messages() {
     }
