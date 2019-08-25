@@ -1,7 +1,8 @@
 package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.services.tasks.Task;
-import com.nwjbrandon.duke.utilities.MessageFormatter;
+import com.nwjbrandon.duke.utilities.TaskMessageFormatter;
+import com.nwjbrandon.duke.utilities.ErrorMessageFormatter;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -13,27 +14,40 @@ public class TaskManager {
         tasksList = new ArrayList<Task>();
     }
 
-    public boolean run() {
+    private static String readInput() {
         Scanner scan = new Scanner(System.in);
         String userInput = scan.nextLine();
-        if (userInput.equals("bye")) {
-            return false;
-        } else if (userInput.equals("list")) {
-            showTasksList();
-            return true;
-        } else {
-            Task task = new Task(userInput);
-            tasksList.add(task);
-            return true;
-        }
+        return userInput;
     }
 
     private void showTasksList() {
-        ArrayList<String> taskNamesList = new ArrayList<String>();
-        for (int i = 0; i < tasksList.size(); i++) {
-            taskNamesList.add(tasksList.get(i).getTaskName());
+        TaskMessageFormatter.showTasksList(tasksList);
+    }
+
+    public boolean run() {
+        try {
+            String userInput = readInput();
+            if (userInput.equals("bye")) {
+                return false;
+            } else if (userInput.equals("list")) {
+                showTasksList();
+                return true;
+            } else if (userInput.startsWith("done")) {
+                String[] inputs = userInput.split(" ");
+                Integer taskIndex = Integer.valueOf(inputs[1]) - 1;
+                tasksList.get(taskIndex).setDoneStatus(true);
+                return true;
+            } else {
+                Task task = new Task(userInput);
+                tasksList.add(task);
+                return true;
+            }
+        } catch (NumberFormatException e) {
+            ErrorMessageFormatter err = new ErrorMessageFormatter("Please input instruction in the correct format!");
+        } catch (Exception e) {
+            ErrorMessageFormatter err = new ErrorMessageFormatter("An uncaught error has occurred!");
         }
-        MessageFormatter.showTasksList(taskNamesList);
+        return true;
     }
 
 }
