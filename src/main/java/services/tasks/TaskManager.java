@@ -21,8 +21,4 @@ public class TaskManager {
         }
     }
 
-    public Task getTask() {
-        return task;
-    }
-
 }

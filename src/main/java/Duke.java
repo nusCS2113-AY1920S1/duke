@@ -1,9 +1,7 @@
 package com.nwjbrandon.duke;
 
 import com.nwjbrandon.duke.constants.Messages;
-import com.nwjbrandon.duke.utilities.MessageFormatter;
 import com.nwjbrandon.duke.services.tasks.TaskManager;
-import com.nwjbrandon.duke.services.tasks.Task;
 
 public class Duke {
 
@@ -13,10 +11,7 @@ public class Duke {
     public static void main(String[] args) {
         Messages.greetingMessage();
         TaskManager taskManager = new TaskManager();
-        while(taskManager.run()) {
-            Task task = taskManager.getTask();
-            MessageFormatter.getTaskSuccessMessage(task);
-        }
+        while(taskManager.run());
         Messages.farewellMessage();
     }
 
