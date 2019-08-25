@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class TaskManager {
 
-    Task task;
+    private Task task;
 
     public TaskManager() {
     }
