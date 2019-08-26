@@ -66,7 +66,8 @@ public class Duke {
                         int splitPointE=cs.indexOf("/at");
                         String when=cs.substring(splitPointE+4);
 
-
+                        //call the date parser
+                        when=dateParse(when);
 
                         String whatE = cs.substring(0,splitPointE);
                         String descriptionE=whatE+" (at: "+when+")";
@@ -76,6 +77,10 @@ public class Duke {
                     case "deadline":
                         int splitPoint=cs.indexOf("/by");
                         String deadline=cs.substring(splitPoint+5);
+
+                        //call the date parser
+                        deadline=dateParse(deadline);
+
                         String what = cs.substring(0,splitPoint);
                         String description=what+" (by: "+deadline+")";
                         arrlist.add(new Deadline(description));
@@ -187,6 +192,39 @@ public class Duke {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * This function returns the number cardinal when passed an integer
+     * @param n
+     * @return
+     */
+    private static String getDayOfMonthSuffix(final int n) {
+        if (n >= 11 && n <= 13) {
+            return "th";
+        }
+        switch (n % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
+        }
+    }
+
+
+    private static String dateParse(String when){
+        //parse date
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HHmm");
+        Date date = null;
+        try {
+            date = format.parse(when);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        format = new SimpleDateFormat("dd MMMM yyyy hh:mma");
+        when = format.format(date);
+        return when;
     }
 }
 
