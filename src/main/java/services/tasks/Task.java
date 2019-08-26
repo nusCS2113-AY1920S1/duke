@@ -17,14 +17,26 @@ public class Task {
         TaskMessageFormatter.showTaskAdded(this.taskName);
     }
 
+    /**
+     * get the name of task.
+     * @return name of the task
+     */
     public String getTaskName() {
         return taskName;
     }
 
+    /**
+     * get the status of the task.
+     * @return true for done
+     */
     public boolean getIsDoneStatus() {
         return isDone;
     }
 
+    /**
+     * set the done status of the task.
+     * @param isDone - status of the task
+     */
     public void setDoneStatus(boolean isDone) {
         this.isDone = isDone;
         TaskMessageFormatter.showTaskDoneStatus(this);

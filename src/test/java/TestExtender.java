@@ -1,4 +1,3 @@
-// https://stackoverflow.com/questions/1647907/junit-how-to-simulate-system-in-testing
 package com.nwjbrandon.duke;
 
 import java.io.InputStream;
@@ -8,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 
+// https://stackoverflow.com/questions/1647907/junit-how-to-simulate-system-in-testing
 public class TestExtender {
 
     private final InputStream systemIn = System.in;

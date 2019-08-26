@@ -11,14 +11,14 @@ public class ErrorMessageFormatter {
         this.showError();
     }
 
+    /**
+     * show the error message.
+     */
     public void showError() {
-        System.out.print("\t");
-        System.out.println(Messages.divider);
-        System.out.print("\t ");
-        System.out.println(errorMessage);
-        System.out.print("\t");
-        System.out.println(Messages.divider);
-        System.out.println();
+        String output = "\t" + Messages.divider + "\n"
+                      + "\t " + errorMessage + "\n"
+                      + "\t" + Messages.divider + "\n";
+        System.out.println(output);
     }
 
 }

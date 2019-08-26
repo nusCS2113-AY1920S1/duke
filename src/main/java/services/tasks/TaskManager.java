@@ -14,16 +14,27 @@ public class TaskManager {
         tasksList = new ArrayList<Task>();
     }
 
+    /**
+     * read the console input.
+     * @return input value
+     */
     private static String readInput() {
         Scanner scan = new Scanner(System.in);
         String userInput = scan.nextLine();
         return userInput;
     }
 
+    /**
+     * show the list of tasks.
+     */
     private void showTasksList() {
         TaskMessageFormatter.showTasksList(tasksList);
     }
 
+    /**
+     * run the application.
+     * @return whether the program is done
+     */
     public boolean run() {
         try {
             String userInput = readInput();

@@ -7,26 +7,25 @@ public class Messages {
     public Messages() {
     }
 
+    /**
+     * Show greeting message.
+     */
     public static void greetingMessage() {
-        System.out.print("\t");
-        System.out.println(divider);
-        System.out.print("\t");
-        System.out.println(" Hello! I'm Duke");
-        System.out.print("\t");
-        System.out.println(" What can I do for you?");
-        System.out.print("\t");
-        System.out.println(divider);
-        System.out.println();
+        String output = "\t" + Messages.divider + "\n"
+                      + "\t Hello! I'm Duke\n"
+                      + "\t What can I do for you?\n"
+                      + "\t" + Messages.divider + "\n";
+        System.out.println(output);
     }
 
+    /**
+     * Show farewell message.
+     */
     public static void farewellMessage() {
-        System.out.print("\t");
-        System.out.println(divider);
-        System.out.print("\t");
-        System.out.println(" Bye. Hope to see you again soon!");
-        System.out.print("\t");
-        System.out.println(divider);
-        System.out.println();
+        String output = "\t" + Messages.divider + "\n"
+                      + "\t Bye. Hope to see you again soon!\n"
+                      + "\t" + Messages.divider + "\n";
+        System.out.println(output);
     }
 
 }
