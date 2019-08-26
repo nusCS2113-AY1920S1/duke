@@ -19,7 +19,6 @@ public class Duke {
 
         ArrayList<Task> arrlist=new ArrayList<>();
 
-
         //cli loop
         while(true){
             String cmd = sc.nextLine();
@@ -42,7 +41,7 @@ public class Duke {
                 t.markAsDone();
                 System.out.println("["+t.getStatusIcon()+"] "+t.description);
 
-            }else if (cmd.matches("(todo|event|deadline) .*")){
+            }else if (cmd.matches("(todo|event|deadline) .+")){
                 System.out.println("Got it. I've added this task:");
                 Scanner sc1= new Scanner(cmd);
                 String s=sc1.next();
@@ -74,12 +73,36 @@ public class Duke {
 
 
 
+            }else if (cmd.matches("(todo|event|deadline)")){
+                try {
+                    throw new DukeException("☹ OOPS!!! The description of a "+cmd+" cannot be empty.");
+                } catch (DukeException e) {
+                    System.out.println(e);
+                }
             }else{
-                System.out.println("added: "+cmd);
-                Task t = new Task(cmd);
-                arrlist.add(t);
+                try {
+                    throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                } catch (DukeException e) {
+                    System.out.println(e);
+                }
             }
         }
 
+    }
+}
+
+
+
+class DukeException extends Exception{
+
+    String description;
+
+    public DukeException(String description){
+        this.description=description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
     }
 }
