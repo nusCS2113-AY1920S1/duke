@@ -15,7 +15,7 @@ public class Duke {
         Scanner sc= new Scanner(System.in);
 
         while(true){
-            String cmd = sc.next();
+            String cmd = sc.nextLine();
 
             if(cmd.equals("bye")){
                 System.out.println("Bye. Hope to see you again soon!");
