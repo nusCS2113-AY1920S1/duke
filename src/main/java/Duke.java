@@ -12,7 +12,7 @@ public class Duke {
         }
 
         {
-            System.out.println("Bye. See you again soon!");
+            System.out.println("Bye! See you again soon!");
         }
 
     }
