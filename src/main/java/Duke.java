@@ -1,6 +1,10 @@
 import java.io.*;
 import java.nio.CharBuffer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -61,6 +65,9 @@ public class Duke {
                     case "event":
                         int splitPointE=cs.indexOf("/at");
                         String when=cs.substring(splitPointE+4);
+                        
+
+
                         String whatE = cs.substring(0,splitPointE);
                         String descriptionE=whatE+" (at: "+when+")";
                         arrlist.add(new Event(descriptionE));
@@ -153,6 +160,7 @@ public class Duke {
                             t.isDone=true;
                         }
                         tasks.add(t);
+                        break;
                     case "D":
                         String done1 = strScanner.next();
                         Task t1 = new Deadline(strScanner.nextLine());
@@ -160,6 +168,7 @@ public class Duke {
                             t1.isDone=true;
                         }
                         tasks.add(t1);
+                        break;
                     case "T":
                         String done2 = strScanner.next();
                         Task t2 = new Todo(strScanner.nextLine());
@@ -167,6 +176,7 @@ public class Duke {
                             t2.isDone=true;
                         }
                         tasks.add(t2);
+                        break;
 
                 }
 
