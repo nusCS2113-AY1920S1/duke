@@ -185,7 +185,7 @@ public class Duke {
  * This class is the custom exception class extending Exception
  * that overwrites toString() for returning custom exception messages
  *
- * It is thrown when command is unknown or when there are invalid arguments
+ * It is thrown when command is unknown or when there are iinvalid arguments
  */
 class DukeException extends Exception{
 
