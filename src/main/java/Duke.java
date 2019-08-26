@@ -13,9 +13,14 @@ public class Duke {
         System.out.println("Hello \n" + logo);
         System.out.println("Hello! I'm Duke\n" +
                 "     What can I do for you?");
-        Scanner sc= new Scanner(System.in);
-        ArrayList<String> arrlist=new ArrayList<>();
 
+        //set up scanner and datastructure
+        Scanner sc= new Scanner(System.in);
+
+        ArrayList<Task> arrlist=new ArrayList<>();
+
+
+        //cli loop
         while(true){
             String cmd = sc.nextLine();
 
@@ -24,13 +29,23 @@ public class Duke {
                 exit(0);
             }else if(cmd.equals("list")){
                 int count=1;
-                for(String s:arrlist){
-                    System.out.println(count+++". "+s);
+                System.out.println("Here are the tasks in your list:");
+                for(int i=0;i<arrlist.size();i++){
+                    Task t = arrlist.get(i);
+                    System.out.println(count+++"."+"["+t.getStatusIcon()+"] "+t.description);
                 }
+            }else if(cmd.matches("done ([0-9]*)")){
+                Scanner sc1= new Scanner(cmd);
+                sc1.next(); //get rid of the done
+                System.out.println("Nice! I've marked this task as done:");
+                Task t = arrlist.get(sc1.nextInt()-1);
+                t.markAsDone();
+                System.out.println("["+t.getStatusIcon()+"] "+t.description);
 
             }else{
                 System.out.println("added: "+cmd);
-                arrlist.add(cmd);
+                Task t = new Task(cmd);
+                arrlist.add(t);
             }
         }
 
