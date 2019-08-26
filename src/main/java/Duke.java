@@ -65,7 +65,7 @@ public class Duke {
                     case "event":
                         int splitPointE=cs.indexOf("/at");
                         String when=cs.substring(splitPointE+4);
-                        
+
 
 
                         String whatE = cs.substring(0,splitPointE);
