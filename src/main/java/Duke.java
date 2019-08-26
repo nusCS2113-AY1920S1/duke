@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -13,6 +14,7 @@ public class Duke {
         System.out.println("Hello! I'm Duke\n" +
                 "     What can I do for you?");
         Scanner sc= new Scanner(System.in);
+        ArrayList<String> arrlist=new ArrayList<>();
 
         while(true){
             String cmd = sc.nextLine();
@@ -20,8 +22,15 @@ public class Duke {
             if(cmd.equals("bye")){
                 System.out.println("Bye. Hope to see you again soon!");
                 exit(0);
+            }else if(cmd.equals("list")){
+                int count=1;
+                for(String s:arrlist){
+                    System.out.println(count+++". "+s);
+                }
+
             }else{
-                System.out.println(cmd);
+                System.out.println("added: "+cmd);
+                arrlist.add(cmd);
             }
         }
 
