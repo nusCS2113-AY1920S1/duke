@@ -12,7 +12,7 @@ public class Duke {
         }
 
         public String getStatusIcon() {
-            return (isDone ? "[$]" : "[@]"); //return tick or X symbols
+            return (isDone ? "[✓]" : "[X]"); //return tick or X symbols
         }
 
         //...
