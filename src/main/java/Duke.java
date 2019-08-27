@@ -26,7 +26,7 @@ public class Duke {
             Scanner input = new Scanner(System.in);
 
             if(input.hasNextLine()){
-                
+
                 String command = input.nextLine();
 
                 String end =  "bye";
@@ -53,25 +53,54 @@ public class Duke {
                     //System.out.println(Arrays.toString(values));
 
                     if(done.equals(values[0])){
-                        int index =  Integer.parseInt(values[1]);
-                        analyser.done(index);
+                        int index;
+                        try{ 
+                            index =  Integer.parseInt(values[1]);
+                            try{ 
+                                analyser.done(index);
+                            } 
+                            catch (Exception e){ 
+                                System.out.println(e.getMessage());
+                            }
+                        }
+                        catch(NumberFormatException nfe){ 
+                            System.out.println("Sorry, you dint enter a valid index number!");
+                        }
+                        
+                        
                     }
 
                     else if(todo.equals(values[0])){ 
-                        analyser.create_todo(command);
+                        try{ 
+                            analyser.create_todo(command);
+                        } 
+                        catch (Exception e){ 
+                            System.out.println(e.getMessage());
+                        }
                     }
 
                     else if(events.equals(values[0])){ 
-                        analyser.create_events(values[1]);
+                        try{ 
+                            analyser.create_events(values[1]);
+                        } 
+                        catch (Exception e){ 
+                            System.out.println(e.getMessage());
+                        }
                     }
 
                     else if(deadline.equals(values[0])){ 
                         String work = values[1];
-                        analyser.create_deadline(work);
+                        try{ 
+                            analyser.create_deadline(work);
+
+                        } 
+                        catch (Exception e){ 
+                            System.out.println(e.getMessage());
+                        }
                     }
 
                     else{
-                        System.out.println("Sorry I din't understand what you said! :)");  
+                        System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");  
                     }
                 }
 
