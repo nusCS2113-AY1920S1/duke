@@ -85,7 +85,7 @@ public class Duke {
      * No Params, No Return Value
      * This function handles the exiting/shutdown of the program Duke
      * @UsedIn: processCommands
-     * TODO: Save data on exit?
+     * TODO: Save data on exit
      */
     public void exitDuke(){
         System.out.println("Bye. Hope to see you again soon!");
