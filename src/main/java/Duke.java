@@ -55,6 +55,9 @@ public class Duke {
                 taskDone(cmd);
 
             }
+            else if(cmd.matches("delete ([0-9]+)")){
+                deleteTask(cmd);
+            }
             else if (cmd.matches("(todo|event|deadline) .+")){  //use regex to make life easier
                 addTask(cmd);
 
@@ -120,6 +123,23 @@ public class Duke {
         t.markAsDone();
         System.out.println("["+t.getStatusIcon()+"] "+t.description);
         saveDuke(arrlist);
+    }
+
+    /**
+     * @Function
+     * @param cmd, No Return Value
+     * This function handles the deletion of tasks
+     * @UsedIn: processCommands
+     */
+    public void deleteTask(String cmd){
+        Scanner sc1= new Scanner(cmd);
+        sc1.next(); //skip over the 'delete'
+        System.out.println("Noted. I've removed this task:");
+        Task t = arrlist.remove(sc1.nextInt()-1);
+        t.markAsDone();
+        System.out.println("["+t.getStatusIcon()+"] "+t.description);
+        saveDuke(arrlist);
+        showSize();
     }
 
 
