@@ -1,8 +1,9 @@
 import java.util.Scanner;
+import java.io.*;
 
 public class Duke {
-
-    public static class Task {
+    public static class Task implements Serializable{
+        private static final long SerialVersionUID = 20L;
         protected String description;
         protected boolean isDone;
         protected String typeEvent;
@@ -65,9 +66,61 @@ public class Duke {
             return "[E]" + super.toString() + " (at: " + at + ")";
         }
     }
+//    public static class SerializeArray{
+//        public static void saveArray(Task[] arr)throws Exception //writes the array of Person to a file "Persons.ser"
+//        {
+//            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Persons.ser"));
+//            os.writeObject(arr);
+//            os.close();
+//        }
+//        public static Task[] loadArray()throws Exception //Reads the array of Persons back from file.
+//        {
+//            ObjectInputStream oin = new ObjectInputStream(new FileInputStream("Persons.ser"));
+//            Task[] arr = (Task[]) oin.readObject();
+//            oin.close();
+//            return arr;
+//        }
+//    }
+
+    public void saveArray(String filename, Task[] output_arr) {
+        try {
+            FileOutputStream fos = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(output_arr);
+            out.flush();
+            out.close();
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public Task[] loadArray(String filename) {
+        try {
+            FileInputStream fis = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(fis);
+            Task[] load_arr = (Task[])in.readObject();
+            in.close();
+            return load_arr;
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 
 //changed public static void to public void
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        Task load_arr[] = new Task[100];
+        try {
+            FileInputStream fis = new FileInputStream("list.ser");
+            ObjectInputStream in = new ObjectInputStream(fis);
+            load_arr = (Task[])in.readObject();
+            in.close();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
 
         String input;
         String deadlineArr[];
@@ -77,6 +130,15 @@ public class Duke {
         input = scanner.nextLine();
         String inputArr[] = input.split(" ", 2);
         Task classArr[] = new Task[100];
+        int k = 0;
+        if(load_arr != null){
+            for(k = 0; k < load_arr.length; k++){
+                classArr[k] = load_arr[k];
+            }
+            for(int b = 0; b < 100; b ++){
+                classArr[b] = new Task("");
+            }
+        }
         for(int a = 0; a < 100; a++){
             classArr[a] = new Task("");
         }
@@ -162,8 +224,16 @@ public class Duke {
                 inputArr = input.split(" ", 2);
             }
         }
-
-            System.out.println("Bye! See you again soon!");
-
+        try {
+            FileOutputStream fos = new FileOutputStream("list.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            out.writeObject(classArr);
+            out.flush();
+            out.close();
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println("Bye! Hope to see you again soon.");
     }
 }
