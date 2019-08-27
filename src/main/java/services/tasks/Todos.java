@@ -1,6 +1,5 @@
 package com.nwjbrandon.duke.services.tasks;
 
-import com.nwjbrandon.duke.utilities.TaskMessageFormatter;
 import com.nwjbrandon.duke.constants.Messages;
 
 public class Todos extends Task {

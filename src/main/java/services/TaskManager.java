@@ -2,8 +2,8 @@ package com.nwjbrandon.duke.services;
 
 import com.nwjbrandon.duke.services.tasks.Task;
 import com.nwjbrandon.duke.services.tasks.Todos;
-import com.nwjbrandon.duke.utilities.TaskMessageFormatter;
 import com.nwjbrandon.duke.utilities.ErrorMessageFormatter;
+import com.nwjbrandon.duke.constants.Messages;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -29,7 +29,14 @@ public class TaskManager {
      * show the list of tasks.
      */
     private void showTasksList() {
-        TaskMessageFormatter.showTasksList(tasksList);
+        String output = "\t" + Messages.divider + "\n"
+                      + "\t Here are the tasks in your lists:\n";
+        for (int i = 0; i < tasksList.size(); i++) {
+            output += "\t " + (i + 1) + ". [" + tasksList.get(i).getStatusIcon() + "] " 
+                    + tasksList.get(i).getTaskName() + "\n";
+        }
+        output += "\t" + Messages.divider + "\n";
+        System.out.println(output);
     }
 
     /**
