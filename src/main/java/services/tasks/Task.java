@@ -42,4 +42,12 @@ public class Task {
         TaskMessageFormatter.showTaskDoneStatus(this);
     }
 
+    /**
+     * get the status icon of the task.
+     * @return status icon of task
+     */
+    public String getStatusIcon() {
+        return (isDone ? "✓" : "✗");
+    }
+
 }

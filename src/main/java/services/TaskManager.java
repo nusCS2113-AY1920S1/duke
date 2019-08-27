@@ -1,4 +1,4 @@
-package com.nwjbrandon.duke.services.tasks;
+package com.nwjbrandon.duke.services;
 
 import com.nwjbrandon.duke.services.tasks.Task;
 import com.nwjbrandon.duke.utilities.TaskMessageFormatter;

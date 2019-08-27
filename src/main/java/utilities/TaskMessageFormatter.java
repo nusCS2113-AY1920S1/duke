@@ -26,8 +26,8 @@ public class TaskMessageFormatter {
         String output = "\t" + Messages.divider + "\n"
                       + "\t Here are the tasks in your lists:\n";
         for (int i = 0; i < tasksList.size(); i++) {
-            output += "\t " + (i + 1) + ". [" + (tasksList.get(i).getIsDoneStatus() ? "✓" : "✗") 
-                    + "] " + tasksList.get(i).getTaskName() + "\n";
+            output += "\t " + (i + 1) + ". [" + tasksList.get(i).getStatusIcon() + "] " 
+                    + tasksList.get(i).getTaskName() + "\n";
         }
         output += "\t" + Messages.divider + "\n";
         System.out.println(output);
@@ -39,7 +39,7 @@ public class TaskMessageFormatter {
     public static void showTaskDoneStatus(Task task) {
         String output = "\t" + Messages.divider + "\n"
                       + "\t Nice! I've marked this task as done:\n"
-                      + "\t [" + (task.getIsDoneStatus() ? "✓" : "✗") + "] " + task.getTaskName() + "\n"
+                      + "\t [" + task.getStatusIcon() + "] " + task.getTaskName() + "\n"
                       + "\t" + Messages.divider + "\n";
         System.out.println(output);
     }

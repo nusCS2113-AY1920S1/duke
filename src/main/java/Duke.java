@@ -1,7 +1,7 @@
 package com.nwjbrandon.duke;
 
 import com.nwjbrandon.duke.constants.Messages;
-import com.nwjbrandon.duke.services.tasks.TaskManager;
+import com.nwjbrandon.duke.services.TaskManager;
 
 public class Duke {
 
