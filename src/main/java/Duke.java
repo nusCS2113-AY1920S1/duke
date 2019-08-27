@@ -84,40 +84,72 @@ public class Duke {
         int i = 0;
 
         while(!input.equals("bye")) {
-            //System.out.println(input);
-            if(inputArr[0].equals("todo")){
-                classArr[i] = new ToDo(inputArr[1]);
-                classArr[i].isDone = false;
-                System.out.println("Got it! I've added this task: \n" + "[T]" + classArr[i].getStatusIcon() + " " + inputArr[1]);
-                System.out.println("You now have " + (i+1) + " tasks in the list.");
+            if(!inputArr[0].equals("todo") && !inputArr[0].equals("deadline") && !inputArr[0].equals("event") && !inputArr[0].equals("done") && !inputArr[0].equals("list") ){
+                System.out.println("☹ OOPS!!! I'm sorry but I don't know what that means.");
                 input = scanner.nextLine();
                 inputArr = input.split(" ", 2);
-                i += 1;
+            }
+            if(inputArr[0].equals("todo")){
+                if(inputArr.length == 1){
+                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                }
+                else{
+                    classArr[i] = new ToDo(inputArr[1]);
+                    classArr[i].isDone = false;
+                    System.out.println("Got it! I've added this task: \n" + "[T]" + classArr[i].getStatusIcon() + " " + inputArr[1]);
+                    System.out.println("You now have " + (i+1) + " tasks in the list.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                    i += 1;
+                }
             }
             if(inputArr[0].equals("deadline")){
-                deadlineArr = inputArr[1].split("/by", 2);
-                classArr[i] = new Deadline(deadlineArr[0], deadlineArr[1]);
-                System.out.println("Got it! I've added this task: \n" + "[D]" + classArr[i].getStatusIcon() + " " + deadlineArr[0] + "(by: " + deadlineArr[1] + ")");
-                System.out.println("You now have " + (i+1) + " tasks in the list.");
-                input = scanner.nextLine();
-                inputArr = input.split(" ", 2);
-                i += 1;
+                if(inputArr.length == 1){
+                    System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                }
+                else{
+                    deadlineArr = inputArr[1].split("/by", 2);
+                    classArr[i] = new Deadline(deadlineArr[0], deadlineArr[1]);
+                    System.out.println("Got it! I've added this task: \n" + "[D]" + classArr[i].getStatusIcon() + " " + deadlineArr[0] + "(by: " + deadlineArr[1] + ")");
+                    System.out.println("You now have " + (i+1) + " tasks in the list.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                    i += 1;
+                }
             }
             if(inputArr[0].equals("event")){
-                eventArr = inputArr[1].split("/at", 2);
-                classArr[i] = new Event(eventArr[0], eventArr[1]);
-                System.out.println("Got it! I've added this task: \n" + "[E]" + classArr[i].getStatusIcon() + " " + eventArr[0] + "(at: " + eventArr[1] + ")");
-                System.out.println("You now have " + (i+1) + " tasks in the list.");
-                input = scanner.nextLine();
-                inputArr = input.split(" ", 2);
-                i += 1;
+                if(inputArr.length == 1){
+                    System.out.println("☹ OOPS!!! The description of an event cannot be empty.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                }
+                else{
+                    eventArr = inputArr[1].split("/at", 2);
+                    classArr[i] = new Event(eventArr[0], eventArr[1]);
+                    System.out.println("Got it! I've added this task: \n" + "[E]" + classArr[i].getStatusIcon() + " " + eventArr[0] + "(at: " + eventArr[1] + ")");
+                    System.out.println("You now have " + (i+1) + " tasks in the list.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                    i += 1;
+                }
             }
             if(inputArr[0].equals("done")){
-                num = Integer.parseInt(inputArr[1]) - 1;
-                classArr[num].isDone = true;
-                System.out.println("Nice! I've marked this task as done: \n" + classArr[num].getStatusIcon() + classArr[num].description);
-                input = scanner.nextLine();
-                inputArr = input.split(" ", 2);
+                if(inputArr.length == 1){
+                    System.out.println("☹ OOPS!!! The description of a done task cannot be empty.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                }
+                else{
+                    num = Integer.parseInt(inputArr[1]) - 1;
+                    classArr[num].isDone = true;
+                    System.out.println("Nice! I've marked this task as done: \n" + classArr[num].getStatusIcon() + classArr[num].description);
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                }
             }
             if(inputArr[0].equals("list")){
                 System.out.println("Here are the tasks in your list:\n");
