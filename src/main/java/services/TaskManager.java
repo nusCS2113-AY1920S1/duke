@@ -1,6 +1,7 @@
 package com.nwjbrandon.duke.services;
 
 import com.nwjbrandon.duke.services.tasks.Task;
+import com.nwjbrandon.duke.services.tasks.Todos;
 import com.nwjbrandon.duke.utilities.TaskMessageFormatter;
 import com.nwjbrandon.duke.utilities.ErrorMessageFormatter;
 import java.util.Scanner;
@@ -43,15 +44,13 @@ public class TaskManager {
             } else if (userInput.equals("list")) {
                 showTasksList();
                 return true;
-            } else if (userInput.startsWith("done")) {
-                String[] inputs = userInput.split(" ");
-                Integer taskIndex = Integer.valueOf(inputs[1]) - 1;
-                tasksList.get(taskIndex).setDoneStatus(true);
-                return true;
-            } else {
-                Task task = new Task(userInput);
+            } else if (userInput.startsWith("todo ")) {
+                String taskName = userInput.substring(5);
+                Todos task = new Todos(taskName);
                 tasksList.add(task);
                 return true;
+            } else {
+                return false;
             }
         } catch (NumberFormatException e) {
             ErrorMessageFormatter err = new ErrorMessageFormatter("Please input instruction in the correct format!");

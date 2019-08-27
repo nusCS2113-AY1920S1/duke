@@ -8,14 +8,18 @@ public class TaskManagerTest extends TestExtender {
 
     @Test
     public void testAddTask() {
-        final String testString = "read book";
+        final String testString = "todo borrow book";
         provideInput(testString);
         TaskManager taskManager = new TaskManager();
-        boolean status = taskManager.run();
-        assertEquals(true, status);
+        taskManager.run();
         String output = getOutput();
-        boolean isSubString = output.indexOf("added: read book") != -1;
-        assertEquals(true, isSubString);
+        String expected = "\t____________________________________________________________\n"
+                        + "\t Got it. I've added this task:\n"
+                        + "\t   [T][✗] borrow book\n"
+                        + "\t Now you have 1 tasks in the list.\n"
+                        + "\t____________________________________________________________\n"
+                        + "\n";
+        assertEquals(expected, output);
     }
 
     @Test
@@ -24,7 +28,7 @@ public class TaskManagerTest extends TestExtender {
         provideInput(testString);
         TaskManager taskManager = new TaskManager();
         boolean status = taskManager.run();
-        assertEquals(status, false);
+        assertEquals(false, status);
     }
 
 }

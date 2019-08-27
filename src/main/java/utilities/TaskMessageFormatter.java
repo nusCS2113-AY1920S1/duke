@@ -10,16 +10,6 @@ public class TaskMessageFormatter {
     }
 
     /**
-     * show the task added.
-     */
-    public static void showTaskAdded(String taskName) {
-        String output = "\t" + Messages.divider + "\n"
-                      + "\t added: " + taskName + "\n" 
-                      + "\t" + Messages.divider + "\n";
-        System.out.println(output);
-    }
-
-    /**
      * show the list of task.
      */
     public static void showTasksList(ArrayList<Task> tasksList) {
@@ -30,17 +20,6 @@ public class TaskMessageFormatter {
                     + tasksList.get(i).getTaskName() + "\n";
         }
         output += "\t" + Messages.divider + "\n";
-        System.out.println(output);
-    }
-
-    /**
-     * show the status of task.
-     */
-    public static void showTaskDoneStatus(Task task) {
-        String output = "\t" + Messages.divider + "\n"
-                      + "\t Nice! I've marked this task as done:\n"
-                      + "\t [" + task.getStatusIcon() + "] " + task.getTaskName() + "\n"
-                      + "\t" + Messages.divider + "\n";
         System.out.println(output);
     }
 

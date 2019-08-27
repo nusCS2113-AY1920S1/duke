@@ -1,15 +1,29 @@
 package com.nwjbrandon.duke.services.tasks;
 
+import com.nwjbrandon.duke.TestExtender;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TaskTest {
+public class TaskTest extends TestExtender {
 
     @Test
-    public void testTaskInitialize() {
-        Task task = new Task("added book");
+    public void testTaskInit() {
+        Task task = new Task("borrow book");
         String taskName = task.getTaskName();
-        assertEquals("added book", taskName);
+        assertEquals("borrow book", taskName);
+        String output = getOutput();
+        String expected = "\t____________________________________________________________\n"
+                        + "\t added: borrow book\n"
+                        + "\t____________________________________________________________\n"
+                        + "\n";
+        assertEquals(expected, output);
+    }
+
+    @Test
+    public void testTaskName() {
+        Task task = new Task("borrow book");
+        String taskName = task.getTaskName();
+        assertEquals("borrow book", taskName);
     }
 
     @Test
@@ -22,12 +36,14 @@ public class TaskTest {
     @Test
     public void testsetTaskDone() {
         Task task = new Task("added book");
-        task.setDoneStatus(true);
         boolean doneStatus = task.getIsDoneStatus();
-        assertEquals(doneStatus, true);
+        assertEquals(false, doneStatus);
+        task.setDoneStatus(true);
+        doneStatus = task.getIsDoneStatus();
+        assertEquals(true, doneStatus);
         task.setDoneStatus(false);
-        boolean notDoneStatus = task.getIsDoneStatus();
-        assertEquals(false, notDoneStatus);
+        doneStatus = task.getIsDoneStatus();
+        assertEquals(false, doneStatus);
     }
 
 }

@@ -1,20 +1,20 @@
 package com.nwjbrandon.duke.services.tasks;
 
-import com.nwjbrandon.duke.utilities.TaskMessageFormatter;
+import com.nwjbrandon.duke.constants.Messages;
 
 public class Task {
 
-    private String taskName;
-    private boolean isDone;
+    protected String taskName;
+    protected boolean isDone;
 
     public Task(String taskName) {
         this(taskName, false);
+        this.showObjString();
     }
 
-    private Task(String taskName, boolean isDone) {
+    public Task(String taskName, boolean isDone) {
         this.taskName = taskName;
         this.isDone = isDone;
-        TaskMessageFormatter.showTaskAdded(this.taskName);
     }
 
     /**
@@ -39,7 +39,15 @@ public class Task {
      */
     public void setDoneStatus(boolean isDone) {
         this.isDone = isDone;
-        TaskMessageFormatter.showTaskDoneStatus(this);
+        this.showSetDoneStatus();
+    }
+
+    public void showSetDoneStatus() {
+        String output = "\t" + Messages.divider + "\n"
+                      + "\t Nice! I've marked this task as done:\n"
+                      + "\t [" + this.getStatusIcon() + "] " + this.getTaskName() + "\n"
+                      + "\t" + Messages.divider + "\n";
+        System.out.println(output);
     }
 
     /**
@@ -49,5 +57,22 @@ public class Task {
     public String getStatusIcon() {
         return (isDone ? "✓" : "✗");
     }
+
+    /**
+     * get the formatted task string to show.
+     * @return formatted task string to show
+     */
+    public String toString() {
+        String output = "\t added: " + this.getTaskName() + "\n";
+        return output;
+    }
+
+    protected void showObjString() {
+        System.out.print("\t" + Messages.divider + "\n");
+        System.out.print(this.toString());
+        System.out.println("\t" + Messages.divider + "\n");
+    }
+
+
 
 }
