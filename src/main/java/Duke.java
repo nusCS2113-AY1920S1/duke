@@ -1,26 +1,5 @@
 import java.util.Scanner;
 import java.util.*;
-//this is the Task class
-class Task{
-    private boolean status;
-    private String name;
-    public Task(boolean to_add_status, String name_to_add){
-        status = to_add_status;
-        name = name_to_add;
-    }
-    public void change_status(boolean to_change_status){
-        status  = to_change_status;
-    }
-    public void change_task(String to_change_task){
-        name = to_change_task;
-    }
-    public boolean get_status(){
-        return status;
-    }
-    public String get_name(){
-        return name;
-    }
-}
 
 public class Duke {
     public static void print_list(List<Task> list1){
@@ -28,17 +7,9 @@ public class Duke {
         for (Task temp : list1) {
             System.out.print(i+1);
             System.out.print(".");
-            boolean status = temp.get_status();
-            if(status == true){
-                System.out.print("[✓] ");
-            }
-            else{
-                System.out.print("[✗] ");
-            }
-            System.out.println(temp.get_name());
+            System.out.println(temp);
             i +=1;
 		}
-        //System.out.println(list1);
     }
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -49,56 +20,66 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
         List<Task> l1 = new ArrayList<Task>();
+        Parser analyser = new Parser(); 
         while(true){
+
             Scanner input = new Scanner(System.in);
+
             if(input.hasNextLine()){
+                
                 String command = input.nextLine();
-                //String s=String.valueOf(number);
-                //Objects.equals("bye", command)
+
                 String end =  "bye";
                 String show_data = "list";
                 String done = "done";
+                String deadline = "deadline";
+                String todo = "todo";
+                String events = "event";
+
                 if(end.equals(command)){
-                    System.out.println("Bye. Hope to see you again soon!");
+                    analyser.bye();
                     input.close();
-                    return;
+                    return; 
                 }
+
                 if(show_data.equals(command)){
-                    print_list(l1);
+                    analyser.print_list();
                     //System.out.println(l1);
                 }
+
                 else{
-                    String[] values = command.split(" ");
+                    String[] values = command.split(" ",2);
                     //marking as done
+                    //System.out.println(Arrays.toString(values));
+
                     if(done.equals(values[0])){
-                        System.out.println("Nice! I've marked this task as done: ");
                         int index =  Integer.parseInt(values[1]);
-                        System.out.println("  [✓] "+l1.get(index-1).get_name());
-
-
-
-                        l1.get(index-1).change_status(true);
+                        analyser.done(index);
                     }
+
+                    else if(todo.equals(values[0])){ 
+                        analyser.create_todo(command);
+                    }
+
+                    else if(events.equals(values[0])){ 
+                        analyser.create_events(values[1]);
+                    }
+
+                    else if(deadline.equals(values[0])){ 
+                        String work = values[1];
+                        analyser.create_deadline(work);
+                    }
+
                     else{
-
-                        Task c1 = new Task(false,command);
-                        l1.add(c1);
-                        System.out.println("added: " + command);
+                        System.out.println("Sorry I din't understand what you said! :)");  
                     }
-
                 }
+
             }
             else{ 
                 input.close();
                 return;
             }
-
-            //l1.add(0, 1);  // adds 1 at 0 index
-            // adds 2 at 1 index
-            //System.out.println(l1);  // [1, 2]
-            //System.out.println(command);
         }
-
-
     }
 }
