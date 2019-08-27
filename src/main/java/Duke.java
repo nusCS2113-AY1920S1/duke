@@ -34,10 +34,8 @@ public class Duke {
 
     /**
      * @Function
-     * No Params, No Return Values
+     * No Params, No Return Value
      * This function handles the main CLI parsing loop
-     * TODO: Add support for deletion of tasks
-     * TODO: Add support for searching of tasks
      */
     public void processCommands(){
 
