@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,7 @@ public class Duke {
                 "What can I do for you?\n");
         Scanner sc = new Scanner(System.in);
         String input = new String();
+        ArrayList<String> tasks =new ArrayList<String>();
         while(sc.hasNextLine() && !input.equalsIgnoreCase("bye"))
         {
             input = sc.nextLine();
@@ -19,11 +21,20 @@ public class Duke {
             {
                 System.out.println("Bye. Hope to see you again soon!");
             }
-            else {
-                System.out.println(input);
+            if(input.equals("list"))
+            {
+                int counter = 1;
+                for(String task:tasks)
+                    System.out.println(counter++ +". " + task);
             }
+            else {
+                tasks.add(input);
+                System.out.println("added: " + input);
+            }
+
         }
 
         sc.close();
     }
+
 }
