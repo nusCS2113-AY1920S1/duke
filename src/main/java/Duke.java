@@ -25,20 +25,27 @@ public class Duke {
                         System.out.println(i+1 + "." + taskList.get(i).toString());
                     }
                     break;
+
                 case "done":
                     int taskNumber = Integer.parseInt(input.split(" ")[1]) -1;
                     taskList.get(taskNumber).markAsDone();
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + taskList.get(taskNumber).toString());
                     break;
+
                 case "todo" :
                     String description = input.substring(4).trim();
-                    ToDo newToDo = new ToDo(description);
-                    taskList.add(newToDo);
-                    System.out.println("Got it. I've added this task: ");
-                    System.out.println("  " + newToDo.toString());
-                    System.out.println("Now you have " + taskList.size() + " tasks in the list");
+                    if(description.length()>0) {
+                        ToDo newToDo = new ToDo(description);
+                        taskList.add(newToDo);
+                        System.out.println("Got it. I've added this task: ");
+                        System.out.println("  " + newToDo.toString());
+                        System.out.println("Now you have " + taskList.size() + " tasks in the list");
+                    } else {
+                        System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                    }
                     break;
+
                 case "deadline":
                     String[] deadlineInfo = input.substring(8).split(" /by ");
                     Deadline newDeadline = new Deadline(deadlineInfo[0], deadlineInfo[1]);
@@ -47,6 +54,7 @@ public class Duke {
                     System.out.println("  " + newDeadline.toString());
                     System.out.println("Now you have " + taskList.size() + " tasks in the list");
                     break;
+
                 case "event":
                     String[] eventInfo = input.substring(5).split(" /at ");
                     Events newEvent = new Events(eventInfo[0], eventInfo[1]);
@@ -57,9 +65,7 @@ public class Duke {
                     break;
 
                 default:
-                    Task newTask = new Task(input);
-                    taskList.add(newTask);
-                    System.out.println("added: " + input);
+                    System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
 
             }
 
