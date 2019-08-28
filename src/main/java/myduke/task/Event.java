@@ -1,19 +1,22 @@
 package myduke.task;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Event extends Task {
-    protected String time;
+    protected Date date;
     public Event(String description) {
         super(description);
         this.type = "E";
-        this.time = "";
     }
 
-    public void setTime (String time) {
-        this.time = " (at: " + time + ")";
+    public void parseTime (String time) throws ParseException {
+        this.date = new SimpleDateFormat("dd/MM/yyyy hhmm").parse(time);
     }
 
     public String toString() {
-        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.description + this.time;
+        return ("[" + this.type + "][" + this.getStatusIcon() + "] " + this.description + " " + this.date).trim();
     }
 
 

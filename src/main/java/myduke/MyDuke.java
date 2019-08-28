@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,7 +28,7 @@ public class MyDuke {
             String value = bufferedReader.readLine();
 
             while (value != null) {
-                String description = value.substring(7).trim();
+                String description = value.substring(7);
                 if (value.charAt(1) == 'T') {
                     ToDo todo = new ToDo(description);
                     if (value.charAt(4) == '\u2713') { // if it is a tick
@@ -109,7 +110,7 @@ public class MyDuke {
         System.out.println("Bye. Hope to see you again soon!");
     }
 
-    public void run() {
+    public void run() throws ParseException {
         loadFile();
 
         while(true){
@@ -181,10 +182,10 @@ public class MyDuke {
 
     }
 
-    public void runDeadline(String description , String time) {
+    public void runDeadline(String description , String time) throws ParseException {
         System.out.println("Got it. I've added this task:");
         Deadline deadlineTask = new Deadline(description);
-        deadlineTask.setTime(time);
+        deadlineTask.parseTime(time);
         taskBox.add(deadlineTask);
         writeToFile();
         System.out.println(deadlineTask);
@@ -192,11 +193,11 @@ public class MyDuke {
 
     }
 
-    public void runEvent(String description , String time) {
+    public void runEvent(String description , String time) throws ParseException {
         System.out.println("Got it. I've added this task:");
         Event eventTask = new Event(description);
         taskBox.add(eventTask);
-        eventTask.setTime(time);
+        eventTask.parseTime(time);
         writeToFile();
         System.out.println(eventTask);
         System.out.println("Now you have " + taskBox.size() + " tasks in the list.");

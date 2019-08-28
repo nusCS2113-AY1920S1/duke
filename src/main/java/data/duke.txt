@@ -1,16 +1,23 @@
 [T][✓] read book
-[D][✓] deadline story book  (by: June 6th)
-[E][✓] event project meeting  (at: Aug 6th 2-4pm)
-[D][✘] deadline read book  (by: Sunday)
-[D][✘] deadline read book  (by: nday)
-[D][✘] deadline read book  (by: nday)
-[D][✘] deadline read book  (by: nday)
-[D][✘] deadline read book  (by: nday)
-[D][✘] read book  (by: nday)
-[D][✘] read book  (by: nday)
-[D][✘] read book  (by: day)
-[D][✘] read book (by: day)
-[D][✘] read book (by: Sunday)
-[E][✓] event project meeting (at: Mon 2-4pm)
-[E][✘] project meeting (at: Mon 2-4pm)
-[E][✘] hello (at: Mon 2-4pm)
+[D][✓] deadline story book  (by: June 6th)null null null null null
+[E][✓] event project meeting  (at: Aug 6th 2-4pm)null null null null null
+[D][✘] deadline read book  (by: Sunday)null null null null null
+[D][✘] deadline read book  (by: nday)null null null null null
+[D][✘] deadline read book  (by: nday)null null null null null
+[D][✘] deadline read book  (by: nday)null null null null null
+[D][✘] deadline read book  (by: nday)null null null null null
+[D][✘] read book  (by: nday)null null null null null
+[D][✘] read book  (by: nday)null null null null null
+[D][✘] read book  (by: day)null null null null null
+[D][✘] read book (by: day)null null null null null
+[D][✘] read book (by: Sunday)null null null null null
+[E][✓] event project meeting (at: Mon 2-4pm)null null null null null
+[E][✘] project meeting (at: Mon 2-4pm)null null null null null
+[E][✘] hello (at: Mon 2-4pm)null null null null null
+[D][✘] return bookMon Dec 02 18:00:00 SGT 2019 null null null null
+[D][✘] return bookMon Dec 02 18:00:00 SGT 2019 null null null null
+[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null null null
+[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null null
+[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null
+[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null
+[D][✘] return book Mon Dec 02 18:00:00 SGT 2019
