@@ -4,8 +4,12 @@ import com.nwjbrandon.duke.services.tasks.Task;
 import com.nwjbrandon.duke.services.tasks.Todos;
 import com.nwjbrandon.duke.services.tasks.Deadlines;
 import com.nwjbrandon.duke.services.tasks.Events;
-import com.nwjbrandon.duke.utilities.ErrorMessageFormatter;
 import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.exceptions.DukeException;
+import com.nwjbrandon.duke.exceptions.DukeWrongCommandException;
+import com.nwjbrandon.duke.exceptions.DukeTypeConversionException;
+import com.nwjbrandon.duke.exceptions.DukeOutOfBoundException;
+import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -63,27 +67,49 @@ public class TaskManager {
             } else if (userInput.equals("bye")) {
                 return false;
             } else {
-                this.showWrongInput();
+                throw new DukeWrongCommandException();
             }
-        } catch (NumberFormatException e) {
-            ErrorMessageFormatter err = new ErrorMessageFormatter("Please input instruction in the correct format!");
+        } catch (DukeWrongCommandException e) {
+            e.showError();
+        } catch (DukeOutOfBoundException e) {
+            e.showError();
+        } catch (DukeEmptyCommandException e) {
+            e.showError();
         } catch (Exception e) {
-            ErrorMessageFormatter err = new ErrorMessageFormatter("An uncaught error has occurred!");
+            DukeException err = new DukeException("An uncaught error has occurred!");
+            err.showError();
         }
         return true;
     }
 
-    private void markDone(String userInput) {
-        String taskIndexString = userInput.substring(5);
-        Integer taskIndex = Integer.valueOf(taskIndexString) - 1;
-        tasksList.get(taskIndex).setDoneStatus(true);
+    private Integer checkStringToIntConversion(String taskIndexString) throws DukeTypeConversionException {
+        try {
+            return Integer.valueOf(taskIndexString) - 1;
+        } catch (Exception e) {
+            throw new DukeTypeConversionException();
+        }
     }
 
-    private void showWrongInput() {
-        String output = "\t" + Messages.divider + "\n"
-                      + "\t Wrong command given\n"
-                      + "\t" + Messages.divider + "\n";
-        System.out.println(output);
+    private Integer checkIndex(Integer index) throws DukeOutOfBoundException {
+        if (tasksList.size() <= index || index < 0) {
+            throw new DukeOutOfBoundException();
+        } else {
+            return index;
+        }
+    }
+
+    private String checkUserInput(String userInput, int start, String baseTaskName) throws DukeEmptyCommandException {
+        if (userInput.length() <= start) {
+            throw new DukeEmptyCommandException(baseTaskName);
+        } else {
+            return userInput.substring(start);
+        }
+    }
+
+    private void markDone(String userInput) throws DukeException {
+        String taskIndexString = checkUserInput(userInput, 5, "done");
+        Integer taskIndex = checkStringToIntConversion(taskIndexString);
+        tasksList.get(checkIndex(taskIndex)).setDoneStatus(true);
     }
 
 }

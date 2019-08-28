@@ -1,16 +1,17 @@
 package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class Todos extends Task {
 
-    public Todos(String taskName) {
+    public Todos(String taskName) throws DukeException {
         super(taskName);
     }
 
     @Override
-    public String formatTaskName(String taskName) {
-        String formattedTaskName = taskName.substring(5);
+    public String formatTaskName(String taskName) throws DukeException {
+        String formattedTaskName = checkUserInput(taskName, 5, "todos");
         return formattedTaskName;
     }
 

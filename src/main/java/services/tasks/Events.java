@@ -1,18 +1,19 @@
 package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class Events extends Task {
 
     private static int numberOfTodos = 0;
 
-    public Events(String taskName) {
+    public Events(String taskName) throws DukeException {
         super(taskName);
     }
 
     @Override
-    public String formatTaskName(String taskName) {
-        String task = taskName.substring(6);
+    public String formatTaskName(String taskName) throws DukeException {
+        String task = checkUserInput(taskName, 6, "events");
         String parts[] = task.split(" /at ");
         return parts[0] + " (at: " + parts[1] + ")";
     }

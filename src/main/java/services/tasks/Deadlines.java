@@ -1,17 +1,18 @@
 package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class Deadlines extends Task {
 
 
-    public Deadlines(String taskName) {
+    public Deadlines(String taskName) throws DukeException {
         super(taskName);
     }
 
     @Override
-    public String formatTaskName(String taskName) {
-        String task = taskName.substring(9);
+    public String formatTaskName(String taskName) throws DukeException {
+        String task = checkUserInput(taskName, 9, "deadlines");
         String parts[] = task.split(" /by ");
         return parts[0] + " (by: " + parts[1] + ")";
     }

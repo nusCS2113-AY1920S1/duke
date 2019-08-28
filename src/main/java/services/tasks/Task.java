@@ -1,6 +1,10 @@
 package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.exceptions.DukeException;
+import com.nwjbrandon.duke.exceptions.DukeTypeConversionException;
+import com.nwjbrandon.duke.exceptions.DukeOutOfBoundException;
+import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 
 public class Task {
 
@@ -8,18 +12,18 @@ public class Task {
     protected boolean isDone;
     private static int numberOfTodos = 0;
 
-    public Task(String taskName) {
+    public Task(String taskName) throws DukeException {
         this(taskName, false);
     }
 
-    private Task(String taskName, boolean isDone) {
+    private Task(String taskName, boolean isDone) throws DukeException {
         this.taskName = this.formatTaskName(taskName);
         this.isDone = isDone;
         numberOfTodos++;
         this.showObjString();
     }
 
-    public String formatTaskName(String taskName) {
+    public String formatTaskName(String taskName) throws DukeException {
         return taskName;
     }
 
@@ -86,6 +90,14 @@ public class Task {
 
     public String toTaskString() {
         return "[" + this.getStatusIcon() + "] " + this.getTaskName();
+    }
+
+    protected String checkUserInput(String userInput, int start, String baseTaskName) throws DukeEmptyCommandException {
+        if (userInput.length() <= start) {
+            throw new DukeEmptyCommandException(baseTaskName);
+        } else {
+            return userInput.substring(start);
+        }
     }
 
 }
