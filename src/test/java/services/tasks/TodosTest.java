@@ -8,7 +8,7 @@ public class TodosTest extends TestExtender {
 
     @Test
     public void testTodosInit() {
-        Todos task = new Todos("borrow book");
+        Todos task = new Todos("todo borrow book");
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
         String output = getOutput();
@@ -23,21 +23,21 @@ public class TodosTest extends TestExtender {
 
     @Test
     public void testTodosGetTaskName() {
-        Todos task = new Todos("borrow book");
+        Todos task = new Todos("todo borrow book");
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
     }
 
     @Test
     public void testTodosGetIsDoneStatus() {
-        Todos task = new Todos("borrow book");
+        Todos task = new Todos("todo borrow book");
         boolean doneStatus = task.getIsDoneStatus();
         assertEquals(false, doneStatus);
     }
 
     @Test
     public void testTodosToString() {
-        Todos task = new Todos("borrow book");
+        Todos task = new Todos("todo borrow book");
         String objectString = task.toString();
         String expected = "\t____________________________________________________________\n"
                         + "\t Got it. I've added this task:\n"
@@ -65,7 +65,7 @@ public class TodosTest extends TestExtender {
 
     @Test
     public void testTodosSetTaskDone() {
-        Todos task = new Todos("borrow book");
+        Todos task = new Todos("todo borrow book");
         boolean doneStatus = task.getIsDoneStatus();
         assertEquals(false, doneStatus);
         task.setDoneStatus(true);

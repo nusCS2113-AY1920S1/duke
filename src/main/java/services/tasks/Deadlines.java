@@ -2,16 +2,18 @@ package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.constants.Messages;
 
-public class Todos extends Task {
+public class Deadlines extends Task {
 
-    public Todos(String taskName) {
+
+    public Deadlines(String taskName) {
         super(taskName);
     }
 
     @Override
     public String formatTaskName(String taskName) {
-        String formattedTaskName = taskName.substring(5);
-        return formattedTaskName;
+        String task = taskName.substring(9);
+        String parts[] = task.split(" /by ");
+        return parts[0] + " (by: " + parts[1] + ")";
     }
 
     /**
@@ -28,7 +30,7 @@ public class Todos extends Task {
 
     @Override
     public String toTaskString() {
-        return "[T][" + this.getStatusIcon() + "] " + this.getTaskName();
+        return "[D][" + this.getStatusIcon() + "] " + this.getTaskName();
     }
 
 }

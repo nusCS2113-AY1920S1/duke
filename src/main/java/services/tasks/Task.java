@@ -6,15 +6,25 @@ public class Task {
 
     protected String taskName;
     protected boolean isDone;
+    private static int numberOfTodos = 0;
 
     public Task(String taskName) {
         this(taskName, false);
+    }
+
+    private Task(String taskName, boolean isDone) {
+        this.taskName = this.formatTaskName(taskName);
+        this.isDone = isDone;
+        numberOfTodos++;
         this.showObjString();
     }
 
-    public Task(String taskName, boolean isDone) {
-        this.taskName = taskName;
-        this.isDone = isDone;
+    public String formatTaskName(String taskName) {
+        return taskName;
+    }
+
+    protected int getNumberOfTodos() {
+        return numberOfTodos;
     }
 
     /**
@@ -45,7 +55,7 @@ public class Task {
     public void showSetDoneStatus() {
         String output = "\t" + Messages.divider + "\n"
                       + "\t Nice! I've marked this task as done:\n"
-                      + "\t [" + this.getStatusIcon() + "] " + this.getTaskName() + "\n"
+                      + "\t " + this.toTaskString() + "\n"
                       + "\t" + Messages.divider + "\n";
         System.out.println(output);
     }
@@ -63,16 +73,19 @@ public class Task {
      * @return formatted task string to show
      */
     public String toString() {
-        String output = "\t added: " + this.getTaskName() + "\n";
+        String output = "added: " + this.getTaskName();
         return output;
     }
 
     protected void showObjString() {
-        System.out.print("\t" + Messages.divider + "\n");
-        System.out.print(this.toString());
-        System.out.println("\t" + Messages.divider + "\n");
+        String output = "\t" + Messages.divider + "\n"
+                      + "\t " + this.toString() + "\n"
+                      + "\t" + Messages.divider + "\n";
+        System.out.println(output);
     }
 
-
+    public String toTaskString() {
+        return "[" + this.getStatusIcon() + "] " + this.getTaskName();
+    }
 
 }
