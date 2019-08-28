@@ -5,19 +5,22 @@ import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class Events extends Task {
 
-    private static int numberOfTodos = 0;
-
     public Events(String taskName) throws DukeException {
         super(taskName);
+    }
+
+    public Events(String[] taskDetails) throws DukeException {
+        this("event " + taskDetails[2] + " /at " + taskDetails[3]);
     }
 
     @Override
     public String formatTaskName(String taskName) throws DukeException {
         String task = checkUserInput(taskName, 6, "events");
         String parts[] = task.split(" /at ");
+        this.description = parts[0];
+        this.by = parts[1];
         return parts[0] + " (at: " + parts[1] + ")";
     }
-
 
     /**
      * get the formatted task string to show for Todos.

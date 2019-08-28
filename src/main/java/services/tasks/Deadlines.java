@@ -5,15 +5,20 @@ import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class Deadlines extends Task {
 
-
     public Deadlines(String taskName) throws DukeException {
         super(taskName);
+    }
+
+    public Deadlines(String[] taskDetails) throws DukeException {
+        this("deadline " + taskDetails[2] + " /by " + taskDetails[3]);
     }
 
     @Override
     public String formatTaskName(String taskName) throws DukeException {
         String task = checkUserInput(taskName, 9, "deadlines");
         String parts[] = task.split(" /by ");
+        this.description = parts[0];
+        this.by = parts[1];
         return parts[0] + " (by: " + parts[1] + ")";
     }
 

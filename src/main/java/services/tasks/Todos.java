@@ -9,9 +9,14 @@ public class Todos extends Task {
         super(taskName);
     }
 
+    public Todos(String[] taskDetails) throws DukeException {
+        this("todo " + taskDetails[2]);
+    }
+
     @Override
     public String formatTaskName(String taskName) throws DukeException {
         String formattedTaskName = checkUserInput(taskName, 5, "todos");
+        this.description = formattedTaskName;
         return formattedTaskName;
     }
 

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TodosTest extends TestExtender {
 
     @Test
-    public void testTodosInit() {
+    public void testTodosInit() throws Exception {
         Todos task = new Todos("todo borrow book");
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
@@ -22,21 +22,21 @@ public class TodosTest extends TestExtender {
     }
 
     @Test
-    public void testTodosGetTaskName() {
+    public void testTodosGetTaskName() throws Exception {
         Todos task = new Todos("todo borrow book");
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
     }
 
     @Test
-    public void testTodosGetIsDoneStatus() {
+    public void testTodosGetIsDoneStatus() throws Exception {
         Todos task = new Todos("todo borrow book");
         boolean doneStatus = task.getIsDoneStatus();
         assertEquals(false, doneStatus);
     }
 
     @Test
-    public void testTodosToString() {
+    public void testTodosToString() throws Exception {
         Todos task = new Todos("todo borrow book");
         String objectString = task.toString();
         String expected = "\t____________________________________________________________\n"
@@ -64,7 +64,7 @@ public class TodosTest extends TestExtender {
     }
 
     @Test
-    public void testTodosSetTaskDone() {
+    public void testTodosSetTaskDone() throws Exception {
         Todos task = new Todos("todo borrow book");
         boolean doneStatus = task.getIsDoneStatus();
         assertEquals(false, doneStatus);

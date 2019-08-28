@@ -12,6 +12,8 @@ import com.nwjbrandon.duke.exceptions.DukeOutOfBoundException;
 import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
 
 public class TaskManager {
 
@@ -19,6 +21,61 @@ public class TaskManager {
 
     public TaskManager() {
         tasksList = new ArrayList<Task>();
+    }
+
+    private void loadTasksList(String taskDetails) throws DukeException {
+        String[] details = taskDetails.split("\\s\\|\\s");
+        Task task;
+        if (details[0].equals("T")) {
+            task = new Todos(details);
+        } else if (details[0].equals("D")) {
+            task = new Deadlines(details);
+        } else {
+            task = new Events(details);
+        }
+        if (details[1].equals("1")) {
+            task.setDoneStatus(true);
+        }
+        tasksList.add(task);
+    }
+
+    public void loadData() throws Exception {
+        File file = new File("./data/duke.txt");
+        Scanner scan = new Scanner(file);
+        while(scan.hasNextLine()) {
+            String taskDetails = scan.nextLine();
+            this.loadTasksList(taskDetails);
+        }
+        this.showTasksList();
+    }
+
+    private String saveTaskList() {
+        String output = "";
+        for (int i = 0; i < tasksList.size(); i++) {
+            if (tasksList.get(i) instanceof Todos) {
+                output += "T";
+            } else if (tasksList.get(i) instanceof Deadlines) {
+                output += "D";
+            } else {
+                output += "E";
+            }
+            output +=  " | "
+                    + (tasksList.get(i).getIsDoneStatus() ? "1" : "0")
+                    + " | "
+                    + tasksList.get(i).getDescription();
+            if (!(tasksList.get(i) instanceof Todos)) {
+                output +=  " | "
+                        + tasksList.get(i).getBy();
+            }
+            output += "\n";
+        }
+        return output;
+    }
+
+    public void saveData() throws Exception {
+        FileWriter fw = new FileWriter("./data/duke.txt");
+        fw.write(this.saveTaskList());
+        fw.close();
     }
 
     /**

@@ -2,6 +2,10 @@ package com.nwjbrandon.duke;
 
 import com.nwjbrandon.duke.services.TaskManager;
 import com.nwjbrandon.duke.constants.Messages;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.*;
 
 public class Duke {
 
@@ -12,11 +16,13 @@ public class Duke {
      * Main application starts running here.
      * @param args - input of array of strings from console
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         greetingMessage();
         TaskManager taskManager = new TaskManager();
+        taskManager.loadData();
         while (taskManager.run()) {
         }
+        taskManager.saveData();
         farewellMessage();
     }
 

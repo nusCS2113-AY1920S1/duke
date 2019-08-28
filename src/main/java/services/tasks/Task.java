@@ -11,6 +11,8 @@ public class Task {
     protected String taskName;
     protected boolean isDone;
     private static int numberOfTodos = 0;
+    protected String by = "";
+    protected String description = "";
 
     public Task(String taskName) throws DukeException {
         this(taskName, false);
@@ -25,6 +27,14 @@ public class Task {
 
     public String formatTaskName(String taskName) throws DukeException {
         return taskName;
+    }
+
+    public String getBy() {
+        return this.by;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     protected int getNumberOfTodos() {

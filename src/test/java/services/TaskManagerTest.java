@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TaskManagerTest extends TestExtender {
 
     @Test
-    public void testAddTask() {
+    public void testAddTask() throws Exception {
         final String testString = "todo borrow book";
         provideInput(testString);
         TaskManager taskManager = new TaskManager();
@@ -23,7 +23,7 @@ public class TaskManagerTest extends TestExtender {
     }
 
     @Test
-    public void testEndTask() {
+    public void testEndTask() throws Exception {
         final String testString = "bye";
         provideInput(testString);
         TaskManager taskManager = new TaskManager();

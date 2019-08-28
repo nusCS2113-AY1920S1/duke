@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DukeTest extends TestExtender {
 
     @Test
-    public void testCase1() {
+    public void testCase1() throws Exception {
         provideInput("bye");
         Duke.main(new String[0]);
         String output = getOutput();
