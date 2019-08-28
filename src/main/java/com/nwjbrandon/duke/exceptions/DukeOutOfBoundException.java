@@ -1,13 +1,10 @@
 package com.nwjbrandon.duke.exceptions;
 
 import com.nwjbrandon.duke.constants.Messages;
-import com.nwjbrandon.duke.exceptions.DukeException;
 
-public class DukeWrongCommandException extends DukeException {
+public class DukeOutOfBoundException extends DukeException {
 
-    final private String errorMessage = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
-
-    public DukeWrongCommandException() {
+    public DukeOutOfBoundException() {
     }
 
     /**
@@ -15,6 +12,7 @@ public class DukeWrongCommandException extends DukeException {
      */
     @Override
     public void showError() {
+        String errorMessage = "☹ OOPS!!! I'm cannot find the task.";
         String output = "\t" + Messages.divider + "\n"
                       + "\t " + errorMessage + "\n"
                       + "\t" + Messages.divider + "\n";

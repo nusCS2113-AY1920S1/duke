@@ -1,11 +1,8 @@
 package com.nwjbrandon.duke.exceptions;
 
 import com.nwjbrandon.duke.constants.Messages;
-import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class DukeTypeConversionException extends DukeException {
-
-    final private String errorMessage = "☹ OOPS!!! Cannot convert types.";
 
     public DukeTypeConversionException() {
     }
@@ -15,6 +12,7 @@ public class DukeTypeConversionException extends DukeException {
      */
     @Override
     public void showError() {
+        String errorMessage = "☹ OOPS!!! Cannot convert types.";
         String output = "\t" + Messages.divider + "\n"
                       + "\t " + errorMessage + "\n"
                       + "\t" + Messages.divider + "\n";
