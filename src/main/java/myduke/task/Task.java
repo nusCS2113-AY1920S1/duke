@@ -1,8 +1,9 @@
-package myduke;
+package myduke.task;
 
 public class Task{
     protected String description;
     protected boolean isDone;
+    protected String type;
 
     public Task(String description) {
         this.description = description;
@@ -21,3 +22,4 @@ public class Task{
         return "[" + this.getStatusIcon() + "] " + this.description;
     }
 }
+

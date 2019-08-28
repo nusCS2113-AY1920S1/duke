@@ -1,0 +1,3 @@
+[T][✓] read book
+[D][✓] deadline story book  (by: June 6th)
+[E][✓] event project meeting  (at: Aug 6th 2-4pm)

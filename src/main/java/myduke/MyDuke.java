@@ -1,11 +1,100 @@
 package myduke;
 
+import myduke.task.Deadline;
+import myduke.task.Event;
+import myduke.task.Task;
+import myduke.task.ToDo;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MyDuke {
     Scanner scan = new Scanner(System.in);
     ArrayList<Task> taskBox = new ArrayList<Task>();
+
+    public void loadFile () {
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
+        try {
+            File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
+            fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
+            String value = bufferedReader.readLine();
+
+            while (value != null) {
+                String description = value.substring(7).trim();
+                if (value.charAt(1) == 'T') {
+                    ToDo todo = new ToDo(description);
+                    if (value.charAt(4) == '\u2713') {
+                        todo.markAsDone();
+                    }
+                    taskBox.add(todo);
+                }else if (value.charAt(1) == 'D') {
+                    Deadline deadline = new Deadline(description);
+                    if (value.charAt(4) == '\u2713') {
+                        deadline.markAsDone();
+                    }
+                    taskBox.add(deadline);
+                }else {
+                    Event event = new Event(description);
+                    if (value.charAt(4) == '\u2713') {
+                        event.markAsDone();
+                    }
+                    taskBox.add(event);
+                }
+                value = bufferedReader.readLine();
+            }
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                if (fileReader != null){
+                    fileReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (bufferedReader != null){
+                    bufferedReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void writeToFile () {
+        File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file);
+            for (Task task : taskBox) {
+                fileWriter.write(task.toString() + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
 
     public void greet(){
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
@@ -21,10 +110,12 @@ public class MyDuke {
     }
 
     public void run() {
+        loadFile();
 
         while(true){
             String inputs = scan.nextLine();
             if (inputs.equals("bye")){
+                this.exit();
                 break;
             }else if(inputs.equals("list")){
                 System.out.println("Here are the tasks in your list:");
@@ -36,6 +127,7 @@ public class MyDuke {
                 int index = Integer.parseInt(inputs.split(" ")[1]);
                 Task target = taskBox.get(index - 1);
                 target.markAsDone();
+                writeToFile();
                 System.out.println("Nice! I've marked this task as done:");
                 System.out.println(taskBox.get(index - 1));
 
@@ -53,16 +145,16 @@ public class MyDuke {
                 }
 
             }else if(inputs.startsWith("deadline")){
-                String info = inputs.substring(9);
-                String description = info.split("/by")[0]; //Description
-                String by = info.split("/by")[1]; // Day
-                runDeadline(description , by);
+                String[] temp = inputs.split("/");
+                String description = temp[0];
+                String time = temp[1];
+                runDeadline(description , time);
 
             }else if(inputs.startsWith("event")){
-                String info = inputs.substring(6);
-                String description = info.split("/at")[0]; //Description
-                String at = info.split("/at")[1]; // Day
-                runEvent(description , at);
+                String [] temp = inputs.split("/");
+                String description = temp[0];
+                String time = temp[1];
+                runEvent(description , time);
 
             }else{
                 try{
@@ -72,31 +164,35 @@ public class MyDuke {
                 }
             }
         }
-        this.exit();
     }
 
     public void runToDo(String description){
         System.out.println("Got it. I've added this task:");
         Task toDoTask = new ToDo(description);
         taskBox.add(toDoTask);
+        writeToFile();
         System.out.println(toDoTask);
         System.out.println("Now you have " + taskBox.size() + " tasks in the list.");
 
     }
 
-    public void runDeadline(String description , String by) {
+    public void runDeadline(String description , String time) {
         System.out.println("Got it. I've added this task:");
-        Task deadlineTask = new Deadline(description , by);
+        Deadline deadlineTask = new Deadline(description);
+        deadlineTask.setTime(time);
         taskBox.add(deadlineTask);
+        writeToFile();
         System.out.println(deadlineTask);
         System.out.println("Now you have " + taskBox.size() + " tasks in the list.");
 
     }
 
-    public void runEvent(String description , String at) {
+    public void runEvent(String description , String time) {
         System.out.println("Got it. I've added this task:");
-        Task eventTask = new Event(description , at);
+        Event eventTask = new Event(description);
         taskBox.add(eventTask);
+        eventTask.setTime(time);
+        writeToFile();
         System.out.println(eventTask);
         System.out.println("Now you have " + taskBox.size() + " tasks in the list.");
     }
