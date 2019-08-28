@@ -48,9 +48,30 @@ public class Deadlines extends Task {
         SimpleDateFormat originalFormat = new SimpleDateFormat(pattern);
         Date date = originalFormat.parse(originalDate);
 
-        String displayPattern = "d MMMM yyyy, ha";
+        String displayPattern = "MMMM yyyy, h";
         SimpleDateFormat displayFormat = new SimpleDateFormat(displayPattern);
-        return displayFormat.format(date);
+        String b = displayFormat.format(date);
+
+        displayPattern = "d";
+        displayFormat = new SimpleDateFormat(displayPattern);
+        String a = displayFormat.format(date);
+
+        displayPattern = "a";
+        displayFormat = new SimpleDateFormat(displayPattern);
+        String c = displayFormat.format(date).toLowerCase();
+
+        String symbol = "";
+        if (a.equals("1")) {
+            symbol = "st";
+        } else if (a.equals("2")) {
+            symbol = "nd";
+        } else if (a.equals("3")) {
+            symbol = "rd";
+        } else {
+            symbol = "th";
+        }
+
+        return "" + a + symbol + " of " + b + c ;
     }
 
 }
