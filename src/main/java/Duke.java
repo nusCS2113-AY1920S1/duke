@@ -6,6 +6,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 
 public class Duke {
 
@@ -20,6 +24,7 @@ public class Duke {
         greetingMessage();
         TaskManager taskManager = new TaskManager();
         taskManager.loadData();
+
         while (taskManager.run()) {
         }
         taskManager.saveData();

@@ -5,16 +5,16 @@ import com.nwjbrandon.duke.exceptions.DukeException;
 
 public class Todos extends Task {
 
-    public Todos(String taskName) throws DukeException {
+    public Todos(String taskName) throws Exception {
         super(taskName);
     }
 
-    public Todos(String[] taskDetails) throws DukeException {
+    public Todos(String[] taskDetails) throws Exception {
         this("todo " + taskDetails[2]);
     }
 
     @Override
-    public String formatTaskName(String taskName) throws DukeException {
+    public String formatTaskName(String taskName) throws Exception {
         String formattedTaskName = checkUserInput(taskName, 5, "todos");
         this.description = formattedTaskName;
         return formattedTaskName;

@@ -14,18 +14,18 @@ public class Task {
     protected String by = "";
     protected String description = "";
 
-    public Task(String taskName) throws DukeException {
+    public Task(String taskName) throws Exception {
         this(taskName, false);
     }
 
-    private Task(String taskName, boolean isDone) throws DukeException {
+    private Task(String taskName, boolean isDone) throws Exception {
         this.taskName = this.formatTaskName(taskName);
         this.isDone = isDone;
         numberOfTodos++;
         this.showObjString();
     }
 
-    public String formatTaskName(String taskName) throws DukeException {
+    public String formatTaskName(String taskName) throws Exception {
         return taskName;
     }
 

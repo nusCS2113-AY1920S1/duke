@@ -23,7 +23,7 @@ public class TaskManager {
         tasksList = new ArrayList<Task>();
     }
 
-    private void loadTasksList(String taskDetails) throws DukeException {
+    private void loadTasksList(String taskDetails) throws Exception {
         String[] details = taskDetails.split("\\s\\|\\s");
         Task task;
         if (details[0].equals("T")) {
@@ -105,7 +105,7 @@ public class TaskManager {
      * run the application.
      * @return whether the program is done
      */
-    public boolean run() {
+    public boolean run() throws Exception {
         try {
             String userInput = readInput();
             if (userInput.equals("list")) {

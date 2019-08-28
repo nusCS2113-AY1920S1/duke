@@ -2,24 +2,28 @@ package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.constants.Messages;
 import com.nwjbrandon.duke.exceptions.DukeException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 
 public class Events extends Task {
 
-    public Events(String taskName) throws DukeException {
+    public Events(String taskName) throws Exception {
         super(taskName);
     }
 
-    public Events(String[] taskDetails) throws DukeException {
+    public Events(String[] taskDetails) throws Exception {
         this("event " + taskDetails[2] + " /at " + taskDetails[3]);
     }
 
     @Override
-    public String formatTaskName(String taskName) throws DukeException {
+    public String formatTaskName(String taskName) throws Exception {
         String task = checkUserInput(taskName, 6, "events");
         String parts[] = task.split(" /at ");
         this.description = parts[0];
         this.by = parts[1];
-        return parts[0] + " (at: " + parts[1] + ")";
+        return parts[0] + " (at: " + dateFormatter(parts[1]) + ")";
     }
 
     /**
@@ -37,6 +41,16 @@ public class Events extends Task {
     @Override
     public String toTaskString() {
         return "[E][" + this.getStatusIcon() + "] " + this.getTaskName();
+    }
+
+    private String dateFormatter(String originalDate) throws ParseException {
+        String pattern = "dd/MM/yyyy hhmm";
+        SimpleDateFormat originalFormat = new SimpleDateFormat(pattern);
+        Date date = originalFormat.parse(originalDate);
+
+        String displayPattern = "d MMMM yyyy, ha";
+        SimpleDateFormat displayFormat = new SimpleDateFormat(displayPattern);
+        return displayFormat.format(date);
     }
 
 }
