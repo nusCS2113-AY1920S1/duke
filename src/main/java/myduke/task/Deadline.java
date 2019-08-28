@@ -10,7 +10,7 @@ public class Deadline extends Task {
     }
 
     public void setTime(String time) {
-        this.time = " (by: " + time.substring(3) + ")";
+        this.time = " (by: " + time + ")";
     }
 
     public String toString() {

@@ -30,7 +30,7 @@ public class MyDuke {
                 String description = value.substring(7).trim();
                 if (value.charAt(1) == 'T') {
                     ToDo todo = new ToDo(description);
-                    if (value.charAt(4) == '\u2713') {
+                    if (value.charAt(4) == '\u2713') { // if it is a tick
                         todo.markAsDone();
                     }
                     taskBox.add(todo);
@@ -145,15 +145,20 @@ public class MyDuke {
                 }
 
             }else if(inputs.startsWith("deadline")){
-                String[] temp = inputs.split("/");
-                String description = temp[0];
-                String time = temp[1];
+                String newInput = inputs.substring(9);
+                //System.out.println(newInput);
+                String[] temp = newInput.split("/by ");
+                String description = temp[0].trim();
+                String time = temp[1].trim();
                 runDeadline(description , time);
 
             }else if(inputs.startsWith("event")){
-                String [] temp = inputs.split("/");
-                String description = temp[0];
-                String time = temp[1];
+                String newInput = inputs.substring(6);
+                String [] temp = newInput.split("/at");
+                String description = temp[0].trim();
+                String time = temp[1].trim();
+                System.out.println(description);
+                System.out.println(time);
                 runEvent(description , time);
 
             }else{

@@ -9,7 +9,7 @@ public class Event extends Task {
     }
 
     public void setTime (String time) {
-        this.time = " (at: " + time.substring(3) + ")";
+        this.time = " (at: " + time + ")";
     }
 
     public String toString() {
