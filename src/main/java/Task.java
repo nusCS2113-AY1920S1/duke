@@ -1,7 +1,10 @@
+import java.io.Serializable;
+
 //this is the Task class
-public class Task{
+public class Task implements Serializable{
     private boolean status;
     private String name;
+    private static final long serialVersionUID = 1L;
     public Task(boolean to_add_status, String name_to_add){
         status = to_add_status;
         name = name_to_add;
@@ -31,5 +34,15 @@ public class Task{
             String name_1 =  "[✗] "+get_name().trim(); 
             return name_1; 
         }
+    }
+    public String get_attrib(){ 
+        String type; 
+        if(status==true){ 
+            type = "1";
+        }
+        else{ 
+            type = "0";
+        }
+        return get_type() + "^"+type+"^"+name ;
     }
 }

@@ -11,5 +11,8 @@ public class Events extends Task {
     public String toString() {
         return "[E]" + super.toString() + " (at: " + by + ")";
     }
-    
+    @Override
+    public String get_attrib(){ 
+        return super.get_attrib() + "^"+by.trim(); 
+    }
 }

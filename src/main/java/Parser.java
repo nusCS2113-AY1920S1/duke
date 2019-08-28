@@ -1,8 +1,65 @@
 import java.util.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 public class Parser  {
     private ArrayList<Task> l1;  
-    public Parser() {
-        l1 = new ArrayList<Task>();    
+    private ArrayList<Task> temp;
+    public void deserial() throws  FileNotFoundException,IOException{ 
+        FileInputStream fstream = new FileInputStream("tasks.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+        String strLine;
+        while ((strLine = br.readLine()) != null)   {
+            //System.out.println(strLine);
+            String[] string_list = strLine.split("\\^");
+            //System.out.println(Arrays.toString(string_list)); 
+            if(string_list[0].equals("T")){
+                boolean t; 
+                if(string_list[1].equals("1")){ 
+                    t= true; 
+                } 
+                else{ 
+                    t = false;
+                }
+                //System.out.println("hello");
+                Task temp = new Todo(t,string_list[2]);
+                l1.add(temp); 
+            }
+            else if(string_list[0].equals("E")){ 
+                boolean t; 
+                if(string_list[1].equals("1")){ 
+                    t= true; 
+                } 
+                else{ 
+                    t = false;
+                }
+                Task temp = new Events(t,string_list[2],string_list[3]); 
+                l1.add(temp); 
+            }
+            else if(string_list[0].equals("D")){ 
+                boolean t; 
+                if(string_list[1].equals("1")){ 
+                    t= true; 
+                } 
+                else{ 
+                    t = false;
+                }
+                Task temp = new Deadline(t,string_list[2],string_list[3]); 
+                l1.add(temp); 
+            }
+        }
+        fstream.close();
+    }  
+    public Parser() throws FileNotFoundException,IOException{
+        l1 = new ArrayList<Task>(); 
+        deserial();
+        //System.out.println("jjdaj");
     }
     public static String get_end_message(Integer num){ 
         String task_num;
@@ -51,7 +108,8 @@ public class Parser  {
         return "Now you have " + Integer.toString(num)+ " " + task_num+ " in the list.";
     }
     public void create_todo(String command) throws DukeException{ 
-        if(command.split(" ",2).length>= 2){ 
+        String[] command_list = command.split(" ",2);
+        if(command.split(" ",2).length>= 2 && !(command_list[1].trim().equals("")) ){ 
             command = command.split(" ",2)[1];
             Task c1 = new Todo(false,command);
             l1.add(c1);
@@ -65,7 +123,7 @@ public class Parser  {
     }
     public void create_events(String work) throws DukeException{ 
         String[] tasks = work.split("\\/at");
-        if(tasks.length >=2 ){ 
+        if(tasks.length >=2 && !(tasks[1].trim().equals("")) ){ 
             String task_to_be_done = tasks[0];
             String deadline_time = tasks[1];
             Task c1 = new Events(false,task_to_be_done,deadline_time);
@@ -81,7 +139,7 @@ public class Parser  {
     }
     public void create_deadline(String work) throws DukeException{ 
         String[] tasks = work.split("\\/by");
-        if(tasks.length> 2){ 
+        if(tasks.length> 2 && !(tasks[1].trim().equals(""))){ 
             String task_to_be_done = tasks[0];
             String deadline_time = tasks[1];
             Task c1 = new Deadline(false,task_to_be_done,deadline_time);
@@ -94,5 +152,19 @@ public class Parser  {
             throw new DukeException(message); 
         }
        
+    }
+    public void serial() throws Exception{ 
+        try{ 
+            PrintWriter out = new PrintWriter("tasks.txt");
+            String serialized = ""; 
+            for (Task temp : l1) {
+                serialized += temp.get_attrib() +"\n"; 
+            }
+            out.println(serialized);
+            out.close ();    
+        }
+        catch (Exception e){ 
+            throw e; 
+        }
     }
 }
