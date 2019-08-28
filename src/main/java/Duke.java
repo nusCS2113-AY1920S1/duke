@@ -20,6 +20,9 @@ public class Duke {
             if(description.equals("bye")){
                 myduke.exit();
                 break;
+            }else if (description.equals("list")){
+                myduke.showTaskBox();
+                description = scan.nextLine();
             }else{
                 myduke.echo(description);
                 description = scan.nextLine();
