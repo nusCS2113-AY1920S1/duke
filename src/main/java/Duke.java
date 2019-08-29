@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.*;
 
 class Task {
     protected String description;
@@ -69,7 +70,107 @@ public class Duke {
     /**
      * Why checkstyle liddat.
      */
-    public static void main(String[] args) {
+
+    static void addToFile(String directory, int position, String type, String content, String content2)
+    {
+        String line = "____________________________________________________________\n";
+        try (BufferedWriter update = new BufferedWriter(new FileWriter(directory, true))) {
+            String fileContent = position + " | false | " + type + " | " + content + " | " + content2 + "\n";
+            update.append(fileContent);
+            update.close();
+
+        } catch (IOException e) {
+            System.out.println(line + "Something's wrong with saving the file!\n" + line);
+        }
+    }
+
+    /*static void modifyFile(String directory, String oldstring, String newstring) {
+        try {
+                BufferedReader reader = new BufferedReader(new FileReader(directory));
+                String oldContent = "";
+                //Reading all the lines of input text file into oldContent
+
+                String line = reader.readLine();
+
+                while (line != null) {
+                    oldContent = oldstring + line + System.lineSeparator();
+                    line = reader.readLine();
+                }
+
+                String newContent = oldContent.replace(oldstring, newstring);
+                BufferedWriter update = new BufferedWriter(new FileWriter(directory));
+                update.write(newContent);
+                try
+                {
+                    reader.close();
+                    update.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            catch (FileNotFoundException e) {
+                System.out.println("File is missing??");
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+*/
+    static void modifyFile(String filePath, String oldString, String newString)
+    {
+        File fileToBeModified = new File(filePath);
+        String oldContent = "";
+        BufferedReader reader = null;
+        FileWriter writer = null;
+
+        try
+        {
+            reader = new BufferedReader(new FileReader(fileToBeModified));
+
+            //Reading all the lines of input text file into oldContent
+
+            String line = reader.readLine();
+
+            while (line != null)
+            {
+                oldContent = oldContent + line + System.lineSeparator();
+                line = reader.readLine();
+            }
+
+            //Replacing oldString with newString in the oldContent
+
+            String newContent = oldContent.replace(oldString, newString);
+
+            //Rewriting the input text file with newContent
+
+            writer = new FileWriter(fileToBeModified);
+
+            writer.write(newContent);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                //Closing the resources
+
+                reader.close();
+
+                writer.close();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+        public static void main(String[] args) {
+        String directory = "C:\\Users\\GY\\Downloads\\CS2113T\\duke\\data\\duke.txt";
         Scanner input = new Scanner(System.in);
         String line = "____________________________________________________________\n";
         ArrayList<Task> tasklist = new ArrayList<Task>();
@@ -93,6 +194,8 @@ public class Duke {
                 tasklist.add(t);
                 System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
                 System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+
+                addToFile(directory, tasklist.size(), "T", typing.substring(indexOfSpace + 1), null);
             }
 
            else  if (instruction.equals("deadline")) {
@@ -107,6 +210,8 @@ public class Duke {
                     tasklist.add(t);
                     System.out.println(line + "Got it. I've added this task: \n" + t);
                     System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+
+                    addToFile(directory, tasklist.size(), "D", typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
                 }
                 catch (StringIndexOutOfBoundsException e) {
                     System.out.println(line + "☹ OOPS!!! Please enter a valid deadline input.\n" + line);
@@ -125,6 +230,9 @@ public class Duke {
                     tasklist.add(t);
                     System.out.println(line + "Got it. I've added this task: \n" + t);
                     System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+
+                    addToFile(directory, tasklist.size(), "E", typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
+
                 }
                 catch (StringIndexOutOfBoundsException e){
                     System.out.println(line + "☹ OOPS!!! Please enter a valid event input.\n" + line);
@@ -132,11 +240,18 @@ public class Duke {
             }
 
             else if (instruction.equals("done")) {
-                int temp = Integer.parseInt(typing.substring(5));
-                tasklist.get(temp - 1).done();
-                System.out.print(line);
-                System.out.println("Nice! I've marked this task as done: ");
-                System.out.println(tasklist.get(temp - 1) + "\n" + line);
+                try {
+                    int temp = Integer.parseInt(typing.substring(5));
+                    tasklist.get(temp - 1).done();
+                    System.out.print(line);
+                    System.out.println("Nice! I've marked this task as done: ");
+                    System.out.println(tasklist.get(temp - 1) + "\n" + line);
+                }
+                catch (NumberFormatException e) {
+                    System.out.println(line + "Which task?\n" + line);
+                }
+
+                modifyFile(directory,  typing.substring(5) + " | false | ", typing.substring(5) + " | true | ");
             }
 
             else if (instruction.equals("list")) {
