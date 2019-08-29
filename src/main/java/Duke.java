@@ -20,17 +20,14 @@ public class Duke {
             command = sc.next();
             boolean inputExists = true;
             String input = sc.nextLine();
-            if(command.equals("list"))
-            {
+            if (list.equals(command)) {
                 int counter = 1;
-                for(Task task:list)
-                {
+                for (Task task : list) {
                     System.out.println(counter++ + ". " + task.toList());
                 }
             }
             else {
-                try
-                {
+                try {
                     input = input.substring(1);
                 } catch (StringIndexOutOfBoundsException oob) {
                     if (!command.equals("list")) {
@@ -39,27 +36,21 @@ public class Duke {
                     inputExists = false;
                     //throw error time: there was nothing after the command
                 }
-
-                if (command.equals("todo")) {
-                    list.add(new Todo(input));
-                }
-                else if (command.equals("deadline")) {
-                    list.add(new Deadline(input));
-                }
-                else if (command.equals("event")) {
-                    list.add(new Event(input));
-                }
-                else if (command.equals("done"))
-                {
-                    int request = Integer.parseInt(input);
-                    request -= 1;
-                    list.get(request).markDone();
-                    System.out.println("Nice! I've marked this task as done:\n" +
-                            "  " + list.get(request).toList() );
-                }
-                else {
-                    System.out.println("I don't understand you");
-                }
+            }
+            if (command.equals("todo")) {
+                list.add(new Todo(input));
+            } else if (command.equals("deadline")) {
+                list.add(new Deadline(input));
+            } else if (command.equals("event")) {
+                list.add(new Event(input));
+            } else if (command.equals("done")) {
+                int request = Integer.parseInt(input);
+                request -= 1;
+                list.get(request).markDone();
+                System.out.println("Nice! I've marked this task as done:\n" +
+                        "  " + list.get(request).toList());
+            } else {
+                System.out.println("I don't understand you");
             }
         }
 
