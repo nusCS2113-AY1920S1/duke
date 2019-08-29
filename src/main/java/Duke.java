@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Duke {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DukeException {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -20,37 +20,92 @@ public class Duke {
             command = sc.next();
             boolean inputExists = true;
             String input = sc.nextLine();
-            if (list.equals(command)) {
-                int counter = 1;
-                for (Task task : list) {
-                    System.out.println(counter++ + ". " + task.toList());
+            input = input.trim();
+            try{
+                if(input.equals("") && command.matches("todo|deadline|event|done")) {
+                    throw new DukeException("☹ OOPS!!! The description of a " + command + " cannot be empty.");
                 }
+            } catch (DukeException e) {
+                System.out.println(e.getLocalizedMessage());
+                inputExists = false;
             }
-            else {
-                try {
-                    input = input.substring(1);
-                } catch (StringIndexOutOfBoundsException oob) {
-                    if (!command.equals("list")) {
-                        System.out.println("there was nothing after the command");
+            if (command.equals("list")) {
+            try {
+                if(input.equals("")) {
+                    if(list.size()== 0)
+                    {
+                        System.out.println("Whoops, there doesn't seem to be anything here at the moment");
                     }
-                    inputExists = false;
-                    //throw error time: there was nothing after the command
+                    else {
+                        int counter = 1;
+                        for (Task task : list) {
+                            System.out.println(counter++ + ". " + task.toList());
+                        }
+                    }
                 }
+                else
+                    throw new DukeException("List should not have any other arguments (whitespace acceptable");
             }
-            if (command.equals("todo")) {
-                list.add(new Todo(input));
-            } else if (command.equals("deadline")) {
-                list.add(new Deadline(input));
-            } else if (command.equals("event")) {
-                list.add(new Event(input));
-            } else if (command.equals("done")) {
-                int request = Integer.parseInt(input);
-                request -= 1;
-                list.get(request).markDone();
-                System.out.println("Nice! I've marked this task as done:\n" +
-                        "  " + list.get(request).toList());
-            } else {
-                System.out.println("I don't understand you");
+            catch(DukeException e)
+            {
+                System.out.println(e.getLocalizedMessage());
+            }
+        }
+            else if(inputExists) {
+                if (command.equals("todo")) {
+                    list.add(new Todo(input));
+                } else if (command.equals("deadline")) {
+                    Deadline temp = null;
+                    try{
+                        temp = new Deadline(input);
+                    }
+                    catch(DukeException e){
+                        System.out.println(e.getLocalizedMessage());
+                    }
+                    finally {
+                        if(temp != null)
+                            list.add(temp);
+                    }
+                } else if (command.equals("event")) {
+                    Event temp = null;
+                    try{
+                        temp = new Event(input);
+                    }
+                    catch(DukeException e){
+                        System.out.println(e.getLocalizedMessage());
+                    }
+                    finally {
+                        if(temp != null)
+                            list.add(temp);
+                    }
+                } else if (command.equals("done")) {
+                    try{
+                        int request = Integer.parseInt(input);
+                        request -= 1;
+                        if(request < 0 && request >= list.size())
+                            throw new DukeException("☹ OOPS!!! This index is not within the list");
+                        else {
+                            list.get(request).markDone();
+                            System.out.println("Nice! I've marked this task as done:\n" +
+                                    "  " + list.get(request).toList());
+                        }
+                    }
+                    catch(DukeException e)
+                    {
+                        System.out.println(e.getLocalizedMessage());
+                    }
+                    catch(NumberFormatException e)
+                    {
+                        System.out.println("That is NOT a valid integer");
+                    }
+                }
+                else {
+                    try {
+                        throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    } catch (DukeException e) {
+                        System.out.println(e.getLocalizedMessage());
+                    }
+                }
             }
         }
 
