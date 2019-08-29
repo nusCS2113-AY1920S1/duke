@@ -24,7 +24,7 @@ public class Duke {
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
         List<Task> l1 = new ArrayList<Task>(); 
         try{ 
-
+            
             Parser analyser = new Parser(); 
             while(true){
                 Scanner input = new Scanner(System.in);
@@ -63,7 +63,7 @@ public class Duke {
                         analyser.print_list();
                         //System.out.println(l1);
                     }
-    
+                    
                     else{
                         String[] values = command.split(" ",2);
                         //marking as done
@@ -102,6 +102,7 @@ public class Duke {
                             catch (DukeException e){ 
                                 System.out.println(e.getMessage());
                             }
+                            
                             catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -111,6 +112,7 @@ public class Duke {
                             catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             }
+                            
                             catch (Exception e) {
                                 System.out.println(e);
                             }

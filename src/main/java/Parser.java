@@ -1,20 +1,49 @@
 import java.util.*;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+
 public class Parser  {
     private ArrayList<Task> l1;  
     private ArrayList<Task> temp;
-    public void deserial() throws  FileNotFoundException,IOException{ 
+    public static Task get_first_e(String[] string_list,boolean t) throws DukeException{ 
+        Task c1;
+        //System.out.println("help me");
+        //System.out.println("here "+Arrays.toString(string_list));
+        try{ 
+            String[] timing = string_list[2].split("-");
+            if(timing.length>= 2 && !(timing[1].trim().equals("")) ){ 
+                //System.out.println(Arrays.toString(timing)); 
+                LocalDateTime start_date = new ParseTime().parseStringToDate(timing[0].trim());
+                LocalDateTime end_date =  new ParseTime().parseStringToDate(timing[1].trim());
+                //System.out.println("Before : " + date_type);
+                c1 = new Events(t,string_list[1],start_date,end_date,timing[0],timing[1]);
+            }
+            else{ 
+                throw new DukeException("Please give a starting and ending time!");
+            }
+            
+        }
+        catch (DukeTimeException e){ 
+            String[] timing = string_list[2].split("-");
+            if(timing.length>= 2 && !(timing[1].trim().equals("")) ){ 
+                c1 = new Events(t,string_list[1],timing[0],timing[1]);
+            }
+            else{ 
+                throw new DukeException("Please give a starting and ending time!");
+            }
+        }
+        return c1; 
+    }
+    public void deserial() throws  FileNotFoundException,IOException,DukeException{ 
         FileInputStream fstream = new FileInputStream("tasks.txt");
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
         String strLine;
+       
         while ((strLine = br.readLine()) != null)   {
             //System.out.println(strLine);
             String[] string_list = strLine.split("\\^");
@@ -39,8 +68,17 @@ public class Parser  {
                 else{ 
                     t = false;
                 }
-                Task temp = new Events(t,string_list[2],string_list[3]); 
-                l1.add(temp); 
+                Task c1; 
+                try{ 
+                    String[] name_list = {string_list[1],string_list[2],string_list[3]+"-"+string_list[4]};
+                    l1.add(get_first_e(name_list,t));
+                }
+                catch (DukeException e) { 
+                    throw e; 
+                }
+                
+                //Task temp = new Events(t,string_list[2],string_list[3]); 
+                //l1.add(c1); 
             }
             else if(string_list[0].equals("D")){ 
                 boolean t; 
@@ -50,13 +88,23 @@ public class Parser  {
                 else{ 
                     t = false;
                 }
-                Task temp = new Deadline(t,string_list[2],string_list[3]); 
-                l1.add(temp); 
+                Task c1;
+                try{ 
+                    LocalDateTime date_type = new ParseTime().parseStringToDate(string_list[3].trim());
+                    //System.out.println("Before : " + date_type);
+                    c1 = new Deadline(t,string_list[2],date_type,string_list[3]);
+                }
+                catch (DukeTimeException e){ 
+                    c1 = new Deadline(t,string_list[2],string_list[3]);
+                }
+                //Task temp = new Events(t,string_list[2],string_list[3]); 
+                l1.add(c1);
+                
             }
         }
         fstream.close();
     }  
-    public Parser() throws FileNotFoundException,IOException{
+    public Parser() throws FileNotFoundException,IOException,DukeException{
         l1 = new ArrayList<Task>(); 
         deserial();
         //System.out.println("jjdaj");
@@ -126,8 +174,33 @@ public class Parser  {
         if(tasks.length >=2 && !(tasks[1].trim().equals("")) ){ 
             String task_to_be_done = tasks[0];
             String deadline_time = tasks[1];
-            Task c1 = new Events(false,task_to_be_done,deadline_time);
-            l1.add(c1);
+            Task c1;
+            try{ 
+                //LocalDateTime date_type = new ParseTime().parseStringToDate(deadline_time.trim());
+                //System.out.println("Before : " + date_type);
+                String [] timing_list= deadline_time.split("-");
+
+                if(timing_list.length >= 2 && !(timing_list[1].trim().equals(""))){
+                    System.out.println(Arrays.toString(timing_list)); 
+                    String[] string_list = {task_to_be_done,task_to_be_done,deadline_time};
+                    c1 = get_first_e(string_list, false);
+                    l1.add(c1);
+                    System.out.println(c1);
+                }
+                else{ 
+                    
+                    throw new DukeException("Please enter the start and end time");
+                }
+                
+            }
+            catch (DukeTimeException e){ 
+            System.out.println(e.getMessage()); 
+               throw e; 
+            }
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HHmm");
+            //LocalDateTime dt = LocalDateTime.parse(deadline_time.trim(),formatter);
+            //System.out.println("Before : " + dt);
+           
             System.out.println("Got it. I've added this task: \n"+"     "+c1.toString());
             System.out.println(get_end_message(l1.size()));
         }
@@ -139,10 +212,21 @@ public class Parser  {
     }
     public void create_deadline(String work) throws DukeException{ 
         String[] tasks = work.split("\\/by");
+        //System.out.println(Arrays.toString(tasks)+tasks[1].trim());
         if(tasks.length>= 2 && !(tasks[1].trim().equals(""))){ 
+            //System.out.println("hello1");
             String task_to_be_done = tasks[0];
             String deadline_time = tasks[1];
-            Task c1 = new Deadline(false,task_to_be_done,deadline_time);
+            //Task c1 = new Deadline(false,task_to_be_done,deadline_time);
+            Task c1;
+            try{ 
+                LocalDateTime date_type = new ParseTime().parseStringToDate(deadline_time.trim());
+                //System.out.println("Before : " + date_type);
+                c1 = new Deadline(false,task_to_be_done,date_type,deadline_time.trim());
+            }
+            catch (DukeTimeException e){ 
+                c1 = new Deadline(false,task_to_be_done,deadline_time);
+            }
             l1.add(c1);
             System.out.println("Got it. I've added this task: \n"+"     "+c1.toString());
             System.out.println(get_end_message(l1.size()));
@@ -157,9 +241,13 @@ public class Parser  {
         try{ 
             PrintWriter out = new PrintWriter("tasks.txt");
             String serialized = ""; 
+            
             for (Task temp : l1) {
+                //System.out.println("PRINTING " );
+                //System.out.println(temp.get_attrib());
                 serialized += temp.get_attrib() +"\n"; 
             }
+            //System.out.println(serialized);
             out.println(serialized);
             out.close ();    
         }
