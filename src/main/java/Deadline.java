@@ -1,5 +1,5 @@
 public class Deadline extends Task {
-    private String dueDate;
+    protected String type = "D";
 
     public Deadline(String description) throws DukeException {
         String[] split = description.split("\\s+/by\\s+");
@@ -22,8 +22,12 @@ public class Deadline extends Task {
         }
     }
 
-    public String getDueDate() {
-        return dueDate;
+    public Deadline(String bool, String description, String dueDate)
+    {
+        this.description = description;
+        this.dueDate = dueDate;
+        this.isDone = (1 == Integer.parseInt(bool));
+        counter++;
     }
 
     @Override
@@ -31,4 +35,6 @@ public class Deadline extends Task {
         return "[D][" + this.getStatusIcon() + "] " + this.getDescription() +
                 " (by: " + this.getDueDate() + ")";
     }
+    @Override
+    public String getType(){ return "D";}
 }

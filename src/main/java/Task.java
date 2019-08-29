@@ -1,6 +1,7 @@
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected String dueDate;
     public static long counter = 0;
 
     public Task(String description) {
@@ -9,12 +10,12 @@ public class Task {
         counter++;
     }
     public Task(){
-        this.isDone = false;
-        counter++;
+
     }
 
+
     public long numTasksCreated(){
-        return this.counter;
+        return counter;
     }
 
     public String getStatusIcon() {
@@ -24,10 +25,13 @@ public class Task {
     public void markDone(){
         this.isDone = true;
     }
-
+    public boolean checkCompletion() {return this.isDone;}
+    public String getType(){ return "G";}
     public String getDescription() {
-        return description;
+        return this.description;
     }
+    public String getDueDate() { return this.dueDate; }
+
     public String toList(){
         return "[?][" + this.getStatusIcon() + "] " + this.getDescription();
     }

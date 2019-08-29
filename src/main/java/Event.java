@@ -1,5 +1,5 @@
 public class Event extends Task {
-    private String dueDate;
+    private String type = "E";
 
     public Event(String description) throws DukeException {
         String[] split = description.split("\\s+/at\\s+");
@@ -20,6 +20,14 @@ public class Event extends Task {
         }
     }
 
+    public Event(String bool, String description, String dueDate)
+    {
+        this.description = description;
+        this.dueDate = dueDate;
+        this.isDone = (1 == Integer.parseInt(bool));
+        counter++;
+    }
+
     public String getDueDate() {
         return dueDate;
     }
@@ -29,4 +37,6 @@ public class Event extends Task {
         return "[E][" + this.getStatusIcon() + "] " + this.getDescription() +
                 " (by: " + this.getDueDate() + ")";
     }
+    @Override
+    public String getType(){ return "E";}
 }
