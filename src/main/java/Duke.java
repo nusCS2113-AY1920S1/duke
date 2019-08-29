@@ -24,7 +24,6 @@ public class Duke {
         System.out.println("Hello! I'm Duke\nWhat can I do for you?");
         List<Task> l1 = new ArrayList<Task>(); 
         try{ 
-            
             Parser analyser = new Parser(); 
             while(true){
                 Scanner input = new Scanner(System.in);
@@ -191,6 +190,7 @@ public class Duke {
             }
 
         }
+
         catch(Exception e){ 
             System.out.println("error");
             System.out.println(e.getMessage());

@@ -40,69 +40,77 @@ public class Parser  {
         return c1; 
     }
     public void deserial() throws  FileNotFoundException,IOException,DukeException{ 
-        FileInputStream fstream = new FileInputStream("tasks.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
-        String strLine;
-       
-        while ((strLine = br.readLine()) != null)   {
-            //System.out.println(strLine);
-            String[] string_list = strLine.split("\\^");
-            //System.out.println(Arrays.toString(string_list)); 
-            if(string_list[0].equals("T")){
-                boolean t; 
-                if(string_list[1].equals("1")){ 
-                    t= true; 
-                } 
-                else{ 
-                    t = false;
+        try{ 
+            FileInputStream fstream = new FileInputStream("tasks.txt");
+        
+            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            String strLine;
+        
+            while ((strLine = br.readLine()) != null)   {
+                //System.out.println(strLine);
+                String[] string_list = strLine.split("\\^");
+                //System.out.println(Arrays.toString(string_list)); 
+                if(string_list[0].equals("T")){
+                    boolean t; 
+                    if(string_list[1].equals("1")){ 
+                        t= true; 
+                    } 
+                    else{ 
+                        t = false;
+                    }
+                    //System.out.println("hello");
+                    Task temp = new Todo(t,string_list[2]);
+                    l1.add(temp); 
                 }
-                //System.out.println("hello");
-                Task temp = new Todo(t,string_list[2]);
-                l1.add(temp); 
+                else if(string_list[0].equals("E")){ 
+                    boolean t; 
+                    if(string_list[1].equals("1")){ 
+                        t= true; 
+                    } 
+                    else{ 
+                        t = false;
+                    }
+                    Task c1; 
+                    try{ 
+                        String[] name_list = {string_list[1],string_list[2],string_list[3]+"-"+string_list[4]};
+                        l1.add(get_first_e(name_list,t));
+                    }
+                    catch (DukeException e) { 
+                        throw e; 
+                    }
+                    
+                    //Task temp = new Events(t,string_list[2],string_list[3]); 
+                    //l1.add(c1); 
+                }
+                else if(string_list[0].equals("D")){ 
+                    boolean t; 
+                    if(string_list[1].equals("1")){ 
+                        t= true; 
+                    } 
+                    else{ 
+                        t = false;
+                    }
+                    Task c1;
+                    try{ 
+                        LocalDateTime date_type = new ParseTime().parseStringToDate(string_list[3].trim());
+                        //System.out.println("Before : " + date_type);
+                        c1 = new Deadline(t,string_list[2],date_type,string_list[3]);
+                    }
+                    catch (DukeTimeException e){ 
+                        c1 = new Deadline(t,string_list[2],string_list[3]);
+                    }
+                    //Task temp = new Events(t,string_list[2],string_list[3]); 
+                    l1.add(c1);
+                    
+                }
             }
-            else if(string_list[0].equals("E")){ 
-                boolean t; 
-                if(string_list[1].equals("1")){ 
-                    t= true; 
-                } 
-                else{ 
-                    t = false;
-                }
-                Task c1; 
-                try{ 
-                    String[] name_list = {string_list[1],string_list[2],string_list[3]+"-"+string_list[4]};
-                    l1.add(get_first_e(name_list,t));
-                }
-                catch (DukeException e) { 
-                    throw e; 
-                }
-                
-                //Task temp = new Events(t,string_list[2],string_list[3]); 
-                //l1.add(c1); 
-            }
-            else if(string_list[0].equals("D")){ 
-                boolean t; 
-                if(string_list[1].equals("1")){ 
-                    t= true; 
-                } 
-                else{ 
-                    t = false;
-                }
-                Task c1;
-                try{ 
-                    LocalDateTime date_type = new ParseTime().parseStringToDate(string_list[3].trim());
-                    //System.out.println("Before : " + date_type);
-                    c1 = new Deadline(t,string_list[2],date_type,string_list[3]);
-                }
-                catch (DukeTimeException e){ 
-                    c1 = new Deadline(t,string_list[2],string_list[3]);
-                }
-                //Task temp = new Events(t,string_list[2],string_list[3]); 
-                l1.add(c1);
-                
-            }
+            fstream.close();
         }
-        fstream.close();
+        catch (FileNotFoundException e){ 
+            System.out.println("no file found");
+
+        }
+        
     }  
     public Parser() throws FileNotFoundException,IOException,DukeException{
         l1 = new ArrayList<Task>(); 
