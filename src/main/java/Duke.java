@@ -13,10 +13,11 @@ public class Duke {
                 "What can I do for you?\n");
         Scanner sc = new Scanner(System.in);
         String input = new String();
-        ArrayList<String> tasks =new ArrayList<String>();
+        ArrayList<Task> list =new ArrayList<Task>();
         while(sc.hasNextLine() && !input.equalsIgnoreCase("bye"))
         {
             input = sc.nextLine();
+            String[] split = input.split(" ");
             if(input.equalsIgnoreCase("bye"))
             {
                 System.out.println("Bye. Hope to see you again soon!");
@@ -24,14 +25,29 @@ public class Duke {
             if(input.equals("list"))
             {
                 int counter = 1;
-                for(String task:tasks)
-                    System.out.println(counter++ +". " + task);
+                for(Task task:list)
+                    System.out.println(counter++ +". [" + task.getStatusIcon() +  "] "+ task.getDescription());
+            }
+            if(split.length>1)
+            {
+                if(split[0].equals("done"))
+                {
+                    int request = Integer.parseInt(split[1]);
+                    request -= 1;
+                    list.get(request).markDone();
+                    System.out.println("Nice! I've marked this task as done:\n" +
+                            "  [" + list.get(request).getStatusIcon() + "] " + list.get(request).getDescription());
+                }
+                else
+                {
+                    list.add(new Task(input));
+                    System.out.println("added: " + input);
+                }
             }
             else {
-                tasks.add(input);
+                list.add(new Task(input));
                 System.out.println("added: " + input);
             }
-
         }
 
         sc.close();
