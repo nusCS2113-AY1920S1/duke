@@ -139,7 +139,7 @@ public class Parser  {
     }
     public void create_deadline(String work) throws DukeException{ 
         String[] tasks = work.split("\\/by");
-        if(tasks.length> 2 && !(tasks[1].trim().equals(""))){ 
+        if(tasks.length>= 2 && !(tasks[1].trim().equals(""))){ 
             String task_to_be_done = tasks[0];
             String deadline_time = tasks[1];
             Task c1 = new Deadline(false,task_to_be_done,deadline_time);

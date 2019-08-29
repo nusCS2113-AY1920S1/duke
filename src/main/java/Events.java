@@ -9,10 +9,11 @@ public class Events extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + by + ")";
+        return "[E]" + super.toString() + " (at: " + by.trim() + ")";
     }
     @Override
     public String get_attrib(){ 
-        return super.get_attrib() + "^"+by.trim(); 
+        //System.out.println(super.get_attrib());
+        return "E" + super.get_attrib()+"^"+by.trim();   
     }
 }

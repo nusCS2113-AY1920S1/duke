@@ -43,6 +43,6 @@ public class Task implements Serializable{
         else{ 
             type = "0";
         }
-        return get_type() + "^"+type+"^"+name ;
+        return "^"+type+"^"+name ; 
     }
 }

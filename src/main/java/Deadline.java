@@ -13,6 +13,6 @@ public class Deadline extends Task {
     }   
     @Override
     public String get_attrib(){ 
-        return super.get_attrib() + "^"+by.trim(); 
+        return "D" + super.get_attrib()+"^"+by.trim(); 
     }
 }

@@ -11,5 +11,8 @@ public class Todo extends Task {
     public String toString() {
         return "[T]" + super.toString().trim() ;
     }
-    
+    @Override
+    public String get_attrib(){ 
+        return "T" + super.get_attrib(); 
+    }
 }
