@@ -75,36 +75,63 @@ public class Duke {
         ArrayList<Task> tasklist = new ArrayList<Task>();
 
         System.out.println(line + " Hello! I'm Duke\n" + " What can I do for you?\n" + line);
-        String typing = input.nextLine();
 
-        while(!typing.equals("bye")) {
+
+        while(true) {
+            String typing = input.nextLine();
             int indexOfSpace = typing.indexOf(" ");
             String instruction = (indexOfSpace != -1) ? typing.substring(0, indexOfSpace) : typing;
 
-            if (instruction.equals("todo")) {
+            if (instruction.equals("todo"))
+            {
+                if (indexOfSpace == -1)
+                {
+                    System.out.println(line + "☹ OOPS!!! The description of a todo cannot be empty.\n" + line);
+                    continue;
+                }
                 Task t = new Todo(typing.substring(indexOfSpace + 1));
                 tasklist.add(t);
                 System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
                 System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
             }
 
-            if (instruction.equals("deadline")) {
-                int indexOfSlash = typing.indexOf("/");
-                Task t = new Deadline(typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
-                tasklist.add(t);
-                System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
-                System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+           else  if (instruction.equals("deadline")) {
+                try {
+                    int indexOfSlash = typing.indexOf("/");
+                    if (!typing.substring(indexOfSlash + 1, indexOfSlash+ 3).equals("by"))
+                    {
+                        System.out.println(line + "☹ OOPS!!! Please enter a valid deadline input.\n" + line);
+                        continue;
+                    }
+                    Task t = new Deadline(typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
+                    tasklist.add(t);
+                    System.out.println(line + "Got it. I've added this task: \n" + t);
+                    System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+                }
+                catch (StringIndexOutOfBoundsException e) {
+                    System.out.println(line + "☹ OOPS!!! Please enter a valid deadline input.\n" + line);
+                }
             }
 
-            if (instruction.equals("event")) {
-                int indexOfSlash = typing.indexOf("/");
-                Task t = new Event(typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
-                tasklist.add(t);
-                System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
-                System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+            else if (instruction.equals("event")) {
+                try {
+                    int indexOfSlash = typing.indexOf("/");
+                    if (!typing.substring(indexOfSlash + 1, indexOfSlash+ 3).equals("at"))
+                    {
+                        System.out.println(line + "☹ OOPS!!! Please enter a valid event input\n" + line);
+                        continue;
+                    }
+                    Task t = new Event(typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
+                    tasklist.add(t);
+                    System.out.println(line + "Got it. I've added this task: \n" + t);
+                    System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+                }
+                catch (StringIndexOutOfBoundsException e){
+                    System.out.println(line + "☹ OOPS!!! Please enter a valid event input.\n" + line);
+                }
             }
 
-            if (instruction.equals("done")) {
+            else if (instruction.equals("done")) {
                 int temp = Integer.parseInt(typing.substring(5));
                 tasklist.get(temp - 1).done();
                 System.out.print(line);
@@ -112,7 +139,7 @@ public class Duke {
                 System.out.println(tasklist.get(temp - 1) + "\n" + line);
             }
 
-            if (instruction.equals("list")) {
+            else if (instruction.equals("list")) {
                 System.out.println(line + "Here are the tasks in your list: ");
                 for (int i = 0; i < tasklist.size(); i += 1) {
                     System.out.print((i + 1) + ". ");
@@ -121,7 +148,16 @@ public class Duke {
                 System.out.print(line);
             }
 
-            typing = input.nextLine();
+            else if (instruction.equals("bye"))
+            {
+                break;
+            }
+
+            else
+            {
+                System.out.println(line + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n" + line);
+            }
+
         }
 
         System.out.println(line + "Bye. Hope to see you again soon!\n" + line);
