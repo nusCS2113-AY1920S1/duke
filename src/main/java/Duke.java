@@ -11,7 +11,7 @@ class Task {
     }
 
     public String getStatus() {
-        return (isDone ? "[✓]" : "[✗]"); //return tick or X symbols
+        return (isDone ? "[✓] " : "[✗] "); //return tick or X symbols
     }
 
     public void done() {
@@ -19,7 +19,49 @@ class Task {
     }
 
     public String toString() {
-        return description;
+        return (this.getStatus() + description);
+    }
+}
+
+class Deadline extends Task {
+
+    protected String by;
+
+    public Deadline(String description, String by) {
+        super(description);
+        this.by = by;
+    }
+
+    @Override
+    public String toString() {
+        return "[D]" + super.toString() + "(by: " + by + ")";
+    }
+}
+
+class Event extends Task {
+
+    protected String at;
+
+    public Event(String description, String at) {
+        super(description);
+        this.at = at;
+    }
+
+    @Override
+    public String toString() {
+        return "[E]" + super.toString() + "(at: " + at + ")";
+    }
+}
+
+class Todo extends Task {
+
+    public Todo(String description) {
+        super(description);
+    }
+
+    @Override
+    public String toString() {
+        return "[T]" + super.toString();
     }
 }
 
@@ -33,108 +75,54 @@ public class Duke {
         ArrayList<Task> tasklist = new ArrayList<Task>();
 
         System.out.println(line + " Hello! I'm Duke\n" + " What can I do for you?\n" + line);
-
         String typing = input.nextLine();
-        String[] splitarray = typing.split(" ", 2);
-        String first = splitarray[0];
-        String second = "0";
-        if (splitarray.length == 2)
-        {
-            second = splitarray[1];
-        }
 
-        if (first.equals("list") || first.equals("done")) {
-            System.out.println("There are currently no tasks!");
-        }
+        while(!typing.equals("bye")) {
+            int indexOfSpace = typing.indexOf(" ");
+            String instruction = (indexOfSpace != -1) ? typing.substring(0, indexOfSpace) : typing;
 
-        while (!first.equals("bye"))
-        {
-            Task t = new Task(typing); // create an object
+            if (instruction.equals("todo")) {
+                Task t = new Todo(typing.substring(indexOfSpace + 1));
+                tasklist.add(t);
+                System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
+                System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+            }
 
-            if (first.equals("done"))
-            {
-                int temp = Integer.parseInt(second);
+            if (instruction.equals("deadline")) {
+                int indexOfSlash = typing.indexOf("/");
+                Task t = new Deadline(typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
+                tasklist.add(t);
+                System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
+                System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+            }
+
+            if (instruction.equals("event")) {
+                int indexOfSlash = typing.indexOf("/");
+                Task t = new Event(typing.substring(indexOfSpace + 1, indexOfSlash), typing.substring(indexOfSlash + 4));
+                tasklist.add(t);
+                System.out.println(line + "Got it. I've added this task: \n" + "  " + t);
+                System.out.println("Now you have " + tasklist.size() + " task(s) in the list.\n" + line);
+            }
+
+            if (instruction.equals("done")) {
+                int temp = Integer.parseInt(typing.substring(5));
+                tasklist.get(temp - 1).done();
                 System.out.print(line);
                 System.out.println("Nice! I've marked this task as done: ");
-                System.out.println("[✓] " + tasklist.get(temp - 1) + "\n" + line);
-                tasklist.get(temp - 1).done();
+                System.out.println(tasklist.get(temp - 1) + "\n" + line);
             }
 
-            else if (!first.equals("list"))
-            {
-                tasklist.add(t);
-                System.out.println(line + "added: " + typing + "\n" + line);
-            }
-
-            else
-            {
-                System.out.print(line);
-                System.out.println("Here are the tasks in your list: ");
-                for (int i = 0; i < tasklist.size(); i += 1)
-                {
+            if (instruction.equals("list")) {
+                System.out.println(line + "Here are the tasks in your list: ");
+                for (int i = 0; i < tasklist.size(); i += 1) {
                     System.out.print((i + 1) + ". ");
-                    System.out.print(tasklist.get(i).getStatus() + " ");
                     System.out.println(tasklist.get(i));
                 }
                 System.out.print(line);
             }
 
             typing = input.nextLine();
-            splitarray = typing.split(" ", 2);
-            first = splitarray[0];
-            if (splitarray.length == 2)
-            {
-                second = splitarray[1];
-            }
         }
-
-        /*
-        while (!first.equals("bye"))
-        {
-            if (first.equals("done"))
-            {
-                int temp = Integer.parseInt(second);
-                System.out.println(temp);
-                System.out.print(line);
-                System.out.println("Nice! I've marked this task as done: ");
-                System.out.println("[✓] " + v.get(temp - 1) + "\n" + line);
-                checkbox[temp - 1] = 1;
-            }
-
-            else if (!first.equals("list"))
-            {
-                v.add(typing);
-                System.out.println(line + "added: " + typing + "\n" + line);
-            }
-
-            else
-            {
-                System.out.print(line);
-                for (int i = 0; i < v.size(); i += 1)
-                {
-                    System.out.print((i + 1) + ". ");
-                    if (checkbox[i] != 1)
-                    {
-                        System.out.print("[✗] ");
-                    }
-                    else
-                    {
-                        System.out.print("[✓] ");
-                    }
-                    System.out.println(v.get(i));
-                }
-                System.out.print(line);
-            }
-
-            typing = input.nextLine();
-            splitarray = typing.split(" ", 2);
-            first = splitarray[0];
-            if (splitarray.length == 2)
-            {
-                second = splitarray[1];
-            }
-        }
-        */
 
         System.out.println(line + "Bye. Hope to see you again soon!\n" + line);
     }
