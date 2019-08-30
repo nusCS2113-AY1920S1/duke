@@ -60,7 +60,9 @@ public class Duke {
             }
             else if (cmd.matches("(todo|event|deadline) .+")){  //use regex to make life easier
                 addTask(cmd);
-
+            }
+            else if (cmd.matches("find (.*)")){
+                findTask(cmd);
             }
             else if (cmd.matches("(todo|event|deadline)")){
                 try {
@@ -104,7 +106,7 @@ public class Duke {
         int count=1;
         System.out.println("Here are the tasks in your list:");
         for (Task t : arrlist) {
-            System.out.println(count++ + "." + "[" + t.getSymbol() + "]" + "[" + t.getStatusIcon() + "] " + t.description);
+            showTask(t);
         }
     }
 
@@ -121,7 +123,7 @@ public class Duke {
         System.out.println("Nice! I've marked this task as done:");
         Task t = arrlist.get(sc1.nextInt()-1);
         t.markAsDone();
-        System.out.println("["+t.getStatusIcon()+"] "+t.description);
+        showTask(t);
         saveDuke(arrlist);
     }
 
@@ -137,7 +139,7 @@ public class Duke {
         System.out.println("Noted. I've removed this task:");
         Task t = arrlist.remove(sc1.nextInt()-1);
         t.markAsDone();
-        System.out.println("["+t.getStatusIcon()+"] "+t.description);
+        showTask(t);
         saveDuke(arrlist);
         showSize();
     }
@@ -224,6 +226,39 @@ public class Duke {
         System.out.println("Now you have "+arrlist.size()+" tasks in the list");
     }
 
+
+    /**
+     * @Function
+     * No Params, No Return Value
+     * This function simply displays the task passed into it
+     * @UsedIn: taskDone,deleteTask
+     */
+    public void showTask(Task t){
+        System.out.println("[" + t.getSymbol() + "]" + "[" + t.getStatusIcon() + "] " + t.description);
+    }
+
+    /**
+     * @Function
+     * @param cmd, No Return Value
+     * This function handles the deletion of tasks
+     * @UsedIn: processCommands
+     */
+    public void findTask(String cmd){
+        Scanner sc1= new Scanner(cmd);
+        sc1.next(); //skip over the 'find'
+        String pattern = sc1.next();
+        System.out.println("Here are the matching tasks in your list:");
+
+        int count=1;
+
+        for(Task t:arrlist){
+            if(t.description.contains(pattern)){
+                System.out.print(count+++".");
+                showTask(t);
+            }
+        }
+
+    }
 
 
     /***
