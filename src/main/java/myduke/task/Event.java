@@ -2,18 +2,18 @@ package myduke.task;
 
 public class Event extends Task {
     protected String time;
-    public Event(String description) {
+
+    public Event(String description , String time) {
         super(description);
-        this.type = "E";
-        this.time = "";
+        this.time = time;
     }
 
-    public void setTime (String time) {
-        this.time = " (at: " + time + ")";
-    }
+//    public void setTime (String time) {
+//        this.time = " (at: " + time + ")";
+//    }
 
     public String toString() {
-        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.description + this.time;
+        return "[E][" + this.getStatusIcon() + "] " + this.description + " (by: " + time + ")";
     }
 
 
