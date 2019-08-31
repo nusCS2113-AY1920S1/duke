@@ -1,4 +1,3 @@
-import myduke.DukeException;
 import myduke.task.MyDuke;
 
 public class Duke {
