@@ -1,5 +1,6 @@
 package myduke.task;
-import myduke.Commands;
+
+import myduke.DukeException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,35 +24,52 @@ public class MyDuke {
 //            System.out.println("description = " + firstBox[1]);
 
             String firstWord = firstBox[0];
-            Commands commands = Commands.valueOf(firstWord);
+            try {
+                switch (firstWord) {
+                    case "list":
+                        showList();
+                        break;
+                    case "done":
+                        runDone(userInput);
+                        break;
+                    case "todo":
+                        try {
+                            if (firstBox[1].isBlank()){
+                                throw new DukeException("☹ OOPS!!! The description of a todo cannot be empty.");
+                            }else {
+                                description = firstBox[1];
+                                runToDo(description);
+                            }
+                        }catch(DukeException e) {
+                            e.printStackTrace();
+                        }finally{
+                            break;
+                        }
 
-            switch (commands) {
-                case list:
-                    showList();
-                    break;
-                case done:
-                    runDone(userInput);
-                    break;
-                case todo:
-                    description = firstBox[1];
-                    runToDo(description);
-                    break;
-                case deadline:
-                    newString = firstBox[1];
-                    secondBox = secondFilter(newString , commands);
-                    description = secondBox[0];
-                    time = secondBox[1];
-                    runDeadline(description , time);
-                    break;
-                case event:
-                    newString = firstBox[1];
-                    secondBox = secondFilter(newString , commands);
-                    description = secondBox[0];
-                    time = secondBox[1];
-                    runEvent(description , time);
-                    break;
+                    case "deadline":
+                        newString = firstBox[1];
+                        secondBox = secondFilter(newString , "deadline");
+                        description = secondBox[0];
+                        time = secondBox[1];
+                        runDeadline(description , time);
+                        break;
+                    case "event":
+                        newString = firstBox[1];
+                        secondBox = secondFilter(newString , "event");
+                        description = secondBox[0];
+                        time = secondBox[1];
+                        runEvent(description , time);
+                        break;
+                    default:
+                        throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                }
+
+
+            }catch(DukeException e) {
+                e.printStackTrace();
+            }finally {
+                userInput = inputs.nextLine().trim();
             }
-            userInput = inputs.nextLine().trim();
 
         }
         System.out.println("Bye. Hope to see you again soon!");
@@ -102,9 +120,9 @@ public class MyDuke {
         return result;
     }
 
-    public String[] secondFilter(String newString , Commands commands) {
+    public String[] secondFilter(String newString , String firstWord) {
         String[] filter;
-        if (commands.equals(Commands.deadline)) {
+        if (firstWord.equals("deadline")) {
             filter = newString.split(" /by ");
         }else{
             filter = newString.split(" /at ");
