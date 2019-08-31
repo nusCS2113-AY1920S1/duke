@@ -8,7 +8,6 @@ import myduke.task.ToDo;
 import java.util.ArrayList;
 
 public class DukeTools {
-
     ArrayList<Task> taskList = new ArrayList<>();
     DukeFileOperation dfo = new DukeFileOperation(taskList);
     private static final String WHITESPACE = " ";
@@ -17,7 +16,7 @@ public class DukeTools {
         int index = Integer.parseInt(userInput.split(" ")[1]);
         Task chosenTask = taskList.get(index - 1);
         chosenTask.markAsDone();
-        dfo.writeToFile();
+        dfo.writeToFile(taskList);
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(taskList.get(index - 1));
     }
@@ -26,7 +25,7 @@ public class DukeTools {
         System.out.println("Got it. I've added this task:");
         Task toDoTask = new ToDo(description);
         taskList.add(toDoTask);
-        dfo.writeToFile();
+        dfo.writeToFile(taskList);
         System.out.println(toDoTask);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
     }
@@ -35,7 +34,7 @@ public class DukeTools {
         System.out.println("Got it. I've added this task:");
         Task deadlineTask = new Deadline(description , time);
         taskList.add(deadlineTask);
-        dfo.writeToFile();
+        dfo.writeToFile(taskList);
         System.out.println(deadlineTask);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
     }
@@ -44,7 +43,7 @@ public class DukeTools {
         System.out.println("Got it. I've added this task:");
         Task eventTask = new Event(description , time);
         taskList.add(eventTask);
-        dfo.writeToFile();
+        dfo.writeToFile(taskList);
         System.out.println(eventTask);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
     }
@@ -78,18 +77,4 @@ public class DukeTools {
         }
         return filter;
     }
-
-//    public String writeFileFormatter(Task taskOutput) {
-//        String taskType = taskOutput.getType();
-//        String taskStatus = taskOutput.getStatusIcon();
-//        String taskDescription = taskOutput.getDescription();
-//        String taskTime = taskOutput.getTime();
-//        if (taskType.equals("T")) {
-//            return taskType + " | " + taskStatus + " | " + taskDescription;
-//        }else{
-//            return taskType + " | " + taskStatus + " | " + taskDescription + " | " + taskTime;
-//        }
-//    }
-
-
 }

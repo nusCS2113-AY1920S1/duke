@@ -1,20 +1,27 @@
 package myduke.task;
 
 import myduke.DukeException;
+import myduke.DukeFileOperation;
 import myduke.DukeTools;
+
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MyDuke {
     DukeTools dukeTools = new DukeTools();
     Scanner inputs = new Scanner(System.in);
+    DukeFileOperation dfo = new DukeFileOperation();
+
 
     public void runDuke() {
+        //ArrayList<Task> userInput = dfo.loadFile();
         String newString;
         String[] secondBox;
         String description;
         String time;
+        String userInput = inputs.nextLine();
 
-        String userInput = inputs.nextLine().trim();
         while(!userInput.equals("bye")) {
             String[] firstBox = dukeTools.firstFilter(userInput); // return a string array with commands and description
             String commands = firstBox[0];

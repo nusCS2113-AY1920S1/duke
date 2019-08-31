@@ -1,3 +1,3 @@
-T | ✘ | borrow book
-D | ✘ | read book | Sunday
-E | ✘ | read book | Aug 6th 2-4pm
+T | ✓ | borrow book
+D | ✓ | read book | sunday
+E | ✓ | not sure | 6pm
