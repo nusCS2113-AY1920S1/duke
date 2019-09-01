@@ -9,6 +9,7 @@ public class Duke {
 
         Scanner sc = new Scanner(System.in);
         String command = new String();
+        //I am using A collections
         ArrayList<Task> list = new ArrayList<>();
 
         URL path = Duke.class.getResource("list.txt");
