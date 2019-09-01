@@ -25,8 +25,8 @@ public class Duke {
         List<Task> l1 = new ArrayList<Task>(); 
         try{ 
             Parser analyser = new Parser(); 
+            Scanner input = new Scanner(System.in);
             while(true){
-                Scanner input = new Scanner(System.in);
                 if(input.hasNextLine()){
                     String command = input.nextLine();
     
@@ -36,6 +36,7 @@ public class Duke {
                     String deadline = "deadline";
                     String todo = "todo";
                     String events = "event";
+                    String find = "find"; 
     
                     if(end.equals(command)){
                         try {
@@ -64,11 +65,20 @@ public class Duke {
                     }
                     
                     else{
-                        String[] values = command.split(" ",2);
+                        String[] values = command.trim().split(" ",2);
                         //marking as done
                         //System.out.println(Arrays.toString(values));
-                        
-                        if(done.equals(values[0])){
+                    
+                        if(find.equals(values[0])){ 
+                            try{                            
+                                System.out.println(analyser.find(values[1]));     
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){ 
+                                System.out.println("Please enter a keyword");
+                            }
+
+                        }
+                        else if(done.equals(values[0])){
                             int index;
                             try{ 
                                 index =  Integer.parseInt(values[1]);
