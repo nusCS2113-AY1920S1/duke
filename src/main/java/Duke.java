@@ -9,18 +9,19 @@ public class Duke {
 
         Scanner sc = new Scanner(System.in);
         String command = new String();
-        ArrayList<Task> list =new ArrayList<>();
+        ArrayList<Task> list = new ArrayList<>();
+
         URL path = Duke.class.getResource("list.txt");
         File f = new File(path.getFile());
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
             String line = bufferedReader.readLine();
-            while(line != null) {
+            while (line != null){
                 String split[] = line.split("\\s*\\|\\s*");
-                if(split[0].equals("T"))
+                if (split[0].equals("T"))
                     list.add(new Todo(split[1], split[2]));
-                else if(split[0].equals("D"))
+                else if (split[0].equals("D"))
                     list.add(new Deadline(split[1], split[2], split[3]));
-                else if(split[0].equals("E"))
+                else if (split[0].equals("E"))
                     list.add(new Event(split[1], split[2], split[3]));
                 else
                     System.out.println("incorect file format parsed");
@@ -31,6 +32,10 @@ public class Duke {
             System.out.println("file not found");
         } catch (IOException e) {
             // exception handling
+            System.out.println("I/O Issues");
+        } catch (DukeException e)
+        {
+            System.out.println("Formatting issues");
         }
 
 

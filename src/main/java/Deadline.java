@@ -13,7 +13,7 @@ public class Deadline extends Task {
         }
         else {
             this.description = split[0];
-            this.dueDate = split[1];
+            this.readDate(split[1]);
             this.isDone = false;
             counter++;
             System.out.println("Got it. I've added this task:\n  " +
@@ -22,10 +22,9 @@ public class Deadline extends Task {
         }
     }
 
-    public Deadline(String bool, String description, String dueDate)
-    {
+    public Deadline(String bool, String description, String dueDate) throws DukeException {
         this.description = description;
-        this.dueDate = dueDate;
+        this.readDate(dueDate);
         this.isDone = (1 == Integer.parseInt(bool));
         counter++;
     }
