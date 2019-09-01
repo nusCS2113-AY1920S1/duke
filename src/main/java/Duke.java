@@ -9,7 +9,7 @@ public class Duke {
 
         Scanner sc = new Scanner(System.in);
         String command = new String();
-        //I am using A collections
+        /* I am using A collections */
         ArrayList<Task> list = new ArrayList<>();
 
         URL path = Duke.class.getResource("list.txt");
@@ -141,6 +141,26 @@ public class Duke {
                     }
                     catch(NumberFormatException e)
                     {
+                        System.out.println("That is NOT a valid integer");
+                    }
+                }
+                else if (command.equals("delete")) {
+                    try {
+                        int request = Integer.parseInt(input);
+                        request -= 1;
+                        if (request < 0 || request >= list.size())
+                            throw new DukeException("☹ OOPS!!! This index is not within the list");
+                        else {
+                            list.get(request).markDone();
+                            System.out.println("Noted. I've removed this task:\n" +
+                                    "  " + list.get(request).toList());
+                            list.get(request).deleteVanguard();
+                            list.remove(request);
+                            System.out.println("Now you have " + list.size() + " tasks in the list.");
+                        }
+                    } catch (DukeException e) {
+                        System.out.println(e.getLocalizedMessage());
+                    } catch (NumberFormatException e) {
                         System.out.println("That is NOT a valid integer");
                     }
                 }

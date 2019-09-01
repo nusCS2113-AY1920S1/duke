@@ -34,7 +34,9 @@ public class Task {
     public String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
     }
-
+    public void deleteVanguard(){
+        counter--;
+    }
     public void markDone(){
         this.isDone = true;
     }
