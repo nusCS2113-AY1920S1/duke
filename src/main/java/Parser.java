@@ -189,11 +189,11 @@ public class Parser  {
                 String [] timing_list= deadline_time.split("-");
 
                 if(timing_list.length >= 2 && !(timing_list[1].trim().equals(""))){
-                    System.out.println(Arrays.toString(timing_list)); 
+                    //System.out.println(Arrays.toString(timing_list)); 
                     String[] string_list = {task_to_be_done,task_to_be_done,deadline_time};
                     c1 = get_first_e(string_list, false);
                     l1.add(c1);
-                    System.out.println(c1);
+                    //System.out.println(c1);
                 }
                 else{ 
                     

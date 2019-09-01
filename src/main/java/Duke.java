@@ -25,8 +25,8 @@ public class Duke {
         List<Task> l1 = new ArrayList<Task>(); 
         try{ 
             Parser analyser = new Parser(); 
+            Scanner input = new Scanner(System.in);
             while(true){
-                Scanner input = new Scanner(System.in);
                 if(input.hasNextLine()){
                     String command = input.nextLine();
     
