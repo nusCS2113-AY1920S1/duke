@@ -1,7 +1,6 @@
 package myduke.task;
 
 public class Deadline extends Task {
-    //protected String time;
 
     public Deadline(String description , String time) {
         super(description);
@@ -9,16 +8,7 @@ public class Deadline extends Task {
         this.type = "D";
     }
 
-    public String getTime() {
-        return this.time;
-    }
-
-    //
-//    public void setTime(String time) {
-//        this.time = " (by: " + time + ")";
-//    }
-
     public String toString() {
-        return "[D][" + this.getStatusIcon() + "] " + this.description + " (by: " + time + ")";
+        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.description + " (by: " + time + ")";
     }
 }

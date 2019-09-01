@@ -1,3 +1,2 @@
 T | ✓ | borrow book
-D | ✓ | read book | sunday
-E | ✓ | not sure | 6pm
+D | ✓ | hello | Sunday

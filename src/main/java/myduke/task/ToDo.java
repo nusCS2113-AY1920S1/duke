@@ -7,6 +7,6 @@ public class ToDo extends Task {
     }
 
     public String toString() {
-        return "[T][" + this.getStatusIcon() + "] " + this.description;
+        return "[" + this.type + "][" + this.getStatusIcon() + "] " + this.description;
     }
 }

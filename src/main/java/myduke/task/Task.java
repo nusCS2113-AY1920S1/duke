@@ -1,10 +1,6 @@
 package myduke.task;
 
-import myduke.DukeTools;
-
 public class Task{
-
-    protected DukeTools dukeTools = new DukeTools();
 
     protected String description;
     protected boolean isDone;
@@ -14,8 +10,8 @@ public class Task{
     public Task(String description) {
         this.description = description;
         this.isDone = false;
-        this.type = null;
-        this.time = null;
+        this.type = "";
+        this.time = "";
     }
 
     public String getStatusIcon() {
@@ -33,6 +29,7 @@ public class Task{
     public String getTime() {
         return this.time;
     }
+
 
     public void markAsDone() {
         this.isDone = true;
