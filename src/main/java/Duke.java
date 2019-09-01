@@ -36,7 +36,7 @@ public class Duke {
                     String deadline = "deadline";
                     String todo = "todo";
                     String events = "event";
-    
+                    String remove = "delete";
                     if(end.equals(command)){
                         try {
                             analyser.serial();
@@ -58,17 +58,33 @@ public class Duke {
                         return; 
                     }
     
-                    if(show_data.equals(command)){
+                    if(show_data.equals(command.trim())){
                         analyser.print_list();
                         //System.out.println(l1);
                     }
                     
                     else{
-                        String[] values = command.split(" ",2);
+                        String[] values = command.trim().split(" ",2);
                         //marking as done
                         //System.out.println(Arrays.toString(values));
-                        
-                        if(done.equals(values[0])){
+                        if(remove.equals(values[0])){ 
+                            try{ 
+                                System.out.println(analyser.delete( Integer.parseInt(values[1].trim())));
+                            }
+                            catch (NumberFormatException e){ 
+                                System.out.println("please enter a valid number");
+                            }
+                            catch (ArrayIndexOutOfBoundsException e){ 
+                                System.out.println("please give a second value!");
+                            }
+                            catch(DukeException e){ 
+                                System.out.println(e.getMessage());
+                            }
+                            catch(Exception e){ 
+                                System.out.println(e.getMessage());
+                            }
+                        }
+                        else if(done.equals(values[0])){
                             int index;
                             try{ 
                                 index =  Integer.parseInt(values[1]);

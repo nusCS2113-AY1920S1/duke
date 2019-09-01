@@ -39,6 +39,18 @@ public class Parser  {
         }
         return c1; 
     }
+    public String delete(int index) throws DukeException, Exception{
+        if(index >= 1 && index <= l1.size()){ 
+            Task deleted = l1.get(index-1);
+            l1.remove(index-1); 
+            String message =  "Noted. I've removed this task: \n  "+ deleted +"\n"+get_end_message(l1.size());
+            serial();   
+            return message;      
+        }
+        else{ 
+            throw new DukeException("Please give a valid task index to delete!");
+        }
+    }
     public void deserial() throws  FileNotFoundException,IOException,DukeException{ 
         try{ 
             FileInputStream fstream = new FileInputStream("tasks.txt");
