@@ -1,5 +1,7 @@
 package com.nwjbrandon.duke.services.tasks;
 
+import com.nwjbrandon.duke.services.interfaces.Ui;
+
 public class Todos extends Task {
 
     public Todos(String taskName, int numberOfTasks) throws Exception {
@@ -22,25 +24,19 @@ public class Todos extends Task {
     }
 
     /**
-     * get the formatted task string to show for todos.
-     * @return formatted task string to show for todos
+     * get the formatted task string to show for deadlines.
      */
     @Override
-    public String addTaskString() {
-        return "Got it. I've added this task:\n"
-                      + "\t   " + this.getTaskName() + "\n"
-                      + "\t Now you have " + this.getNumberOfTasks() + " tasks in the list.";
+    public void addTaskString(int size) {
+        Ui.showAddTaskString("[T][" + this.getStatusIcon() + "] " + this.getTaskDescription(), size);
     }
 
     /**
      * get the formatted task string to show for deadlines.
-     * @return formatted task string to show for deadline
      */
     @Override
-    public String removeTaskString(int size) {
-        return "Noted. I've removed this task:\n"
-                + "\t   " + this.getTaskDescription() + "\n"
-                + "\t Now you have " + (size - 1) + " tasks in the list.";
+    public void removeTaskString(int size) {
+        Ui.showRemoveTaskString("[T][" + this.getStatusIcon() + "] " + this.getTaskDescription(), size);
     }
 
     /**

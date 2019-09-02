@@ -1,4 +1,8 @@
 package com.nwjbrandon.duke.services.commands;
 
-public class Command {
+public abstract class Command {
+
+    public Command() {
+    }
+
 }

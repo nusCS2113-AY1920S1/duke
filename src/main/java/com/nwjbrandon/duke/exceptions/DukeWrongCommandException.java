@@ -1,6 +1,6 @@
 package com.nwjbrandon.duke.exceptions;
 
-import com.nwjbrandon.duke.interfaces.Ui;
+import com.nwjbrandon.duke.services.interfaces.Ui;
 
 public class DukeWrongCommandException extends DukeException {
 

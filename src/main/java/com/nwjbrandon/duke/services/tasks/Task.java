@@ -1,6 +1,6 @@
 package com.nwjbrandon.duke.services.tasks;
 
-import com.nwjbrandon.duke.interfaces.Ui;
+import com.nwjbrandon.duke.services.interfaces.Ui;
 import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 
 import java.text.ParseException;
@@ -23,7 +23,7 @@ public class Task {
         this.taskDescription = this.formatTaskName(taskDescription);
         this.isDone = isDone;
         this.taskIndex =  ++numberOfTasks;
-        this.showAddString();
+        this.addTaskString(numberOfTasks);
     }
 
     /**
@@ -87,11 +87,7 @@ public class Task {
      * show the done status of the task.
      */
     private void showSetDoneStatus() {
-        String output = "\t" + Ui.divider + "\n"
-                      + "\t Nice! I've marked this task as done:\n"
-                      + "\t " + this.toTaskDescriptionString() + "\n"
-                      + "\t" + Ui.divider + "\n";
-        System.out.println(output);
+        Ui.showSetDoneStatus(this.toTaskDescriptionString());
     }
 
     /**
@@ -100,42 +96,6 @@ public class Task {
      */
     String getStatusIcon() {
         return (isDone ? "✓" : "✗");
-    }
-
-    /**
-     * get the formatted task string to show.
-     * @return formatted task string to show
-     */
-    public String addTaskString() {
-        return "added: " + this.getTaskName();
-    }
-
-    /**
-     * get the formatted task string to show.
-     * @return formatted task string to show
-     */
-    public String removeTaskString(int size) {
-        return "added: " + this.getTaskName();
-    }
-
-    /**
-     * show add string.
-     */
-    private void showAddString() {
-        String output = "\t" + Ui.divider + "\n"
-                      + "\t " + this.addTaskString() + "\n"
-                      + "\t" + Ui.divider + "\n";
-        System.out.println(output);
-    }
-
-    /**
-     * show add string.
-     */
-    public void showRemoveString(int size) {
-        String output = "\t" + Ui.divider + "\n"
-                + "\t " + this.removeTaskString(size) + "\n"
-                + "\t" + Ui.divider + "\n";
-        System.out.println(output);
     }
 
     /**
@@ -198,4 +158,17 @@ public class Task {
         return "" + a + symbol + " of " + b + c;
     }
 
+    /**
+     * Show the formatted task string to show for deadlines.
+     */
+    public void addTaskString(int size) {
+        Ui.showTaskActionString("added: ", this.getTaskDescription());
+    }
+
+    /**
+     * Show the formatted task string to show for deadlines.
+     */
+    public void removeTaskString(int size) {
+        Ui.showTaskActionString("removed: ", this.getTaskDescription());
+    }
 }
