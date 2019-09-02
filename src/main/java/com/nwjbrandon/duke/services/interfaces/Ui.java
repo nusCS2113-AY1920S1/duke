@@ -53,7 +53,6 @@ public class Ui {
                     .append(tasksList.getTask(i).toTaskDescriptionString())
                     .append("\n");
         }
-        output.append("\t").append(Ui.divider).append("\n");
         Ui.printDivider();
         System.out.print(output);
         Ui.printDivider();
@@ -89,7 +88,6 @@ public class Ui {
         Ui.printDivider();
     }
 
-
     /**
      * Show the list of tasks by keywords.
      */
@@ -115,6 +113,12 @@ public class Ui {
                 + "\t " + taskDescription + "\n";
         Ui.printDivider();
         System.out.print(output);
+        Ui.printDivider();
+    }
+
+    public static void showError(String errorMessage) {
+        Ui.printDivider();
+        System.out.print("\t " + errorMessage + "\n");
         Ui.printDivider();
     }
 

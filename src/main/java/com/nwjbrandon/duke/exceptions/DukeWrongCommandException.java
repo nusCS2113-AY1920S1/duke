@@ -13,9 +13,6 @@ public class DukeWrongCommandException extends DukeException {
     @Override
     public void showError() {
         String errorMessage = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
-        String output = "\t" + Ui.divider + "\n"
-                      + "\t " + errorMessage + "\n"
-                      + "\t" + Ui.divider + "\n";
-        System.out.println(output);
+        Ui.showError(errorMessage);
     }
 }

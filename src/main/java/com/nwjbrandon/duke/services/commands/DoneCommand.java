@@ -5,11 +5,11 @@ import com.nwjbrandon.duke.exceptions.DukeOutOfBoundException;
 import com.nwjbrandon.duke.exceptions.DukeTypeConversionException;
 import com.nwjbrandon.duke.services.validations.Parser;
 
-public class DeleteCommand extends Command {
+public class DoneCommand extends Command {
     private String taskIndexString;
     private int size;
 
-    public DeleteCommand(String userInput, String command, int size) throws DukeEmptyCommandException {
+    public DoneCommand(String userInput, String command, int size) throws DukeEmptyCommandException {
         this.size = size;
         this.taskIndexString = parseCommand(userInput, command);
     }

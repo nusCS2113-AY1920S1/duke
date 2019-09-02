@@ -11,7 +11,6 @@ public class Task {
 
     String taskName;
     private boolean isDone;
-    private int taskIndex = 0;
     String by = "";
     private String taskDescription = "";
 
@@ -22,7 +21,6 @@ public class Task {
     private Task(String taskDescription, int numberOfTasks, boolean isDone) throws Exception {
         this.taskDescription = this.formatTaskName(taskDescription);
         this.isDone = isDone;
-        this.taskIndex =  ++numberOfTasks;
         this.addTaskString(numberOfTasks);
     }
 
@@ -48,14 +46,6 @@ public class Task {
      */
     String getTaskDescription() {
         return this.taskDescription;
-    }
-
-    /**
-     * get the number of task.
-     * @return number of the task
-     */
-    int getNumberOfTasks() {
-        return taskIndex;
     }
 
     /**

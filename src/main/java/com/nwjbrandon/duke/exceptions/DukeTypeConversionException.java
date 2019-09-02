@@ -13,9 +13,6 @@ public class DukeTypeConversionException extends DukeException {
     @Override
     public void showError() {
         String errorMessage = "☹ OOPS!!! Cannot convert types.";
-        String output = "\t" + Ui.divider + "\n"
-                      + "\t " + errorMessage + "\n"
-                      + "\t" + Ui.divider + "\n";
-        System.out.println(output);
+        Ui.showError(errorMessage);
     }
 }

@@ -1,8 +1,6 @@
 package com.nwjbrandon.duke.services.tasks;
 
-import com.nwjbrandon.duke.exceptions.DukeException;
 import com.nwjbrandon.duke.services.interfaces.Ui;
-import com.nwjbrandon.duke.services.validations.Parser;
 
 import java.util.ArrayList;
 
@@ -27,8 +25,7 @@ public class TaskList {
     /**
      * Remove task
      */
-    public void removeTask(String userInput, String command) throws DukeException {
-        int taskIndex = Parser.getIndexFromCommandInput(userInput, command, numberOfTasks());
+    public void removeTask(int taskIndex) {
         tasksList.get(taskIndex).removeTaskString(this.numberOfTasks());
         tasksList.remove(taskIndex);
     }
@@ -36,8 +33,7 @@ public class TaskList {
     /**
      * Mark task as done.
      */
-    public void markDone(String userInput, String command) throws DukeException {
-        int taskIndex = Parser.getIndexFromCommandInput(userInput, command, numberOfTasks());
+    public void markDone(int taskIndex) {
         tasksList.get(taskIndex).setDoneStatus(true);
     }
 

@@ -1,5 +1,6 @@
 package com.nwjbrandon.duke.services.tasks;
 
+import com.nwjbrandon.duke.constants.TaskNames;
 import com.nwjbrandon.duke.services.interfaces.Ui;
 
 public class Todos extends Task {
@@ -18,7 +19,7 @@ public class Todos extends Task {
      */
     @Override
     public String formatTaskName(String taskName) throws Exception {
-        String formattedTaskName = checkUserInput(taskName, "todos");
+        String formattedTaskName = checkUserInput(taskName, TaskNames.TODO.toString());
         this.taskName = formattedTaskName;
         return formattedTaskName;
     }

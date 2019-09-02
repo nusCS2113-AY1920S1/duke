@@ -1,5 +1,9 @@
 package com.nwjbrandon.duke.services;
 
+import com.nwjbrandon.duke.constants.TaskNames;
+import com.nwjbrandon.duke.services.commands.AddCommand;
+import com.nwjbrandon.duke.services.commands.DeleteCommand;
+import com.nwjbrandon.duke.services.commands.SearchCommand;
 import com.nwjbrandon.duke.services.validations.Parser;
 import com.nwjbrandon.duke.services.tasks.*;
 import com.nwjbrandon.duke.services.storage.Storage;
@@ -84,7 +88,6 @@ public class TaskManager {
      * Show the list of tasks.
      */
     private void showTasksList() {
-        int size = tasksList.numberOfTasks();
         Ui.showTasksList(tasksList);
     }
 
@@ -96,24 +99,27 @@ public class TaskManager {
         try {
             String userInput = Ui.readInput();
             int size = tasksList.numberOfTasks();
-            if (userInput.equals("list")) {
+            if (userInput.equals(TaskNames.LIST.toString())) {
                 this.showTasksList();
-            } else if (userInput.startsWith("done")) {
-                tasksList.markDone(userInput, "done");
-            } else if (userInput.startsWith("todo")) {
-                Todos task = new Todos(Parser.checkCommandInput(userInput, "todo"), size);
-                tasksList.addTask(task);
-            } else if (userInput.startsWith("event")) {
-                Events task = new Events(Parser.checkCommandInput(userInput, "event"), size);
-                tasksList.addTask(task);
-            } else if (userInput.startsWith("deadline")) {
-                Deadlines task = new Deadlines(Parser.checkCommandInput(userInput, "deadline"), size);
-                tasksList.addTask(task);
-            } else if (userInput.startsWith("delete")) {
-                tasksList.removeTask(userInput, "delete");
-            } else if (userInput.startsWith("find")) {
-                tasksList.searchTask(Parser.checkCommandInput(userInput, "find"));
-            } else if (userInput.equals("bye")) {
+            } else if (userInput.startsWith(TaskNames.DONE.toString())) {
+                DeleteCommand c = new DeleteCommand(userInput, TaskNames.DONE.toString(), size);
+                tasksList.markDone(c.getTaskIndex());
+            } else if (userInput.startsWith(TaskNames.TODO.toString())) {
+                AddCommand c = new AddCommand(userInput, TaskNames.TODO.toString(), size);
+                tasksList.addTask(c.setTask());
+            } else if (userInput.startsWith(TaskNames.EVENT.toString())) {
+                AddCommand c = new AddCommand(userInput, TaskNames.EVENT.toString(), size);
+                tasksList.addTask(c.setTask());
+            } else if (userInput.startsWith(TaskNames.DEADLINE.toString())) {
+                AddCommand c = new AddCommand(userInput, TaskNames.DEADLINE.toString(), size);
+                tasksList.addTask(c.setTask());
+            } else if (userInput.startsWith(TaskNames.DELETE.toString())) {
+                DeleteCommand c = new DeleteCommand(userInput, TaskNames.DELETE.toString(), size);
+                tasksList.removeTask(c.getTaskIndex());
+            } else if (userInput.startsWith(TaskNames.FIND.toString())) {
+                SearchCommand c = new SearchCommand(userInput, TaskNames.FIND.toString());
+                tasksList.searchTask(c.getTaskDescription());
+            } else if (userInput.equals(TaskNames.BYE.toString())) {
                 return false;
             } else {
                 throw new DukeWrongCommandException();

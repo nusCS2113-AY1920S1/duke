@@ -1,5 +1,6 @@
 package com.nwjbrandon.duke.services.tasks;
 
+import com.nwjbrandon.duke.constants.TaskNames;
 import com.nwjbrandon.duke.services.interfaces.Ui;
 
 import java.text.ParseException;
@@ -20,7 +21,7 @@ public class Deadlines extends Task {
      */
     @Override
     public String formatTaskName(String taskName) throws Exception {
-        String task = checkUserInput(taskName, "deadlines");
+        String task = checkUserInput(taskName, TaskNames.DEADLINE.toString());
         String[] parts = task.split(" /by ");
         try {
             this.taskName = parts[0];
