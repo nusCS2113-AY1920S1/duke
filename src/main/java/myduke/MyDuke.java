@@ -139,6 +139,7 @@ public class MyDuke {
         String description;
         String time;
         String day;
+
         String userInput = inputs.nextLine();
 
         while(!userInput.equals("bye")) {
@@ -151,6 +152,9 @@ public class MyDuke {
                         break;
                     case "done":
                         runDone(userInput);
+                        break;
+                    case "find":
+                        runFind(userInput);
                         break;
                     case "todo":
                         try {
@@ -172,7 +176,6 @@ public class MyDuke {
                         description = secondBox[0];
                         time = secondBox[1].trim();
                         day = time.split("/")[0];
-                        System.out.println(day);
                         String timeInString = timeFormatter(time , day);
                         runDeadline(description , timeInString);
                         break;
@@ -182,7 +185,6 @@ public class MyDuke {
                         description = secondBox[0];
                         time = secondBox[1];
                         day = time.split("/")[0];
-                        System.out.println(day);
                         timeInString = timeFormatter(time , day);
                         runEvent(description , timeInString);
                         break;
@@ -208,6 +210,23 @@ public class MyDuke {
         writeToFile();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(taskList.get(index - 1));
+    }
+
+    public void runFind(String userInput) {
+        int index = 0 ;
+        ArrayList<Task> searchResults = new ArrayList<>();
+        System.out.println("Here are the matching tasks in your list:");
+        String keyword = userInput.split(" ")[1];
+        for (Task task : taskList) {
+            String description = task.getDescription();
+            if (description.contains(keyword)) {
+                searchResults.add(task);
+            }
+        }
+        for (Task results : searchResults) {
+            index++;
+            System.out.println(index + "." + results);
+        }
     }
 
     public void runToDo(String description) {
