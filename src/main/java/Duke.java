@@ -1,6 +1,4 @@
-
-import myduke.task.MyDuke;
-
+import myduke.MyDuke;
 public class Duke {
 
     public static void main(String[] args) {

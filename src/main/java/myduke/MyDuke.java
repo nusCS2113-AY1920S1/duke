@@ -1,6 +1,9 @@
-package myduke.task;
+package myduke;
 
-import myduke.DukeException;
+import myduke.task.Deadline;
+import myduke.task.Event;
+import myduke.task.Task;
+import myduke.task.ToDo;
 
 import java.io.*;
 import java.text.DateFormat;
