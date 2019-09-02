@@ -152,6 +152,9 @@ public class MyDuke {
                     case "done":
                         runDone(userInput);
                         break;
+                    case "delete":
+                        runDelete(userInput);
+                        break;
                     case "todo":
                         try {
                             if (firstBox[1].isBlank()){
@@ -205,36 +208,48 @@ public class MyDuke {
         int index = Integer.parseInt(userInput.split(" ")[1]);
         Task chosenTask = taskList.get(index - 1);
         chosenTask.markAsDone();
-        writeToFile();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(taskList.get(index - 1));
+        writeToFile();
     }
+
+    public void runDelete(String userInput) {
+        int index = Integer.parseInt(userInput.split(" ")[1]);
+        System.out.println(index - 1);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println(taskList.get(index - 1));
+        taskList.remove(index - 1);
+        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+        writeToFile();
+    }
+
+
 
     public void runToDo(String description) {
         System.out.println("Got it. I've added this task:");
         Task toDoTask = new ToDo(description);
         taskList.add(toDoTask);
-        writeToFile();
         System.out.println(toDoTask);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+        writeToFile();
     }
 
     public void runDeadline(String description , String time) {
         System.out.println("Got it. I've added this task:");
         Task deadlineTask = new Deadline(description , time);
         taskList.add(deadlineTask);
-        writeToFile();
         System.out.println(deadlineTask);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+        writeToFile();
     }
 
     public void runEvent(String description , String time) {
         System.out.println("Got it. I've added this task:");
         Task eventTask = new Event(description , time);
         taskList.add(eventTask);
-        writeToFile();
         System.out.println(eventTask);
         System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+        writeToFile();
     }
 
     public void showList() {

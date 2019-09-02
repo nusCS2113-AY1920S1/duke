@@ -1,10 +1,4 @@
 package myduke.task;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Task{
 
     protected String description;
@@ -34,15 +28,6 @@ public class Task{
     public String getTime() {
         return this.time;
     }
-
-//    public void setTime(String dateInString) throws ParseException {
-//        DateFormat parser = new SimpleDateFormat("dd/M/yyyy HHmm");
-//        DateFormat formatter = new SimpleDateFormat("d'th of' MMM yyyy , hh a ");
-//        Date convertedDate = parser.parse(dateInString);
-//        String output = formatter.format(convertedDate);
-//        this.time = output;
-//    }
-
 
     public void markAsDone() {
         this.isDone = true;
