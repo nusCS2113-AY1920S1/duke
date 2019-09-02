@@ -13,14 +13,14 @@ then
 fi
 
 # compile the code into the bin folder, terminates if error occurred
-if ! javac -cp ../src -Xlint:none -d ../bin ../src/main/java/com/nwjbrandon/duke/Duke.java
+if ! javac -cp ../src -Xlint:none -d ../bin ../src/main/java/com/nwjbrandon/duke/constants/*.java ../src/main/java/com/nwjbrandon/duke/exceptions/*.java ../src/main/java/com/nwjbrandon/duke/services/commands/*.java ../src/main/java/com/nwjbrandon/duke/services/interfaces/*.java ../src/main/java/com/nwjbrandon/duke/services/storage/*.java ../src/main/java/com/nwjbrandon/duke/services/tasks/*.java ../src/main/java/com/nwjbrandon/duke/services/validations/*.java ../src/main/java/com/nwjbrandon/duke/services/*.java ../src/main/java/com/nwjbrandon/duke/*.java
 then
     echo "********** BUILD FAILURE **********"
     exit 1
 fi
 
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ../bin Duke < input.txt > ACTUAL.TXT
+java -classpath ../bin com/nwjbrandon/duke/Duke < input.txt > ACTUAL.TXT
 
 # compare the output to the expected output
 diff ACTUAL.TXT EXPECTED.TXT

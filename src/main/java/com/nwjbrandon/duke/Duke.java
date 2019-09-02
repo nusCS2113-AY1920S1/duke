@@ -14,8 +14,9 @@ public class Duke {
      */
     public static void main(String[] args) throws Exception {
         Ui.greetingMessage();
+        String pwd = System.getProperty("user.dir");
         TaskManager taskManager = new TaskManager();
-        String filePath = "./data/duke.txt";
+        String filePath = pwd + "/data/duke.txt";
         taskManager.loadData(filePath);
         while (taskManager.run()) {
             System.out.println();
