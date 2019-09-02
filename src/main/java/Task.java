@@ -1,4 +1,3 @@
-package myduke.task;
 public class Task{
 
     protected String description;
