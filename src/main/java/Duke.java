@@ -185,8 +185,7 @@ public class Duke {
                 } else {
                     num = Integer.parseInt(inputArr[1]) - 1;
                     arr.get(num).isDone = true;
-                    System.out.println("Nice! I've marked this task as done: \n" + arr.get(num).getStatusIcon()
-                            + arr.get(num).description);
+                    System.out.println("Nice! I've marked this task as done: \n" + arr.get(num).toString());
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
                 }
@@ -195,10 +194,24 @@ public class Duke {
                 System.out.println("Here are the tasks in your list:\n");
                 int i=0;
                 for (Task t : arr) {
-                    System.out.println(++i + " " + t.toString());
+                    System.out.println(++i + ". " + t.toString());
                 }
                 input = scanner.nextLine();
                 inputArr = input.split(" ", 2);
+            }
+            if (inputArr[0].equals("delete")) {
+                if (inputArr.length == 1) {
+                    System.out.println("☹ OOPS!!! The description of a delete task cannot be empty.");
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                } else {
+                    num = Integer.parseInt(inputArr[1]) - 1;
+                    System.out.println("Noted! I've marked removed this task: \n" + arr.get(num).toString());
+                    System.out.println("You now have " + (arr.size() - 1) + " tasks in the list.");
+                    arr.remove(num);
+                    input = scanner.nextLine();
+                    inputArr = input.split(" ", 2);
+                }
             }
         }
 
