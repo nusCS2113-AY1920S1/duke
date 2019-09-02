@@ -139,6 +139,7 @@ public class MyDuke {
         String description;
         String time;
         String day;
+
         String userInput = inputs.nextLine();
 
         while(!userInput.equals("bye")) {
@@ -149,12 +150,19 @@ public class MyDuke {
                     case "list":
                         showList();
                         break;
+
                     case "done":
                         runDone(userInput);
                         break;
+
                     case "delete":
                         runDelete(userInput);
                         break;
+
+                    case "find":
+                        runFind(userInput);
+                        break;
+
                     case "todo":
                         try {
                             if (firstBox[1].isBlank()){
@@ -175,20 +183,20 @@ public class MyDuke {
                         description = secondBox[0];
                         time = secondBox[1].trim();
                         day = time.split("/")[0];
-                        System.out.println(day);
                         String timeInString = timeFormatter(time , day);
                         runDeadline(description , timeInString);
                         break;
+
                     case "event":
                         newString = firstBox[1];
                         secondBox = secondFilter(newString , "event");
                         description = secondBox[0];
                         time = secondBox[1];
                         day = time.split("/")[0];
-                        System.out.println(day);
                         timeInString = timeFormatter(time , day);
                         runEvent(description , timeInString);
                         break;
+
                     default:
                         throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
@@ -223,7 +231,22 @@ public class MyDuke {
         writeToFile();
     }
 
-
+    public void runFind(String userInput) {
+        int index = 0 ;
+        ArrayList<Task> searchResults = new ArrayList<>();
+        System.out.println("Here are the matching tasks in your list:");
+        String keyword = userInput.split(" ")[1];
+        for (Task task : taskList) {
+            String description = task.getDescription();
+            if (description.contains(keyword)) {
+                searchResults.add(task);
+            }
+        }
+        for (Task results : searchResults) {
+            index++;
+            System.out.println(index + "." + results);
+        }
+    }
 
     public void runToDo(String description) {
         System.out.println("Got it. I've added this task:");
