@@ -172,7 +172,8 @@ public class TaskManager {
         return true;
     }
 
-    /*
+    /**
+     * Show the list of tasks by keywords.
      */
     private void searchTask(String keyword) {
         StringBuilder output = new StringBuilder("\t" + Messages.divider + "\n"
