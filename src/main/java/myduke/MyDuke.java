@@ -1,206 +1,292 @@
-package myduke;
+package myduke.task;
 
-import myduke.task.Deadline;
-import myduke.task.Event;
-import myduke.task.Task;
-import myduke.task.ToDo;
+import myduke.DukeException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MyDuke {
-    Scanner scan = new Scanner(System.in);
-    ArrayList<Task> taskBox = new ArrayList<Task>();
+    private static final String WHITESPACE = " ";
+    Scanner inputs = new Scanner(System.in);
+    ArrayList<Task> taskList = new ArrayList<>(100);
 
-    public void loadFile () {
+    public void loadFile() {
+        File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
         try {
-            File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
-            String value = bufferedReader.readLine();
 
-            while (value != null) {
-                String description = value.substring(7);
-                if (value.charAt(1) == 'T') {
-                    ToDo todo = new ToDo(description);
-                    if (value.charAt(4) == '\u2713') { // if it is a tick
+            String input = bufferedReader.readLine();
+
+            while (input != null) {
+                String[] arr =  input.split(" \\| ");
+                String taskType = arr[0].trim();
+                String taskStatus = arr[1].trim();
+                String taskDescription = arr[2].trim();
+                String taskTime = "";
+
+                if (taskType.equals("T")) {
+                    Task todo = new ToDo(taskDescription);
+                    if (taskStatus.equals("\u2713")) {
                         todo.markAsDone();
                     }
-                    taskBox.add(todo);
-                }else if (value.charAt(1) == 'D') {
-                    Deadline deadline = new Deadline(description);
-                    if (value.charAt(4) == '\u2713') {
+                    taskList.add(todo);
+                }else if (taskType.equals("D")) {
+                    taskTime = arr[3].trim();
+                    Task deadline = new Deadline(taskDescription , taskTime);
+                    if (taskStatus.equals("\u2713")) {
                         deadline.markAsDone();
                     }
-                    taskBox.add(deadline);
+                    taskList.add(deadline);
                 }else {
-                    Event event = new Event(description);
-                    if (value.charAt(4) == '\u2713') {
+                    taskTime = arr[3].trim();
+                    Task event = new Event(taskDescription , taskTime);
+                    if (taskStatus.equals("\u2713")) {
                         event.markAsDone();
                     }
-                    taskBox.add(event);
+                    taskList.add(event);
                 }
-                value = bufferedReader.readLine();
+                input = bufferedReader.readLine();
             }
 
-
-
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }finally{
-            try {
-                if (fileReader != null){
-                    fileReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (bufferedReader != null){
-                    bufferedReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    public void writeToFile () {
-        File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(file);
-            for (Task task : taskBox) {
-                fileWriter.write(task.toString() + "\n");
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                if (fileReader != null) {
+                    fileReader.close();
                 }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public void writeToFile () {
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        try{
+            File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
+            fileWriter = new FileWriter(file , false);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            for (Task t : taskList) {
+                String taskType = t.getType();
+                String taskStatus = t.getStatusIcon();
+                String taskDescription = t.getDescription();
+                String taskTime = t.getTime();
+
+                if (taskType.equals("T")) {
+                    bufferedWriter.write(taskType + " | " + taskStatus + " | " + taskDescription);
+                    bufferedWriter.newLine();
+
+                }else{
+                    bufferedWriter.write(taskType + " | " + taskStatus + " | " + taskDescription + " | " + taskTime);
+                    bufferedWriter.newLine();
+                }
+
+
+                bufferedWriter.flush();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fileWriter != null) {
+                    fileWriter.close();
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (bufferedWriter != null) {
+                    bufferedWriter.close();
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
-
     }
 
-    public void greet(){
-        System.out.println("Hello! I'm Duke\nWhat can I do for you?");
-    }
 
-    public void echo(String description){
-        System.out.println("added: " + description);
-        taskBox.add(new Task(description));
-    }
 
-    public void exit(){
+
+    public void runDuke() {
+        loadFile();
+        String newString;
+        String[] secondBox;
+        String description;
+        String time;
+        String day;
+        String userInput = inputs.nextLine();
+
+        while(!userInput.equals("bye")) {
+            String[] firstBox = firstFilter(userInput); // return a string array with commands and description
+            String commands = firstBox[0];
+            try {
+                switch (commands) {
+                    case "list":
+                        showList();
+                        break;
+                    case "done":
+                        runDone(userInput);
+                        break;
+                    case "todo":
+                        try {
+                            if (firstBox[1].isBlank()){
+                                throw new DukeException("☹ OOPS!!! The description of a todo cannot be empty.");
+                            }else {
+                                description = firstBox[1];
+                                runToDo(description);
+                            }
+                        }catch(DukeException e) {
+                            e.printStackTrace();
+                        }finally{
+                            break;
+                        }
+
+                    case "deadline":
+                        newString = firstBox[1];
+                        secondBox = secondFilter(newString , "deadline");
+                        description = secondBox[0];
+                        time = secondBox[1].trim();
+                        day = time.split("/")[0];
+                        System.out.println(day);
+                        String timeInString = timeFormatter(time , day);
+                        runDeadline(description , timeInString);
+                        break;
+                    case "event":
+                        newString = firstBox[1];
+                        secondBox = secondFilter(newString , "event");
+                        description = secondBox[0];
+                        time = secondBox[1];
+                        day = time.split("/")[0];
+                        System.out.println(day);
+                        timeInString = timeFormatter(time , day);
+                        runEvent(description , timeInString);
+                        break;
+                    default:
+                        throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                }
+
+
+            }catch(DukeException | ParseException e) {
+                e.printStackTrace();
+            }finally {
+                userInput = inputs.nextLine().trim();
+            }
+
+        }
         System.out.println("Bye. Hope to see you again soon!");
     }
 
-    public void run() throws ParseException {
-        loadFile();
+    public void runDone(String userInput) {
+        int index = Integer.parseInt(userInput.split(" ")[1]);
+        Task chosenTask = taskList.get(index - 1);
+        chosenTask.markAsDone();
+        writeToFile();
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println(taskList.get(index - 1));
+    }
 
-        while(true){
-            String inputs = scan.nextLine();
-            if (inputs.equals("bye")){
-                this.exit();
-                break;
-            }else if(inputs.equals("list")){
-                System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < taskBox.size(); i++) {
-                    System.out.println((i + 1) + ". " + taskBox.get(i));
-                }
+    public void runToDo(String description) {
+        System.out.println("Got it. I've added this task:");
+        Task toDoTask = new ToDo(description);
+        taskList.add(toDoTask);
+        writeToFile();
+        System.out.println(toDoTask);
+        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+    }
 
-            }else if(inputs.startsWith("done")){
-                int index = Integer.parseInt(inputs.split(" ")[1]);
-                Task target = taskBox.get(index - 1);
-                target.markAsDone();
-                writeToFile();
-                System.out.println("Nice! I've marked this task as done:");
-                System.out.println(taskBox.get(index - 1));
+    public void runDeadline(String description , String time) {
+        System.out.println("Got it. I've added this task:");
+        Task deadlineTask = new Deadline(description , time);
+        taskList.add(deadlineTask);
+        writeToFile();
+        System.out.println(deadlineTask);
+        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+    }
 
-            }else if(inputs.startsWith("todo")){
-                try {
-                    String description = inputs;
-                    if(inputs.length() < 5){
-                        throw new DukeException("☹ OOPS!!! The description of a todo cannot be empty.");
-                    }else{
-                        description = inputs.substring(5);
-                        runToDo(description);
-                    }
-                } catch (DukeException e) {
-                    e.printStackTrace();
-                }
+    public void runEvent(String description , String time) {
+        System.out.println("Got it. I've added this task:");
+        Task eventTask = new Event(description , time);
+        taskList.add(eventTask);
+        writeToFile();
+        System.out.println(eventTask);
+        System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+    }
 
-            }else if(inputs.startsWith("deadline")){
-                String newInput = inputs.substring(9);
-                //System.out.println(newInput);
-                String[] temp = newInput.split("/by ");
-                String description = temp[0].trim();
-                String time = temp[1].trim();
-                runDeadline(description , time);
-
-            }else if(inputs.startsWith("event")){
-                String newInput = inputs.substring(6);
-                String [] temp = newInput.split("/at");
-                String description = temp[0].trim();
-                String time = temp[1].trim();
-                System.out.println(description);
-                System.out.println(time);
-                runEvent(description , time);
-
-            }else{
-                try{
-                    throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n");
-                }catch(DukeException e){
-                    e.printStackTrace();
-                }
-            }
+    public void showList() {
+        System.out.println("Here are the tasks in your list:");
+        for (int i = 0; i < taskList.size(); i++) {
+            System.out.println((i + 1) + ". " + taskList.get(i));
         }
     }
 
-    public void runToDo(String description){
-        System.out.println("Got it. I've added this task:");
-        Task toDoTask = new ToDo(description);
-        taskBox.add(toDoTask);
-        writeToFile();
-        System.out.println(toDoTask);
-        System.out.println("Now you have " + taskBox.size() + " tasks in the list.");
+    public String[] firstFilter(String userInput) {
+        String[] filter = userInput.split(" ");
+        String firstWord = filter[0];
+        StringBuilder str = new StringBuilder();
+        for (int i = 1 ; i < filter.length ; i++) {
+            str.append(filter[i]);
+            str.append(WHITESPACE);
+        }
+        String[] result = {firstWord , str.toString().trim()};
 
+        return result;
     }
 
-    public void runDeadline(String description , String time) throws ParseException {
-        System.out.println("Got it. I've added this task:");
-        Deadline deadlineTask = new Deadline(description);
-        deadlineTask.parseTime(time);
-        taskBox.add(deadlineTask);
-        writeToFile();
-        System.out.println(deadlineTask);
-        System.out.println("Now you have " + taskBox.size() + " tasks in the list.");
-
+    public String[] secondFilter(String newString , String firstWord) {
+        String[] filter;
+        if (firstWord.equals("deadline")) {
+            filter = newString.split(" /by ");
+        }else{
+            filter = newString.split(" /at ");
+        }
+        return filter;
     }
 
-    public void runEvent(String description , String time) throws ParseException {
-        System.out.println("Got it. I've added this task:");
-        Event eventTask = new Event(description);
-        taskBox.add(eventTask);
-        eventTask.parseTime(time);
-        writeToFile();
-        System.out.println(eventTask);
-        System.out.println("Now you have " + taskBox.size() + " tasks in the list.");
+    public String timeFormatter(String dateInString , String day) throws ParseException {
+        DateFormat parser = new SimpleDateFormat("dd/M/yyyy HHmm");
+        DateFormat stFormatter = new SimpleDateFormat("d'st of' MMMM yyyy , ha");
+        DateFormat ndFormatter = new SimpleDateFormat("d'nd of' MMMM yyyy , ha");
+        DateFormat rdFormatter = new SimpleDateFormat("d'rd of' MMMM yyyy , ha");
+        DateFormat thFormatter = new SimpleDateFormat("d'th of' MMMM yyyy , ha");
+
+        String output;
+
+        Date convertedDate = parser.parse(dateInString);
+        if (day.equals("1") || day.equals("11") || day.equals("21") || day.equals("31") ){
+            output = stFormatter.format(convertedDate);
+        }else if (day.equals("2") || day.equals("12") || day.equals("22")) {
+            output = ndFormatter.format(convertedDate);
+        }else if (day.equals("3") || day.equals("13") || day.equals("23")) {
+            output = rdFormatter.format(convertedDate);
+        }else{
+            output = thFormatter.format(convertedDate);
+        }
+
+        return output;
     }
+
+
 
 }

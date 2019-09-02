@@ -1,23 +1,12 @@
-[T][✓] read book
-[D][✓] deadline story book  (by: June 6th)null null null null null
-[E][✓] event project meeting  (at: Aug 6th 2-4pm)null null null null null
-[D][✘] deadline read book  (by: Sunday)null null null null null
-[D][✘] deadline read book  (by: nday)null null null null null
-[D][✘] deadline read book  (by: nday)null null null null null
-[D][✘] deadline read book  (by: nday)null null null null null
-[D][✘] deadline read book  (by: nday)null null null null null
-[D][✘] read book  (by: nday)null null null null null
-[D][✘] read book  (by: nday)null null null null null
-[D][✘] read book  (by: day)null null null null null
-[D][✘] read book (by: day)null null null null null
-[D][✘] read book (by: Sunday)null null null null null
-[E][✓] event project meeting (at: Mon 2-4pm)null null null null null
-[E][✘] project meeting (at: Mon 2-4pm)null null null null null
-[E][✘] hello (at: Mon 2-4pm)null null null null null
-[D][✘] return bookMon Dec 02 18:00:00 SGT 2019 null null null null
-[D][✘] return bookMon Dec 02 18:00:00 SGT 2019 null null null null
-[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null null null
-[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null null
-[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null
-[D][✘] return book Mon Dec 02 18:00:00 SGT 2019 null
-[D][✘] return book Mon Dec 02 18:00:00 SGT 2019
+T | ✓ | borrow book
+D | ✓ | hello | Sunday
+T | ✘ | borrow book
+D | ✘ | return book | 2th of Dec 2019 , 06 PM
+D | ✘ | return book | 2th of December 2019 , 6PM
+D | ✘ | return book | 2nd of December 2019 , 6PM
+D | ✓ | return book | 21st of December 2019 , 6PM
+D | ✘ | return book | 31st of December 2019 , 6PM
+D | ✘ | return book | 13nd of October 2019 , 9PM
+D | ✘ | return book | 3nd of December 2019 , 6PM
+D | ✘ | return book | 13nd of October 2019 , 9PM
+D | ✘ | return book | 13rd of October 2019 , 9PM
