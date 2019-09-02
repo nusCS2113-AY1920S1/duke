@@ -150,6 +150,8 @@ public class TaskManager {
                 addTask(task);
             } else if (userInput.startsWith("delete")) {
                 removeTask(checkCommandInput(userInput, "delete"));
+            } else if (userInput.startsWith("find")) {
+                searchTask(checkCommandInput(userInput, "find"));
             } else if (userInput.equals("bye")) {
                 return false;
             } else {
@@ -168,6 +170,21 @@ public class TaskManager {
             err.showError();
         }
         return true;
+    }
+
+    /*
+     */
+    private void searchTask(String keyword) {
+        StringBuilder output = new StringBuilder("\t" + Messages.divider + "\n"
+                + "\t Here are the matching tasks in your list:\n");
+        for (int i = 0; i < tasksList.size(); i++) {
+            if (tasksList.get(i).getTaskName().contains(keyword)) {
+                output.append("\t ").append(i + 1).append(".").append(tasksList.get(i)
+                        .toTaskDescriptionString()).append("\n");
+            }
+        }
+        output.append("\t").append(Messages.divider).append("\n");
+        System.out.println(output);
     }
 
     /**
