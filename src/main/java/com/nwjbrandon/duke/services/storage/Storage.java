@@ -1,13 +1,13 @@
-package com.nwjbrandon.duke.services.reader;
+package com.nwjbrandon.duke.services.storage;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class FileReader {
+public class Storage {
 
-    public FileReader() {
+    public Storage() {
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.nwjbrandon.duke.exceptions;
 
-import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.interfaces.Ui;
 
 public class DukeException extends Exception {
 
@@ -17,9 +17,9 @@ public class DukeException extends Exception {
      * show the error message.
      */
     public void showError() {
-        String output = "\t" + Messages.divider + "\n"
+        String output = "\t" + Ui.divider + "\n"
                       + "\t " + errorMessage + "\n"
-                      + "\t" + Messages.divider + "\n";
+                      + "\t" + Ui.divider + "\n";
         System.out.println(output);
     }
 

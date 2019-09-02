@@ -4,8 +4,8 @@ import com.nwjbrandon.duke.services.tasks.Task;
 import com.nwjbrandon.duke.services.tasks.Todos;
 import com.nwjbrandon.duke.services.tasks.Deadlines;
 import com.nwjbrandon.duke.services.tasks.Events;
-import com.nwjbrandon.duke.services.reader.FileReader;
-import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.services.storage.Storage;
+import com.nwjbrandon.duke.interfaces.Ui;
 import com.nwjbrandon.duke.exceptions.DukeException;
 import com.nwjbrandon.duke.exceptions.DukeWrongCommandException;
 import com.nwjbrandon.duke.exceptions.DukeTypeConversionException;
@@ -64,7 +64,7 @@ public class TaskManager {
      * Load data from file.
      */
     public void loadData(String filePath) throws Exception {
-        ArrayList<String> inputList = FileReader.loadData(filePath);
+        ArrayList<String> inputList = Storage.loadData(filePath);
         for (String taskDetails: inputList) {
             loadTasksList(taskDetails);
         }
@@ -102,7 +102,7 @@ public class TaskManager {
      * Save data to file.
      */
     public void saveData(String filePath) throws Exception {
-        FileReader.saveData(filePath, this.saveTaskList());
+        Storage.saveData(filePath, this.saveTaskList());
     }
 
     /**
@@ -118,13 +118,13 @@ public class TaskManager {
      * Show the list of tasks.
      */
     private void showTasksList() {
-        StringBuilder output = new StringBuilder("\t" + Messages.divider + "\n"
+        StringBuilder output = new StringBuilder("\t" + Ui.divider + "\n"
                 + "\t Here are the tasks in your lists:\n");
         for (int i = 0; i < tasksList.size(); i++) {
             output.append("\t ").append(i + 1).append(".").append(tasksList.get(i)
                     .toTaskDescriptionString()).append("\n");
         }
-        output.append("\t").append(Messages.divider).append("\n");
+        output.append("\t").append(Ui.divider).append("\n");
         System.out.println(output);
     }
 
@@ -176,7 +176,7 @@ public class TaskManager {
      * Show the list of tasks by keywords.
      */
     private void searchTask(String keyword) {
-        StringBuilder output = new StringBuilder("\t" + Messages.divider + "\n"
+        StringBuilder output = new StringBuilder("\t" + Ui.divider + "\n"
                 + "\t Here are the matching tasks in your list:\n");
         for (int i = 0; i < tasksList.size(); i++) {
             if (tasksList.get(i).getTaskName().contains(keyword)) {
@@ -184,7 +184,7 @@ public class TaskManager {
                         .toTaskDescriptionString()).append("\n");
             }
         }
-        output.append("\t").append(Messages.divider).append("\n");
+        output.append("\t").append(Ui.divider).append("\n");
         System.out.println(output);
     }
 

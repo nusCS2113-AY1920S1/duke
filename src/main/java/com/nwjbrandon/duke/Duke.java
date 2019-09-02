@@ -1,7 +1,7 @@
 package com.nwjbrandon.duke;
 
 import com.nwjbrandon.duke.services.TaskManager;
-import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.interfaces.Ui;
 
 public class Duke {
 
@@ -28,10 +28,10 @@ public class Duke {
      * Show greeting message.
      */
     private static void greetingMessage() {
-        String output = "\t" + Messages.divider + "\n"
+        String output = "\t" + Ui.divider + "\n"
                       + "\t Hello! I'm Duke\n"
                       + "\t What can I do for you?\n"
-                      + "\t" + Messages.divider + "\n";
+                      + "\t" + Ui.divider + "\n";
         System.out.println(output);
     }
 
@@ -39,9 +39,9 @@ public class Duke {
      * Show farewell message.
      */
     private static void farewellMessage() {
-        String output = "\t" + Messages.divider + "\n"
+        String output = "\t" + Ui.divider + "\n"
                       + "\t Bye. Hope to see you again soon!\n"
-                      + "\t" + Messages.divider + "\n";
+                      + "\t" + Ui.divider + "\n";
         System.out.println(output);
     }
 

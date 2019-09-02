@@ -1,6 +1,6 @@
 package com.nwjbrandon.duke.services.tasks;
 
-import com.nwjbrandon.duke.constants.Messages;
+import com.nwjbrandon.duke.interfaces.Ui;
 import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 
 import java.text.ParseException;
@@ -87,10 +87,10 @@ public class Task {
      * show the done status of the task.
      */
     private void showSetDoneStatus() {
-        String output = "\t" + Messages.divider + "\n"
+        String output = "\t" + Ui.divider + "\n"
                       + "\t Nice! I've marked this task as done:\n"
                       + "\t " + this.toTaskDescriptionString() + "\n"
-                      + "\t" + Messages.divider + "\n";
+                      + "\t" + Ui.divider + "\n";
         System.out.println(output);
     }
 
@@ -122,9 +122,9 @@ public class Task {
      * show add string.
      */
     private void showAddString() {
-        String output = "\t" + Messages.divider + "\n"
+        String output = "\t" + Ui.divider + "\n"
                       + "\t " + this.addTaskString() + "\n"
-                      + "\t" + Messages.divider + "\n";
+                      + "\t" + Ui.divider + "\n";
         System.out.println(output);
     }
 
@@ -132,9 +132,9 @@ public class Task {
      * show add string.
      */
     public void showRemoveString(int size) {
-        String output = "\t" + Messages.divider + "\n"
+        String output = "\t" + Ui.divider + "\n"
                 + "\t " + this.removeTaskString(size) + "\n"
-                + "\t" + Messages.divider + "\n";
+                + "\t" + Ui.divider + "\n";
         System.out.println(output);
     }
 

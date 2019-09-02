@@ -1,10 +1,10 @@
-package com.nwjbrandon.duke.constants;
+package com.nwjbrandon.duke.interfaces;
 
-public class Messages {
+public class Ui {
 
     public static String divider = "____________________________________________________________";
 
-    public Messages() {
+    public Ui() {
     }
 
 }
