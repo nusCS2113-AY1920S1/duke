@@ -1,17 +1,63 @@
-import java.io.*;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.control.Label;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
+import java.util.List;
 
 import static java.lang.System.exit;
 
-public class Duke {
-
-    //set up scanner and datastructures
+public class Duke extends Application {
 
     private static final String saveFilePath="./duke.txt";
+
+    //JavaFX testing
+    private ScrollPane scrollPane;
+    private VBox dialogContainer;
+    private TextField userInput;
+    private Button sendButton;
+    private Scene scene;
+
+    private Image trump;
+
+    {
+        try {
+            trump = new Image(new FileInputStream("/root/IdeaProjects/duke/src/main/trump.jpeg"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Image kim;
+
+    {
+        try {
+            kim = new Image(new FileInputStream("/root/IdeaProjects/duke/src/main/Kim_Jong-un_IKS_2018.jpg"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //objects supporting Duke
     Ui ui;
@@ -36,8 +82,123 @@ public class Duke {
         storage = new Storage(saveFilePath);
         storage.loadDuke(tasklist.arrlist); //load from the file into the arraylist, if any thing to load at all
 
-        //start parsing commands
-        new Parser(this);
+        //start parsing commands (comment out when testing UI or execute loop on separate thread)
+        //new Parser(this);
+    }
+
+
+    /**
+     * @Function
+     * @param stage
+     * @throws Exception
+     * This function is for setting up the JavaFX(GUI) stage, overridden from javafx.application.Application
+     */
+    @Override
+    public void start(Stage stage) throws Exception {
+
+        scrollPane = new ScrollPane();
+        dialogContainer = new VBox();
+        scrollPane.setContent(dialogContainer);
+
+        userInput = new TextField();
+        sendButton = new Button("Send");
+
+        AnchorPane mainLayout = new AnchorPane();
+        mainLayout.getChildren().addAll(scrollPane,userInput,sendButton);
+
+        Scene scene = new Scene(mainLayout);
+        System.out.println("Displaying GUI!");
+
+        stage.setTitle("Duke");
+        stage.setResizable(true);
+        stage.setMinHeight(400);
+        stage.setMinWidth(400);
+
+        mainLayout.setPrefSize(400,400);
+
+        scrollPane.setPrefSize(385,385);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        scrollPane.setVvalue(1.0);
+        scrollPane.setFitToWidth(true);
+
+        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);
+
+        userInput.setPrefWidth(325);
+        sendButton.setPrefWidth(55);
+
+        AnchorPane.setTopAnchor(scrollPane,1.0);
+        AnchorPane.setBottomAnchor(sendButton,1.0);
+        AnchorPane.setRightAnchor(sendButton,1.0);
+        AnchorPane.setLeftAnchor(userInput,1.0);
+        AnchorPane.setBottomAnchor(userInput,1.0);
+
+
+
+        sendButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                handleUserInput();
+            }
+        });
+
+        userInput.setOnAction(actionEvent -> handleUserInput());
+
+
+        dialogContainer.heightProperty().addListener(observable -> scrollPane.setVvalue(1.0));
+
+
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+
+
+    /**
+     * @Function
+     * This function creates 2 dialog boxes, 1 echoing user input and the other containing a processed reply
+     * from Duke. Clears userinput box after processing
+     */
+    private void handleUserInput(){
+        Label userText = getDialogLabel(userInput.getText());
+        Label responseText = getDialogLabel(getResponse(userInput.getText()));
+
+        dialogContainer.getChildren().addAll(DialogBox.getUserDialog(userText,new ImageView(trump)),
+                                            DialogBox.getDukeDialog(responseText,new ImageView(kim)));
+        userInput.clear();
+    }
+
+
+
+
+
+
+    /**
+     * @Function
+     * @param userSaid
+     * @return
+     * This function is Duke's response to what the user typed.
+     */
+    private String getResponse(String userSaid){
+        return "Kim agrees when you say "+ userSaid;
+    }
+
+
+
+    /**
+     * @Function
+     * @param text
+     * @return
+     * This function returns a label (node) with the text as text
+     * @UsedIn: Application.start()
+     */
+    private Label getDialogLabel(String text){
+        Label label = new Label(text);
+        label.setWrapText(true);
+
+        return label;
     }
 
 
@@ -101,8 +262,10 @@ public class Duke {
 
     //Test Client
     public static void main(String[] args) {
+
         //start the program flow
         new Duke();
+
     }
 
 
@@ -119,8 +282,6 @@ public class Duke {
     static class DukeException extends Exception{
 
         String description;
-
-
         public DukeException(String description){
             this.description=description;
         }
@@ -133,7 +294,51 @@ public class Duke {
 
 
 
+
+
 }
+
+/**
+ * @Class
+ * This class is a dialog box used for implementing custom control
+ */
+class DialogBox extends HBox {
+
+    private Label text;
+    private ImageView displayPicture;
+
+    public DialogBox(Label l, ImageView iv){
+        text = l;
+        displayPicture = iv;
+
+        text.setWrapText(true);
+        displayPicture.setFitWidth(100);
+        displayPicture.setFitHeight(100);
+
+        this.setAlignment(Pos.TOP_RIGHT);
+        this.getChildren().addAll(text,displayPicture);
+    }
+
+    private void flip(){
+        this.setAlignment(Pos.TOP_LEFT);
+        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
+        FXCollections.reverse(tmp);
+        this.getChildren().setAll(tmp);
+    }
+
+    public static DialogBox getUserDialog(Label l, ImageView iv){
+        return new DialogBox(l,iv);
+    }
+
+    public static DialogBox getDukeDialog(Label l, ImageView iv){
+        var db = new DialogBox(l,iv);
+        db.flip();
+        return db;
+    }
+
+
+}
+
 
 
 
