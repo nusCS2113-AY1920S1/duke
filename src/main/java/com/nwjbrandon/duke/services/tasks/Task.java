@@ -23,7 +23,7 @@ public class Task {
         this.taskDescription = this.formatTaskName(taskDescription);
         this.isDone = isDone;
         this.taskIndex =  ++numberOfTasks;
-        this.showObjString();
+        this.showAddString();
     }
 
     /**
@@ -106,17 +106,35 @@ public class Task {
      * get the formatted task string to show.
      * @return formatted task string to show
      */
-    public String toString() {
+    public String addTaskString() {
         return "added: " + this.getTaskName();
     }
 
     /**
-     * show object string.
+     * get the formatted task string to show.
+     * @return formatted task string to show
      */
-    private void showObjString() {
+    public String removeTaskString(int size) {
+        return "added: " + this.getTaskName();
+    }
+
+    /**
+     * show add string.
+     */
+    private void showAddString() {
         String output = "\t" + Messages.divider + "\n"
-                      + "\t " + this.toString() + "\n"
+                      + "\t " + this.addTaskString() + "\n"
                       + "\t" + Messages.divider + "\n";
+        System.out.println(output);
+    }
+
+    /**
+     * show add string.
+     */
+    public void showRemoveString(int size) {
+        String output = "\t" + Messages.divider + "\n"
+                + "\t " + this.removeTaskString(size) + "\n"
+                + "\t" + Messages.divider + "\n";
         System.out.println(output);
     }
 

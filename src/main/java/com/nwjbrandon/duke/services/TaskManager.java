@@ -31,6 +31,16 @@ public class TaskManager {
     }
 
     /**
+     * Remove task
+     */
+    private void removeTask(String userInput) throws DukeException {
+        String taskIndexString = checkUserInput(userInput);
+        Integer taskIndex = checkStringToIntConversion(taskIndexString);
+        tasksList.get(checkIndex(taskIndex - 1)).showRemoveString(tasksList.size());
+        tasksList.remove((int) checkIndex(taskIndex - 1));
+    }
+
+    /**
      * Differentiate tasks.
      */
     private void loadTasksList(String taskDetails) throws Exception {
@@ -138,6 +148,8 @@ public class TaskManager {
             } else if (userInput.startsWith("deadline")) {
                 Deadlines task = new Deadlines(checkCommandInput(userInput, "deadline"), numberOfTasks());
                 addTask(task);
+            } else if (userInput.startsWith("delete")) {
+                removeTask(checkCommandInput(userInput, "delete"));
             } else if (userInput.equals("bye")) {
                 return false;
             } else {

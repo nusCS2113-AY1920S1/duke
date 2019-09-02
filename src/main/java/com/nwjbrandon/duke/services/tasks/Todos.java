@@ -26,10 +26,21 @@ public class Todos extends Task {
      * @return formatted task string to show for todos
      */
     @Override
-    public String toString() {
+    public String addTaskString() {
         return "Got it. I've added this task:\n"
                       + "\t   " + this.getTaskName() + "\n"
                       + "\t Now you have " + this.getNumberOfTasks() + " tasks in the list.";
+    }
+
+    /**
+     * get the formatted task string to show for deadlines.
+     * @return formatted task string to show for deadline
+     */
+    @Override
+    public String removeTaskString(int size) {
+        return "Noted. I've removed this task:\n"
+                + "\t   " + this.getTaskDescription() + "\n"
+                + "\t Now you have " + (size - 1) + " tasks in the list.";
     }
 
     /**
