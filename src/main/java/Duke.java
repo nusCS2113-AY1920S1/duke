@@ -1,19 +1,23 @@
-import java.io.*;
-import java.text.DateFormat;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+
 
 public class Duke {
+    private Parser parser;
     private Ui ui;
 
     public Duke() {
         ui = new Ui();
+        parser = new Parser();
     }
     private static final String WHITESPACE = " ";
-    Scanner inputs = new Scanner(System.in);
     ArrayList<Task> taskList = new ArrayList<>(100);
 
     public void loadFile() {
@@ -27,33 +31,7 @@ public class Duke {
             String input = bufferedReader.readLine();
 
             while (input != null) {
-                String[] arr =  input.split(" \\| ");
-                String taskType = arr[0].trim();
-                String taskStatus = arr[1].trim();
-                String taskDescription = arr[2].trim();
-                String taskTime = "";
-
-                if (taskType.equals("T")) {
-                    Task todo = new ToDo(taskDescription);
-                    if (taskStatus.equals("\u2713")) {
-                        todo.markAsDone();
-                    }
-                    taskList.add(todo);
-                }else if (taskType.equals("D")) {
-                    taskTime = arr[3].trim();
-                    Task deadline = new Deadline(taskDescription , taskTime);
-                    if (taskStatus.equals("\u2713")) {
-                        deadline.markAsDone();
-                    }
-                    taskList.add(deadline);
-                }else {
-                    taskTime = arr[3].trim();
-                    Task event = new Event(taskDescription , taskTime);
-                    if (taskStatus.equals("\u2713")) {
-                        event.markAsDone();
-                    }
-                    taskList.add(event);
-                }
+                parser.loadParse(taskList , input);
                 input = bufferedReader.readLine();
             }
 
@@ -136,10 +114,10 @@ public class Duke {
         String time;
         String day;
 
-        String userInput = inputs.nextLine();
+        String userInput = ui.readUserInput();
 
         while(!userInput.equals("bye")) {
-            String[] firstBox = firstFilter(userInput); // return a string array with commands and description
+            String[] firstBox = parser.firstFilter(userInput); // return a string array with commands and description
             String commands = firstBox[0];
             try {
                 switch (commands) {
@@ -175,21 +153,21 @@ public class Duke {
 
                     case "deadline":
                         newString = firstBox[1];
-                        secondBox = secondFilter(newString , "deadline");
+                        secondBox = parser.secondFilter(newString , "deadline");
                         description = secondBox[0];
                         time = secondBox[1].trim();
                         day = time.split("/")[0];
-                        String timeInString = timeFormatter(time , day);
+                        String timeInString = parser.timeFormatter(time , day);
                         runDeadline(description , timeInString);
                         break;
 
                     case "event":
                         newString = firstBox[1];
-                        secondBox = secondFilter(newString , "event");
+                        secondBox = parser.secondFilter(newString , "event");
                         description = secondBox[0];
                         time = secondBox[1];
                         day = time.split("/")[0];
-                        timeInString = timeFormatter(time , day);
+                        timeInString = parser.timeFormatter(time , day);
                         runEvent(description , timeInString);
                         break;
 
@@ -201,7 +179,7 @@ public class Duke {
             }catch(DukeException | ParseException e) {
                 e.printStackTrace();
             }finally {
-                userInput = inputs.nextLine().trim();
+                userInput = ui.readUserInput().trim();
             }
 
         }
@@ -240,6 +218,7 @@ public class Duke {
     public void runToDo(String description) {
         Task toDoTask = new ToDo(description);
         taskList.add(toDoTask);
+        ui.showAddTodoTask(taskList , toDoTask);
         writeToFile();
     }
 
@@ -257,53 +236,6 @@ public class Duke {
         ui.showAddEventTask(taskList , eventTask);
         writeToFile();
     }
-
-    public String[] firstFilter(String userInput) {
-        String[] filter = userInput.split(" ");
-        String firstWord = filter[0];
-        StringBuilder str = new StringBuilder();
-        for (int i = 1 ; i < filter.length ; i++) {
-            str.append(filter[i]);
-            str.append(WHITESPACE);
-        }
-        String[] result = {firstWord , str.toString().trim()};
-
-        return result;
-    }
-
-    public String[] secondFilter(String newString , String firstWord) {
-        String[] filter;
-        if (firstWord.equals("deadline")) {
-            filter = newString.split(" /by ");
-        }else{
-            filter = newString.split(" /at ");
-        }
-        return filter;
-    }
-
-    public String timeFormatter(String dateInString , String day) throws ParseException {
-        DateFormat parser = new SimpleDateFormat("dd/M/yyyy HHmm");
-        DateFormat stFormatter = new SimpleDateFormat("d'st of' MMMM yyyy , ha");
-        DateFormat ndFormatter = new SimpleDateFormat("d'nd of' MMMM yyyy , ha");
-        DateFormat rdFormatter = new SimpleDateFormat("d'rd of' MMMM yyyy , ha");
-        DateFormat thFormatter = new SimpleDateFormat("d'th of' MMMM yyyy , ha");
-
-        String output;
-
-        Date convertedDate = parser.parse(dateInString);
-        if (day.equals("1")){
-            output = stFormatter.format(convertedDate);
-        }else if (day.equals("2")) {
-            output = ndFormatter.format(convertedDate);
-        }else if (day.equals("3")) {
-            output = rdFormatter.format(convertedDate);
-        }else{
-            output = thFormatter.format(convertedDate);
-        }
-
-        return output;
-    }
-
 
     public static void main(String[] args) {
         new Duke().run();
