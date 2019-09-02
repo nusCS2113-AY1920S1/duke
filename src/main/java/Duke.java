@@ -1,54 +1,84 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
+import java.text.ParseException;
 
 public class Duke {
-    public static class Task implements Serializable{
-        private static final long SerialVersionUID = 20L;
+    static String sep = "@#@";
+
+    public static class Task {
+        protected String taskType;
         protected String description;
         protected boolean isDone;
-        protected String typeEvent;
+
+        public Task() {
+
+        }
 
         public Task(String description) {
             this.description = description;
             this.isDone = false;
         }
 
+        public Task(String description, boolean isDone) {
+            this.description = description;
+            this.isDone = isDone;
+        }
+
         public String getStatusIcon() {
-            return (isDone ? "[✓]" : "[X]"); //return tick or X symbols
-        }
-        public String toString(){
-            return getStatusIcon() + description;
+            return (isDone ? "[✓]" : "[X]"); // return tick or X symbols
         }
 
-        //...
-    }
-
-    public static class Deadline extends Task {
-
-        protected String by;
-
-        public Deadline(String description, String by) {
-            super(description);
-            this.by = by;
-        }
-
-        @Override
         public String toString() {
-            return "[D]" + super.toString() + " (by: " + by + ")";
+            return taskType + " " + getStatusIcon() + " " + description;
         }
     }
 
     public static class ToDo extends Task {
 
-        protected String by;
-
         public ToDo(String description) {
             super(description);
+            this.taskType = "[T]";
+        }
+
+        public ToDo(String description, boolean isDone) {
+            super(description, isDone);
+            this.taskType = "[T]";
         }
 
         @Override
         public String toString() {
-            return "[T]" + super.toString();
+            return super.toString();
+        }
+    }
+
+    public static class Deadline extends Task {
+
+        protected Date by;
+        protected String strDate;
+
+        public Deadline(String description, Date by, String strDate) {
+            super(description);
+            this.by = by;
+            this.taskType = "[D]";
+            this.strDate = strDate;
+        }
+
+        public Deadline(String description, Date by, boolean isDone, String strDate) {
+            super(description, isDone);
+            this.by = by;
+            this.taskType = "[D]";
+            this.strDate = strDate;
+        }
+
+
+        @Override
+        public String toString() {
+            return super.toString() + " (by: " + by + ")";
         }
     }
 
@@ -59,181 +89,188 @@ public class Duke {
         public Event(String description, String at) {
             super(description);
             this.at = at;
+            this.taskType = "[E]";
+        }
+
+        public Event(String description, String at, boolean isDone) {
+            super(description, isDone);
+            this.at = at;
+            this.taskType = "[E]";
         }
 
         @Override
         public String toString() {
-            return "[E]" + super.toString() + " (at: " + at + ")";
-        }
-    }
-//    public static class SerializeArray{
-//        public static void saveArray(Task[] arr)throws Exception //writes the array of Person to a file "Persons.ser"
-//        {
-//            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("Persons.ser"));
-//            os.writeObject(arr);
-//            os.close();
-//        }
-//        public static Task[] loadArray()throws Exception //Reads the array of Persons back from file.
-//        {
-//            ObjectInputStream oin = new ObjectInputStream(new FileInputStream("Persons.ser"));
-//            Task[] arr = (Task[]) oin.readObject();
-//            oin.close();
-//            return arr;
-//        }
-//    }
-
-    public void saveArray(String filename, Task[] output_arr) {
-        try {
-            FileOutputStream fos = new FileOutputStream(filename);
-            ObjectOutputStream out = new ObjectOutputStream(fos);
-            out.writeObject(output_arr);
-            out.flush();
-            out.close();
-        }
-        catch (IOException e) {
-            System.out.println(e);
+            return super.toString() + " (at: " + at + ")";
         }
     }
 
-    public Task[] loadArray(String filename) {
-        try {
-            FileInputStream fis = new FileInputStream(filename);
-            ObjectInputStream in = new ObjectInputStream(fis);
-            Task[] load_arr = (Task[])in.readObject();
-            in.close();
-            return load_arr;
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
-//changed public static void to public void
     public static void main(String[] args) throws Exception {
-        Task load_arr[] = new Task[100];
-        try {
-            FileInputStream fis = new FileInputStream("list.ser");
-            ObjectInputStream in = new ObjectInputStream(fis);
-            load_arr = (Task[])in.readObject();
-            in.close();
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
+        ArrayList<Task> arr;
+        arr = loadTasks();
 
         String input;
-        String deadlineArr[];
-        String eventArr[];
+        String inputArr[];
+        String tempArr[];
+        Date dateToEnter;
+        SimpleDateFormat formatter1=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hello, I'm Duke! What can I do for you today?");
         input = scanner.nextLine();
-        String inputArr[] = input.split(" ", 2);
-        Task classArr[] = new Task[100];
-        int k = 0;
-        if(load_arr != null){
-            for(k = 0; k < load_arr.length; k++){
-                classArr[k] = load_arr[k];
-            }
-            for(int b = 0; b < 100; b ++){
-                classArr[b] = new Task("");
-            }
-        }
-        for(int a = 0; a < 100; a++){
-            classArr[a] = new Task("");
-        }
-        int num = 0;
-        int i = 0;
+        inputArr = input.split(" ", 2);
 
-        while(!input.equals("bye")) {
-            if(!inputArr[0].equals("todo") && !inputArr[0].equals("deadline") && !inputArr[0].equals("event") && !inputArr[0].equals("done") && !inputArr[0].equals("list") ){
+        int num = 0;
+
+        while (!input.equals("bye")) {
+            if (!inputArr[0].equals("todo") && !inputArr[0].equals("deadline") && !inputArr[0].equals("event")
+                    && !inputArr[0].equals("done") && !inputArr[0].equals("list")) {
                 System.out.println("☹ OOPS!!! I'm sorry but I don't know what that means.");
                 input = scanner.nextLine();
                 inputArr = input.split(" ", 2);
+                continue;
             }
-            if(inputArr[0].equals("todo")){
-                if(inputArr.length == 1){
+            if (inputArr[0].equals("todo")) {
+                if (inputArr.length == 1) {
                     System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                }
-                else{
-                    classArr[i] = new ToDo(inputArr[1]);
-                    classArr[i].isDone = false;
-                    System.out.println("Got it! I've added this task: \n" + "[T]" + classArr[i].getStatusIcon() + " " + inputArr[1]);
-                    System.out.println("You now have " + (i+1) + " tasks in the list.");
+                } else {
+                    ToDo td = new ToDo(inputArr[1]);
+                    td.isDone = false;
+                    arr.add(td);
+                    System.out.println(
+                            "Got it! I've added this task: \n" + "[T]" + td.getStatusIcon() + " " + inputArr[1]);
+                    System.out.println("You now have " + arr.size() + " tasks in the list.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                    i += 1;
                 }
             }
-            if(inputArr[0].equals("deadline")){
-                if(inputArr.length == 1){
+            if (inputArr[0].equals("deadline")) {
+                if (inputArr.length == 1) {
                     System.out.println("☹ OOPS!!! The description of a deadline cannot be empty.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                }
-                else{
-                    deadlineArr = inputArr[1].split("/by", 2);
-                    classArr[i] = new Deadline(deadlineArr[0], deadlineArr[1]);
-                    System.out.println("Got it! I've added this task: \n" + "[D]" + classArr[i].getStatusIcon() + " " + deadlineArr[0] + "(by: " + deadlineArr[1] + ")");
-                    System.out.println("You now have " + (i+1) + " tasks in the list.");
+                } else {
+                    tempArr = inputArr[1].split("/by", 2);
+                    dateToEnter = formatter1.parse(tempArr[1]);
+                    Deadline dl = new Deadline(tempArr[0], dateToEnter, tempArr[1]);
+                    System.out.println("Got it! I've added this task: \n" + "[D]" + dl.getStatusIcon() + " "
+                            + tempArr[0] + "(by: " + tempArr[1] + ")");
+                    arr.add(dl);
+                    System.out.println("You now have " + arr.size() + " tasks in the list.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                    i += 1;
                 }
             }
-            if(inputArr[0].equals("event")){
-                if(inputArr.length == 1){
+            if (inputArr[0].equals("event")) {
+                if (inputArr.length == 1) {
                     System.out.println("☹ OOPS!!! The description of an event cannot be empty.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                }
-                else{
-                    eventArr = inputArr[1].split("/at", 2);
-                    classArr[i] = new Event(eventArr[0], eventArr[1]);
-                    System.out.println("Got it! I've added this task: \n" + "[E]" + classArr[i].getStatusIcon() + " " + eventArr[0] + "(at: " + eventArr[1] + ")");
-                    System.out.println("You now have " + (i+1) + " tasks in the list.");
+                } else {
+                    tempArr = inputArr[1].split("/at", 2);
+                    Event ev = new Event(tempArr[0], tempArr[1]);
+                    System.out.println("Got it! I've added this task: \n" + "[E]" + ev.getStatusIcon() + " "
+                            + tempArr[0] + "(at: " + tempArr[1] + ")");
+                    arr.add(ev);
+                    System.out.println("You now have " + arr.size() + " tasks in the list.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                    i += 1;
                 }
             }
-            if(inputArr[0].equals("done")){
-                if(inputArr.length == 1){
+            if (inputArr[0].equals("done")) {
+                if (inputArr.length == 1) {
                     System.out.println("☹ OOPS!!! The description of a done task cannot be empty.");
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
-                }
-                else{
+                } else {
                     num = Integer.parseInt(inputArr[1]) - 1;
-                    classArr[num].isDone = true;
-                    System.out.println("Nice! I've marked this task as done: \n" + classArr[num].getStatusIcon() + classArr[num].description);
+                    arr.get(num).isDone = true;
+                    System.out.println("Nice! I've marked this task as done: \n" + arr.get(num).getStatusIcon()
+                            + arr.get(num).description);
                     input = scanner.nextLine();
                     inputArr = input.split(" ", 2);
                 }
             }
-            if(inputArr[0].equals("list")){
+            if (inputArr[0].equals("list")) {
                 System.out.println("Here are the tasks in your list:\n");
-                for(int j=0;j<i;j++){
-                    System.out.println(classArr[j].toString());
-                    //+ classArr[j].getStatusIcon() + " " + classArr[j].description +
-                    //(j+1) + ". " + classArr[j].getStatusIcon() + " " + classArr[j].description
+                int i=0;
+                for (Task t : arr) {
+                    System.out.println(++i + " " + t.toString());
                 }
                 input = scanner.nextLine();
                 inputArr = input.split(" ", 2);
             }
         }
+
+        scanner.close();
+        saveTasks(arr);
+        System.out.println("Bye! See you again soon!");
+
+    }
+
+    public static void saveTasks(ArrayList<Task> arr) {
+        if (arr.size() > 0) {
+            // open file
+            try {
+                FileWriter fw = new FileWriter("tasks.txt");
+                for (Task t : arr) {
+                    switch (t.taskType) {
+                        case "[T]":
+                            fw.write(t.taskType + sep + t.description + sep + t.isDone + System.lineSeparator());
+                            break;
+                        case "[D]":
+                            fw.write(t.taskType + sep + t.description + sep + t.isDone + sep + ((Deadline) t).by +sep + ((Deadline) t).strDate + System.lineSeparator());
+                            break;
+                        case "[E]":
+                            fw.write(t.taskType + sep + t.description + sep + t.isDone + sep + ((Event) t).at + System.lineSeparator());
+                            break;
+                    }
+                }
+                fw.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static ArrayList<Task> loadTasks() {
+        String s;
+        String tempArr[];
+        Date dll;
+        SimpleDateFormat formatter6=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        ArrayList<Task> l = new ArrayList<Task>();
         try {
-            FileOutputStream fos = new FileOutputStream("list.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fos);
-            out.writeObject(classArr);
-            out.flush();
-            out.close();
+            File f = new File("tasks.txt");
+            if (!f.exists()) {
+                return l;
+            }
+            Scanner scanner = new Scanner(f);
+            while (scanner.hasNextLine()) {
+                s = scanner.nextLine();
+                tempArr = s.split(sep);
+                switch (tempArr[0]) {
+                    case "[T]":
+                        ToDo td = new ToDo(tempArr[1], Boolean.parseBoolean(tempArr[2]));
+                        l.add(td);
+                        break;
+                    case "[D]":
+                        dll = formatter6.parse(tempArr[4]);
+                        Deadline dl = new Deadline(tempArr[1], dll, Boolean.parseBoolean(tempArr[2]), tempArr[4]);
+                        l.add(dl);
+                        break;
+                    case "[E]":
+                        Event ev = new Event(tempArr[1], tempArr[3], Boolean.parseBoolean(tempArr[2]));
+                        l.add(ev);
+                        break;
+                    default:
+                        ;
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException | ParseException e) {
+            e.printStackTrace();
         }
-        catch (IOException e) {
-            System.out.println(e);
-        }
-        System.out.println("Bye! Hope to see you again soon.");
+        return l;
     }
 }
