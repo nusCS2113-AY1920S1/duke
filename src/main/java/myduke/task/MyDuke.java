@@ -3,7 +3,11 @@ package myduke.task;
 import myduke.DukeException;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MyDuke {
@@ -131,6 +135,7 @@ public class MyDuke {
         String[] secondBox;
         String description;
         String time;
+        String day;
         String userInput = inputs.nextLine();
 
         while(!userInput.equals("bye")) {
@@ -162,31 +167,34 @@ public class MyDuke {
                         newString = firstBox[1];
                         secondBox = secondFilter(newString , "deadline");
                         description = secondBox[0];
-                        time = secondBox[1];
-                        runDeadline(description , time);
+                        time = secondBox[1].trim();
+                        day = time.split("/")[0];
+                        System.out.println(day);
+                        String timeInString = timeFormatter(time , day);
+                        runDeadline(description , timeInString);
                         break;
                     case "event":
                         newString = firstBox[1];
                         secondBox = secondFilter(newString , "event");
                         description = secondBox[0];
                         time = secondBox[1];
-                        runEvent(description , time);
+                        day = time.split("/")[0];
+                        System.out.println(day);
+                        timeInString = timeFormatter(time , day);
+                        runEvent(description , timeInString);
                         break;
                     default:
                         throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
 
 
-            }catch(DukeException e) {
+            }catch(DukeException | ParseException e) {
                 e.printStackTrace();
             }finally {
                 userInput = inputs.nextLine().trim();
             }
 
         }
-//        for (Task t : taskList) {
-//            System.out.println(t);
-//        }
         System.out.println("Bye. Hope to see you again soon!");
     }
 
@@ -227,7 +235,6 @@ public class MyDuke {
     }
 
     public void showList() {
-        //loadFile();
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskList.size(); i++) {
             System.out.println((i + 1) + ". " + taskList.get(i));
@@ -255,6 +262,29 @@ public class MyDuke {
             filter = newString.split(" /at ");
         }
         return filter;
+    }
+
+    public String timeFormatter(String dateInString , String day) throws ParseException {
+        DateFormat parser = new SimpleDateFormat("dd/M/yyyy HHmm");
+        DateFormat stFormatter = new SimpleDateFormat("d'st of' MMMM yyyy , ha");
+        DateFormat ndFormatter = new SimpleDateFormat("d'nd of' MMMM yyyy , ha");
+        DateFormat rdFormatter = new SimpleDateFormat("d'rd of' MMMM yyyy , ha");
+        DateFormat thFormatter = new SimpleDateFormat("d'th of' MMMM yyyy , ha");
+
+        String output;
+
+        Date convertedDate = parser.parse(dateInString);
+        if (day.equals("1") || day.equals("11") || day.equals("21") || day.equals("31") ){
+            output = stFormatter.format(convertedDate);
+        }else if (day.equals("2") || day.equals("12") || day.equals("22")) {
+            output = ndFormatter.format(convertedDate);
+        }else if (day.equals("3") || day.equals("13") || day.equals("23")) {
+            output = rdFormatter.format(convertedDate);
+        }else{
+            output = thFormatter.format(convertedDate);
+        }
+
+        return output;
     }
 
 
