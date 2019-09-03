@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class Parser {
+    public static String deadline = "\\s*/by\\s*";
+    public static String event = "\\s*/at\\s*";
+    public static String taskSeparator = "\\s*\\|\\s*";
+    public static String newLine = "\n";
     public Parser(){};
     public static void parse(String line) throws DukeException {
         Scanner temp = new Scanner(line);

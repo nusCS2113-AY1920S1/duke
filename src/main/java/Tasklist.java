@@ -6,10 +6,10 @@ public class Tasklist {
     ArrayList<Task> list = new ArrayList<>();
     public Tasklist(){}
     public Tasklist(String input) throws DukeException {
-        String[] splitTasks = input.split("\n");
+        String[] splitTasks = input.split(Parser.newLine);
         try {
             for (int i = 0; i < splitTasks.length; i++) {
-                String split[] = splitTasks[i].split("\\s*\\|\\s*");
+                String split[] = splitTasks[i].split(Parser.taskSeparator);
                 if (split[0].equals("T"))
                     list.add(new Todo(split[1], split[2]));
                 else if (split[0].equals("D"))
@@ -80,9 +80,13 @@ public class Tasklist {
         }
     }
     public void print() {
-        int counter = 1;
-        for (Task task : list) {
-            System.out.println(counter++ + ". " + task.toList());
+        if (this.size() == 0) {
+            System.out.println("Whoops, there doesn't seem to be anything here at the moment");
+        } else {
+            int counter = 1;
+            for (Task task : list) {
+                System.out.println(counter++ + ". " + task.toList());
+            }
         }
     }
 }

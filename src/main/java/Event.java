@@ -2,7 +2,7 @@ public class Event extends Task {
     private String type = "E";
 
     public Event(String description) throws DukeException {
-        String[] split = description.split("\\s+/at\\s+");
+        String[] split = description.split(Parser.event);
         if (split.length < 2) {
             throw new DukeException("Please use /at to indicate date");
         }

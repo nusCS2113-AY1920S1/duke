@@ -2,7 +2,7 @@ public class Deadline extends Task {
     protected String type = "D";
 
     public Deadline(String description) throws DukeException {
-        String[] split = description.split("\\s+/by\\s+");
+        String[] split = description.split(Parser.deadline);
         if(split.length < 2)
         {
             throw new DukeException("Please use /by to indicate date");

@@ -16,7 +16,7 @@ public class Duke {
             taskList = new Tasklist();
         }
     }
-    public void run() {
+    public void run(){
         ui.showWelcome();
         String command= "";
         boolean isExit = false;
@@ -24,51 +24,31 @@ public class Duke {
         {
             try {
                 String line = ui.readCommand();
-                Parser.parse(line);
                 ui.showLine();
+                Parser.parse(line);
                 line += " ";
                 Scanner temp = new Scanner(line);
                 command = temp.next();
                 String input = temp.nextLine();
                 input = input.trim();
-                if (input.equals("") && command.matches("todo|deadline|event|done|delete")) {
-                    throw new DukeException("☹ OOPS!!! The description of a " + command + " cannot be empty.");
-                } else if (command.matches("list|bye")) {
-                    if (input.equals("")) {
-                        if (command.equals("list")) {
-                            if (taskList.size() == 0) {
-                                System.out.println("Whoops, there doesn't seem to be anything here at the moment");
-                            } else {
-                                taskList.print();
-                            }
-                        } else if (command.equals("bye")) {
-                            isExit = true;
-                            System.out.println("Bye. Hope to see you again soon!");
-                        }
-                    } else
-                        throw new DukeException("List should not have any other arguments (whitespace acceptable");
+                if (command.equals("list")) {
+                        taskList.print();
+                } else if (command.equals("bye")) {
+                    isExit = true;
+                    System.out.println("Bye. Hope to see you again soon!");
                 } else if (command.matches("todo|deadline|event")) {
-                        taskList.add(command, input);
-                } else if (command.matches("done|delete")) {
-                    int request = Integer.parseInt(input);
-                    request -= 1;
-                    if (taskList.isOutOfRange(request))
-                        throw new DukeException("☹ OOPS!!! This index is not within the list");
-                    else {
-                        if (command.equals("done"))
-                            taskList.markDone(request);
-                        else if (command.equals("delete"))
-                            taskList.banishDelete(request);
-                    }
+                    taskList.add(command, input);
+                } else if (command.equals("done")) {
+                    taskList.markDone(Integer.parseInt(input));
+                } else if (command.equals("delete")){
+                    taskList.banishDelete(Integer.parseInt(input));
                 }
                 else
                 {
-                    throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    throw new DukeException("How the hell did you reach here");
                 }
             }catch (DukeException e) {
-                    System.out.println(e.getLocalizedMessage());
-            } catch (NumberFormatException e) {
-                    System.out.println("That is NOT a valid integer");
+                System.out.println(e.getLocalizedMessage());
             }
             finally {
                 ui.showLine();
