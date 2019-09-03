@@ -21,14 +21,7 @@ public class Parser {
             if(!temp.hasNextLine())
                 throw new DukeException("☹ OOPS!!! The description of a " + command + " cannot be empty.");
             else {
-                String input = temp.nextLine();
-                try{
-                    if(command.matches("done|delete")) {
-                        int request = Integer.parseInt(input);
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("That is NOT a valid integer");
-                }
+                //for the future
             }
         }
         else

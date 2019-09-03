@@ -39,9 +39,9 @@ public class Duke {
                 } else if (command.matches("todo|deadline|event")) {
                     taskList.add(command, input);
                 } else if (command.equals("done")) {
-                    taskList.markDone(Integer.parseInt(input));
+                    taskList.markDone(input);
                 } else if (command.equals("delete")){
-                    taskList.banishDelete(Integer.parseInt(input));
+                    taskList.banishDelete(input);
                 }
                 else
                 {

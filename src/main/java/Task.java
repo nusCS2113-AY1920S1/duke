@@ -28,9 +28,9 @@ public class Task {
     public String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
     }
-    public void markDone(){
+    public void markDone() throws DukeException {
         if(this.isDone){
-            System.out.println("But good sir, this task is already done!");
+            throw new DukeException("But good sir, this task is already done!");
         }
         else
             this.isDone = true;

@@ -17,7 +17,7 @@ public class Tasklist {
                 else if (split[0].equals("E"))
                     list.add(new Event(split[1], split[2], split[3]));
                 else
-                    throw new DukeException((i+1) + "has incorect task format.");
+                    throw new DukeException((i+1) + "has incorrect task format.");
             }
         }
         catch(DukeException e)
@@ -33,16 +33,48 @@ public class Tasklist {
         return ((request < 0) || (request >= this.size()));
     }
 
-    public void markDone(int request){
-        this.list.get(request).markDone();
-        System.out.println("Nice! I've marked this task as done:\n" +
-                "  " + this.list.get(request).toList());
+    public void markDone(String input) throws DukeException {
+        try {
+            int request = Integer.parseInt(input);
+            request-=1;
+            if(isOutOfRange(request)){
+                throw new DukeException("The index was not found within range");
+            }
+            else {
+                this.list.get(request).markDone();
+                System.out.println("Nice! I've marked this task as done:\n" +
+                        "  " + this.list.get(request).toList());
+            }
+        }
+        catch(DukeException e)
+        {
+            throw new DukeException(e.getLocalizedMessage());
+        }
+        catch (NumberFormatException e) {
+            throw new DukeException("That is NOT a valid integer");
+        }
     }
-    public void banishDelete(int request){
-        System.out.println("Noted. I've removed this task:\n" +
-                "  " + list.get(request).toList());
-        this.list.remove(request);
-        System.out.println("Now you have " + this.list.size() + " tasks in the list.");
+    public void banishDelete(String input) throws DukeException {
+        try {
+            int request = Integer.parseInt(input);
+            request-=1;
+            if(isOutOfRange(request)){
+                throw new DukeException("The index was not found within range");
+            }
+            else {
+                System.out.println("Noted. I've removed this task:\n" +
+                        "  " + list.get(request).toList());
+                this.list.remove(request);
+                System.out.println("Now you have " + this.list.size() + " tasks in the list.");
+            }
+        }
+        catch(DukeException e)
+        {
+            throw new DukeException(e.getLocalizedMessage());
+        }
+        catch (NumberFormatException e) {
+            throw new DukeException("That is NOT a valid integer");
+        }
     }
     public Task get(int index) throws DukeException {
         if(!this.isOutOfRange(index))
