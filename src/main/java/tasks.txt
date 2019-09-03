@@ -1,3 +1,0 @@
-T^0^math
-E^0^read math ^mon 10^11pm
-
