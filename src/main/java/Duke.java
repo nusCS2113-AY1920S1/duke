@@ -37,6 +37,9 @@ public class Duke {
                     String todo = "todo";
                     String events = "event";
                     String remove = "delete";
+
+                    String find = "find"; 
+
                     if(end.equals(command)){
                         try {
                             analyser.serial();
@@ -67,6 +70,7 @@ public class Duke {
                         String[] values = command.trim().split(" ",2);
                         //marking as done
                         //System.out.println(Arrays.toString(values));
+
                         if(remove.equals(values[0])){ 
                             try{ 
                                 System.out.println(analyser.delete( Integer.parseInt(values[1].trim())));
@@ -83,6 +87,16 @@ public class Duke {
                             catch(Exception e){ 
                                 System.out.println(e.getMessage());
                             }
+                        }
+                    
+                        else if(find.equals(values[0])){ 
+                            try{                            
+                                System.out.println(analyser.find(values[1]));     
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){ 
+                                System.out.println("Please enter a keyword");
+                            }
+
                         }
                         else if(done.equals(values[0])){
                             int index;

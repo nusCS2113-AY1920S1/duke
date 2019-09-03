@@ -149,6 +149,28 @@ public class Parser  {
             i +=1;
 		}
     }
+    public String find(String keyword){ 
+        String message = "";
+        int num = 1; 
+        for (Task temp : l1) {
+            //System.out.println("PRINTING " );
+            //System.out.println(temp.get_attrib());
+            
+            if(temp.get_name().contains(keyword)){ 
+                if(num==1){
+                    message +="Here are the matching tasks in your list:\n";
+                } 
+                message +=String.valueOf(num)+"."+ temp+"\n";
+                num+=1; 
+            }
+        }
+        if(message == ""){ 
+            return "No such keyword found!"; 
+        }
+        else{ 
+            return message; 
+        }
+    }
     public void bye(){ 
         System.out.println("Bye. Hope to see you again soon!");
         return;
@@ -201,7 +223,10 @@ public class Parser  {
                 String [] timing_list= deadline_time.split("-");
 
                 if(timing_list.length >= 2 && !(timing_list[1].trim().equals(""))){
+
                     //System.out.println(Arrays.toString(timing_list)); 
+
+                   // System.out.println(Arrays.toString(timing_list)); 
                     String[] string_list = {task_to_be_done,task_to_be_done,deadline_time};
                     c1 = get_first_e(string_list, false);
                     l1.add(c1);
