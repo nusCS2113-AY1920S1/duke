@@ -13,10 +13,6 @@ public class Event extends Task {
             this.description = split[0];
             this.readDate(split[1]);
             this.isDone = false;
-            counter++;
-            System.out.println("Got it. I've added this task:\n  " +
-                    this.toList() +
-                    "\nNow you have " + this.numTasksCreated() + " tasks in the list.");
         }
     }
 
@@ -24,7 +20,6 @@ public class Event extends Task {
         this.description = description;
         this.readDate(dueDate);
         this.isDone = (1 == Integer.parseInt(bool));
-        counter++;
     }
 
     @Override

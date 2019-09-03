@@ -8,12 +8,10 @@ public class Task {
     //protected String dueDate;
     protected Date dueDate;
     private static DateFormat dateFormatter = new SimpleDateFormat("E");
-    protected static long counter = 0;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
-        counter++;
     }
     public Task(){
     }
@@ -27,18 +25,15 @@ public class Task {
         }
     }
 
-    public long numTasksCreated(){
-        return counter;
-    }
-
     public String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
     }
-    public void deleteVanguard(){
-        counter--;
-    }
     public void markDone(){
-        this.isDone = true;
+        if(this.isDone){
+            System.out.println("But good sir, this task is already done!");
+        }
+        else
+            this.isDone = true;
     }
     public boolean checkCompletion() {return this.isDone;}
     public String getType(){ return "G";}
