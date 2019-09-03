@@ -7,7 +7,6 @@ import java.util.Date;
 public class Parser {
     private static final String WHITESPACE = " ";
 
-
     public void loadParse(ArrayList<Task> taskList , String input) {
         String[] arr =  input.split(" \\| ");
         String taskType = arr[0].trim();
@@ -36,6 +35,11 @@ public class Parser {
             }
             taskList.add(event);
         }
+    }
+
+    public String dayExtractor(String[] secondBox) {
+        String day = secondBox[1].trim().split("/")[0];
+        return day;
     }
 
     public String timeFormatter(String dateInString , String day) throws ParseException {

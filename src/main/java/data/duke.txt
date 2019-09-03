@@ -1,5 +1,9 @@
 D | ✓ | read book | 20th of November 1029 , 7PM
 D | ✓ | jogging | 12nd of December 2012 , 7PM
-T | ✘ | hello
 D | ✘ | hello | 27th of September 1993 , 7PM
 E | ✘ | hello | 22th of November 1993 , 1PM
+D | ✘ | hello | 27th of October 2019 , 7PM
+E | ✘ | kiki | 19th of November 2019 , 2PM
+T | ✓ | hello
+D | ✘ | kokokoko | 27th of October 1999 , 10AM
+E | ✘ | kikikiki | 29th of October 2019 , 7PM
