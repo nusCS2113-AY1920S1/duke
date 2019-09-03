@@ -44,6 +44,12 @@ public class Tasklist {
         this.list.remove(request);
         System.out.println("Now you have " + this.list.size() + " tasks in the list.");
     }
+    public Task get(int index) throws DukeException {
+        if(!this.isOutOfRange(index))
+            return this.list.get(index);
+        else
+            throw new DukeException("Requested Task not found within list");
+    }
     public void add(String type, String input){
         Task temp = null;
         try {

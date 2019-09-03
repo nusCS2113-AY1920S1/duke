@@ -5,30 +5,12 @@ import java.util.Scanner;
 public class Duke {
     private Tasklist taskList;
     private UI ui;
-    //private Storage storage;
+    private Storage storage;
     public Duke(String filePath) {
         this.ui = new UI();
-        //this.storage = new Storage(filePath);
-
-        String input = "";
-        URL path = Duke.class.getResource(filePath);
-        File f = new File(path.getFile());
-        /*encoding is ANSI */
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                input += line + "\n";
-            }
-        } catch (FileNotFoundException e) {
-            // exception handling
-            System.out.println("file not found");
-        } catch (IOException e) {
-            // exception handling
-            System.out.println("I/O Issues");
-        }
-
+        this.storage = new Storage(filePath);
         try {
-            taskList = new Tasklist(input);
+            taskList = new Tasklist(storage.load());
         } catch (DukeException e) {
             ui.showLoadingError();
             taskList = new Tasklist();
@@ -101,23 +83,6 @@ public class Duke {
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
-        /*
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(f))) {
-            for(Task task:list) {
-                String fileContent = task.getType() + " | " +
-                        (task.checkCompletion() ? "1": "0") + " | "+ task.getDescription();
-                if(task.getType().matches("D|E"))
-                {
-                    fileContent += " | " + task.getDueDate();
-                }
-                bufferedWriter.write(fileContent);
-                bufferedWriter.newLine();
-            }
-        } catch (IOException e) {
-            // exception handling
-            System.out.println("Write Failed");
-        }
-        */
         System.exit(0);
     }
 
