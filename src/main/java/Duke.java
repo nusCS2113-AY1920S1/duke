@@ -19,17 +19,19 @@ public class Duke {
     public void run() {
         ui.showWelcome();
         String command= "";
-        while(!command.equalsIgnoreCase("bye") )
+        boolean isExit = false;
+        while(!isExit)
         {
             try {
                 String line = ui.readCommand();
+                Parser.parse(line);
                 ui.showLine();
                 line += " ";
                 Scanner temp = new Scanner(line);
                 command = temp.next();
                 String input = temp.nextLine();
                 input = input.trim();
-                if (input.equals("") && command.matches("todo|deadline|event|done")) {
+                if (input.equals("") && command.matches("todo|deadline|event|done|delete")) {
                     throw new DukeException("☹ OOPS!!! The description of a " + command + " cannot be empty.");
                 } else if (command.matches("list|bye")) {
                     if (input.equals("")) {
@@ -40,8 +42,8 @@ public class Duke {
                                 taskList.print();
                             }
                         } else if (command.equals("bye")) {
+                            isExit = true;
                             System.out.println("Bye. Hope to see you again soon!");
-                            break;
                         }
                     } else
                         throw new DukeException("List should not have any other arguments (whitespace acceptable");
