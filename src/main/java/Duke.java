@@ -1,65 +1,20 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-
 
 public class Duke {
+    private Storage storage;
     private Parser parser;
     private TaskList tasks;
     private Ui ui;
 
     public Duke() {
         ui = new Ui();
+        storage = new Storage();
         parser = new Parser();
-        tasks = new TaskList(taskList);
-    }
-    ArrayList<Task> taskList = new ArrayList<>(100);
-
-    public void loadFile() {
-        File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
-        try {
-            fileReader = new FileReader(file);
-            bufferedReader = new BufferedReader(fileReader);
-
-            String input = bufferedReader.readLine();
-
-            while (input != null) {
-                parser.loadParse(taskList , input);
-                input = bufferedReader.readLine();
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                if (fileReader != null) {
-                    fileReader.close();
-                }
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
+        tasks = new TaskList(storage.load());
     }
 
     public void run() {
         ui.showWelcome();
-        loadFile();
         String day;
 
         String userInput = ui.readUserInput();
@@ -70,15 +25,17 @@ public class Duke {
             try {
                 switch (commands) {
                     case "list":
-                        ui.showTaskList(taskList);
+                        ui.showTaskList(tasks.getTaskList());
                         break;
 
                     case "done":
                         tasks.runDone(userInput);
+                        storage.save();
                         break;
 
                     case "delete":
                         tasks.runDelete(userInput);
+                        storage.save();
                         break;
 
                     case "find":
@@ -95,6 +52,7 @@ public class Duke {
                         }catch(DukeException e) {
                             e.printStackTrace();
                         }finally{
+                            storage.save();
                             break;
                         }
 
@@ -103,12 +61,14 @@ public class Duke {
                         day = parser.dayExtractor(secondBox);
                         String timeInString = parser.timeFormatter(secondBox[1].trim() , day);
                         tasks.runDeadline(secondBox[0] , timeInString);
+                        storage.save();
                         break;
 
                     case "event":
                         secondBox = parser.secondFilter(firstBox[1] , "event");
                         timeInString = parser.timeFormatter(secondBox[1] , parser.dayExtractor(secondBox));
                         tasks.runEvent(secondBox[0] , timeInString);
+                        storage.save();
                         break;
 
                     default:

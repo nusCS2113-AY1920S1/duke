@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -9,52 +8,10 @@ public class TaskList {
 
     private ArrayList<Task> taskList = new ArrayList<>();
     Ui ui = new Ui();
+    //Storage storage = new Storage();
 
-    public void writeToFile () {
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
-        try{
-            File file = new File("/Users/qianjie/Desktop/duke/src/main/java/data/duke.txt");
-            fileWriter = new FileWriter(file , false);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            for (Task t : taskList) {
-                String taskType = t.getType();
-                String taskStatus = t.getStatusIcon();
-                String taskDescription = t.getDescription();
-                String taskTime = t.getTime();
-
-                if (taskType.equals("T")) {
-                    bufferedWriter.write(taskType + " | " + taskStatus + " | " + taskDescription);
-                    bufferedWriter.newLine();
-
-                }else{
-                    bufferedWriter.write(taskType + " | " + taskStatus + " | " + taskDescription + " | " + taskTime);
-                    bufferedWriter.newLine();
-                }
-
-
-                bufferedWriter.flush();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fileWriter != null) {
-                    fileWriter.close();
-                }
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (bufferedWriter != null) {
-                    bufferedWriter.close();
-                }
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+    public ArrayList<Task> getTaskList() {
+        return taskList;
     }
 
     public void runDone(String userInput) {
@@ -62,7 +19,7 @@ public class TaskList {
         Task chosenTask = taskList.get(index - 1);
         chosenTask.markAsDone();
         ui.showDone(taskList , index);
-        writeToFile();
+        //storage.save();
     }
 
     public void runDelete(String userInput) {
@@ -70,7 +27,7 @@ public class TaskList {
         ui.showDelete(taskList , index);
         taskList.remove(index - 1);
         ui.showTaskListSize(taskList);
-        writeToFile();
+        //storage.save();
     }
 
     public void runFind(String userInput) {
@@ -90,7 +47,7 @@ public class TaskList {
         Task toDoTask = new ToDo(description);
         taskList.add(toDoTask);
         ui.showAddTodoTask(taskList , toDoTask);
-        writeToFile();
+        //storage.save();
     }
 
     public void runDeadline(String description , String time) {
@@ -98,14 +55,14 @@ public class TaskList {
         Task deadlineTask = new Deadline(description , time);
         taskList.add(deadlineTask);
         ui.showAddDeadlineTask(taskList , deadlineTask);
-        writeToFile();
+        //storage.save();
     }
 
     public void runEvent(String description , String time) {
         Task eventTask = new Event(description , time);
         taskList.add(eventTask);
         ui.showAddEventTask(taskList , eventTask);
-        writeToFile();
+        //storage.save();
     }
 
 
