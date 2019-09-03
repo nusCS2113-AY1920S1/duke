@@ -1,7 +1,0 @@
-<<<<<<< HEAD
-T^0^math
-E^0^read book ^math monday 10^11pm
-E^0^read book ^math monday 10^11pm
-=======
->>>>>>> branch-Level-6
-
