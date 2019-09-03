@@ -7,4 +7,7 @@ Hello from
 
 Hello! I'm Duke
 What can I do for you?
-added: helloi
+1.[T][✗] hello
+2.[T][✗] cs assignment
+3.[T][✗] cs assignment
+Bye. Hope to see you again soon!
