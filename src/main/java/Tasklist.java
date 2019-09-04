@@ -2,22 +2,27 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Tasklist {
-    ArrayList<Task> list = new ArrayList<>();
-    public Tasklist(){}
-    public Tasklist(String input) throws DukeException {
+class Tasklist {
+    private ArrayList<Task> list = new ArrayList<>();
+    Tasklist(){}
+    Tasklist(String input) throws DukeException {
         String[] splitTasks = input.split(Parser.newLine);
         try {
             for (int i = 0; i < splitTasks.length; i++) {
                 String[] split = splitTasks[i].split(Parser.taskSeparator);
-                if (split[0].equals("T"))
-                    list.add(new Todo(split[1], split[2]));
-                else if (split[0].equals("D"))
-                    list.add(new Deadline(split[1], split[2], split[3]));
-                else if (split[0].equals("E"))
-                    list.add(new Event(split[1], split[2], split[3]));
-                else
-                    throw new DukeException((i+1) + "has incorrect task format.");
+                switch(split[0]) {
+                    case "T":
+                        list.add(new Todo(split[1], split[2]));
+                        break;
+                    case "D":
+                        list.add(new Deadline(split[1], split[2], split[3]));
+                        break;
+                    case "E":
+                        list.add(new Event(split[1], split[2], split[3]));
+                        break;
+                    default:
+                        throw new DukeException((i+1) + "has incorrect task format.");
+                }
             }
         }
         catch(DukeException e)
@@ -27,14 +32,14 @@ public class Tasklist {
         }
     }
 
-    public long size(){
+    long size(){
         return list.size();
     }
-    public boolean isOutOfRange(int request){
+    private boolean isOutOfRange(int request){
         return ((request < 0) || (request >= this.size()));
     }
 
-    public void markDone(String input) throws DukeException {
+    void markDone(String input) throws DukeException {
         try {
             int request = Integer.parseInt(input);
             request-=1;
@@ -55,7 +60,7 @@ public class Tasklist {
             throw new DukeException("That is NOT a valid integer");
         }
     }
-    public void banishDelete(String input) throws DukeException {
+    void banishDelete(String input) throws DukeException {
         try {
             int request = Integer.parseInt(input);
             request-=1;
@@ -77,14 +82,14 @@ public class Tasklist {
             throw new DukeException("That is NOT a valid integer");
         }
     }
-    public Task get(int index) throws DukeException {
+    Task get(int index) throws DukeException {
         if(!this.isOutOfRange(index))
             return this.list.get(index);
         else
             throw new DukeException("Requested Task not found within list");
     }
-    public void add(String type, String input){
-        Task temp = null;
+    void add(String type, String input) throws DukeException {
+        Task temp;
         try {
             switch (type) {
                 case "todo":
@@ -100,25 +105,20 @@ public class Tasklist {
                     throw new DukeException("What the Hell happened here?\n"+
                             "Command passed successfully to tasklist.add, not found in any case");
             }
-        }
-        catch (DukeException e) {
-            System.out.println(e.getLocalizedMessage());
-        }
-        finally{
-            if(temp != null) {
                 this.list.add(temp);
                 System.out.println("Got it. I've added this task:\n  " +
                         temp.toList() + "\nNow you have "+ this.size() + " tasks in the list.");
-            }
+        }
+        catch (DukeException e) {
+            throw new DukeException(e.getLocalizedMessage());
         }
     }
-    public void find(String input) throws DukeException {
-        ArrayList<Task> FoundList = new ArrayList<>();
+    void find(String input) throws DukeException {
         ArrayList<Integer> FoundIndex = new ArrayList<>();
         for (int i = 0; i < this.size(); i++)
         {
             if (this.get(i).getDescription().contains(input) || this.get(i).getDueDate().contains(input)) {
-                FoundList.add(this.get(i));
+
                 FoundIndex.add(i);
             }
         }
@@ -126,13 +126,13 @@ public class Tasklist {
             System.out.println("There are no matching tasks in the list");
         else
         {
-            for (int i = 0; i< FoundIndex.size(); i++)
-            {
-                System.out.println((FoundIndex.get(i)+1) + ". " + FoundList.get(i).toList());
+            System.out.println("Here are the matching tasks in your list:");
+            for (Integer foundIndex : FoundIndex) {
+                System.out.println((foundIndex + 1) + ". " + this.get(foundIndex).toList());
             }
         }
     }
-    public void print() {
+    void print() {
         if (this.size() == 0) {
             System.out.println("Whoops, there doesn't seem to be anything here at the moment");
         } else {

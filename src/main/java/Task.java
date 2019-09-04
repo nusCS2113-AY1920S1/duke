@@ -3,19 +3,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    String description;
+    boolean isDone;
     //protected String dueDate;
-    protected Date dueDate;
+    private Date dueDate = null;
     private static DateFormat dateFormatter = new SimpleDateFormat("E");
 
-    public Task(String description) {
+    Task(String description) {
         this.description = description;
         this.isDone = false;
     }
-    public Task(){
+    Task(){
     }
-    public void readDate(String date) throws DukeException {
+    void readDate(String date) throws DukeException {
         try {
             this.dueDate = dateFormatter.parse(date);
         }
@@ -25,22 +25,26 @@ public class Task {
         }
     }
 
-    public String getStatusIcon() {
+    String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
     }
-    public void markDone() throws DukeException {
+    void markDone() throws DukeException {
         if(this.isDone){
             throw new DukeException("But good sir, this task is already done!");
         }
         else
             this.isDone = true;
     }
-    public boolean checkCompletion() {return this.isDone;}
+    boolean checkCompletion() {return this.isDone;}
     public String getType(){ return "G";}
-    public String getDescription() {
+    String getDescription() {
         return this.description;
     }
-    public String getDueDate() { return dateFormatter.format(this.dueDate); }
+    String getDueDate() {
+        if(this.dueDate != null)
+            return dateFormatter.format(this.dueDate);
+        else
+            return ""; }
 
     public String toList(){
         return "[?][" + this.getStatusIcon() + "] " + this.getDescription();

@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
-public class Parser {
-    public static String deadline = "\\s*/by\\s*";
-    public static String event = "\\s*/at\\s*";
-    public static String taskSeparator = "\\s*\\|\\s*";
-    public static String newLine = "\n";
-    public Parser(){}
+class Parser {
+    static String deadline = "\\s*/by\\s*";
+    static String event = "\\s*/at\\s*";
+    static String taskSeparator = "\\s*\\|\\s*";
+    static String newLine = "\n";
+    Parser(){}
 
-    public static void parse(String line) throws DukeException {
+    static Command parse(String line) throws DukeException {
         Scanner temp = new Scanner(line);
         if(!temp.hasNext()){
             throw new DukeException("Empty Command!");
@@ -18,7 +18,14 @@ public class Parser {
                 throw new DukeException("List should not have any other arguments (whitespace acceptable");
             }
             else{
-                //for the future
+                if(command.matches("list"))
+                {
+                    return new PrintCommand(){};
+                }
+                else if (command.matches("bye"))
+                {
+                    return new ExitCommand();
+                }
             }
         }
         else if (command.matches("todo|deadline|event|done|delete|find")) {
@@ -33,10 +40,22 @@ public class Parser {
                 throw new DukeException("☹ OOPS!!! The description of a " + command + " cannot be empty.");
             }
             else {
-                //for the future
+                if(command.matches("todo|deadline|event"))
+                {
+                    return new AddCommand(command, input);
+                }
+                else if(command.matches("done|delete"))
+                {
+                    return new ModCommand(command, input);
+                }
+                else if (command.matches("find"))
+                {
+                    return new SearchCommand(command, input);
+                }
             }
         }
         else
             throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+        return null;
     }
 }

@@ -1,19 +1,20 @@
 import java.io.*;
 import java.net.URL;
 
-public class Storage {
+class Storage {
     private File f;
     private String input = "";
-    public Storage(String filePath){
+    Storage(String filePath){
         URL path = Duke.class.getResource(filePath);
         this.f = new File(path.getFile());
         /*encoding is ANSI */
     }
-    public String load(){
+    String load(){
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(f))) {
             String line = bufferedReader.readLine();
             while (line != null) {
                 this.input += line + "\n";
+                line = bufferedReader.readLine();
             }
         } catch (FileNotFoundException e) {
             // exception handling
@@ -24,7 +25,7 @@ public class Storage {
         }
         return this.input;
     }
-    public void store(Tasklist list) throws DukeException {
+    void store(Tasklist list) throws DukeException {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.f))) {
             for(int i = 0; i< list.size(); i++) {
                 String fileContent = list.get(i).getType() + " | " +
@@ -41,4 +42,5 @@ public class Storage {
             throw new DukeException("Storage Attempt Failed");
         }
     }
+
 }
