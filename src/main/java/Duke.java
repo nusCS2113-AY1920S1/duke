@@ -38,6 +38,8 @@ public class Duke {
                     System.out.println("Bye. Hope to see you again soon!");
                 } else if (command.matches("todo|deadline|event")) {
                     taskList.add(command, input);
+                } else if (command.equals("find")){
+                    taskList.find(input);
                 } else if (command.equals("done")) {
                     taskList.markDone(input);
                 } else if (command.equals("delete")){

@@ -40,7 +40,7 @@ public class Task {
     public String getDescription() {
         return this.description;
     }
-    public String getDueDate() { return this.dateFormatter.format(this.dueDate); }
+    public String getDueDate() { return dateFormatter.format(this.dueDate); }
 
     public String toList(){
         return "[?][" + this.getStatusIcon() + "] " + this.getDescription();

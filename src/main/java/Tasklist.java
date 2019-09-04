@@ -9,7 +9,7 @@ public class Tasklist {
         String[] splitTasks = input.split(Parser.newLine);
         try {
             for (int i = 0; i < splitTasks.length; i++) {
-                String split[] = splitTasks[i].split(Parser.taskSeparator);
+                String[] split = splitTasks[i].split(Parser.taskSeparator);
                 if (split[0].equals("T"))
                     list.add(new Todo(split[1], split[2]));
                 else if (split[0].equals("D"))
@@ -25,7 +25,8 @@ public class Tasklist {
             list.clear();
             throw new DukeException("Issues encountered when creating tasks, initializing empty list.");
         }
-    };
+    }
+
     public long size(){
         return list.size();
     }
@@ -98,7 +99,7 @@ public class Tasklist {
                 default:
                     throw new DukeException("What the Hell happened here?\n"+
                             "Command passed successfully to tasklist.add, not found in any case");
-            };
+            }
         }
         catch (DukeException e) {
             System.out.println(e.getLocalizedMessage());
@@ -108,6 +109,26 @@ public class Tasklist {
                 this.list.add(temp);
                 System.out.println("Got it. I've added this task:\n  " +
                         temp.toList() + "\nNow you have "+ this.size() + " tasks in the list.");
+            }
+        }
+    }
+    public void find(String input) throws DukeException {
+        ArrayList<Task> FoundList = new ArrayList<>();
+        ArrayList<Integer> FoundIndex = new ArrayList<>();
+        for (int i = 0; i < this.size(); i++)
+        {
+            if (this.get(i).getDescription().contains(input) || this.get(i).getDueDate().contains(input)) {
+                FoundList.add(this.get(i));
+                FoundIndex.add(i);
+            }
+        }
+        if(FoundIndex.isEmpty())
+            System.out.println("There are no matching tasks in the list");
+        else
+        {
+            for (int i = 0; i< FoundIndex.size(); i++)
+            {
+                System.out.println((FoundIndex.get(i)+1) + ". " + FoundList.get(i).toList());
             }
         }
     }
