@@ -9,64 +9,91 @@ import java.util.Date;
 
 public class Task {
 
+    /**
+     * Task name.
+     */
     String taskName;
+
+    /**
+     * Task done status.
+     */
     private boolean isDone;
+
+    /**
+     * Task date.
+     */
     String by = "";
+
+    /**
+     * Task name and date.
+     */
     private String taskDescription = "";
 
-    protected Task(String taskDescription, int numberOfTasks) throws Exception {
+    /**
+     * Create task.
+     * @param taskDescription description of task.
+     * @param numberOfTasks number of tasks.
+     */
+    protected Task(String taskDescription, int numberOfTasks) {
         this(taskDescription, numberOfTasks, false);
     }
 
-    private Task(String taskDescription, int numberOfTasks, boolean isDone) throws Exception {
+    /**
+     * Create task.
+     * @param taskDescription description of tasks.
+     * @param numberOfTasks number of tasks.
+     * @param isDone done status.
+     */
+    private Task(String taskDescription, int numberOfTasks, boolean isDone) {
         this.taskDescription = this.formatTaskName(taskDescription);
         this.isDone = isDone;
         this.addTaskString(numberOfTasks);
     }
 
     /**
-     * Format the task name.
-     * @return task name
+     * Format task name.
+     * @param taskDescription description of task.
+     * @return formatted task name.
      */
-    public String formatTaskName(String taskDescription) throws Exception {
+    public String formatTaskName(String taskDescription) {
         return taskName;
     }
 
     /**
-     * get the date.
-     * @return date string
+     * Get the task date.
+     * @return task date.
      */
     public String getBy() {
         return this.by;
     }
 
     /**
-     * get the description of task.
-     * @return description of the task
+     * Get the task description.
+     * @return task description.
      */
     String getTaskDescription() {
         return this.taskDescription;
     }
 
     /**
-     * get the name of task.
-     * @return name of the task
+     * Get the task name.
+     * @return task name.
      */
     public String getTaskName() {
         return taskName;
     }
 
     /**
-     * get the status of the task.
-     * @return true for done
+     * Get the done status.
+     * @return done status.
      */
     public boolean getIsDoneStatus() {
         return isDone;
     }
 
     /**
-     * set the done status of the task.
-     * @param isDone - status of the task
+     * Set the done status.
+     * @param isDone done status.
      */
     public void setDoneStatus(boolean isDone) {
         this.isDone = isDone;
@@ -74,43 +101,33 @@ public class Task {
     }
 
     /**
-     * show the done status of the task.
+     * Show the set done status message.
      */
     private void showSetDoneStatus() {
         Ui.showSetDoneStatus(this.toTaskDescriptionString());
     }
 
     /**
-     * get the status icon of the task.
-     * @return status icon of task
+     * Get icon for done status.
+     * @return icon for done status.
      */
     String getStatusIcon() {
         return (isDone ? "✓" : "✗");
     }
 
     /**
-     * get task description.
-     * @return string of description
+     * Get the task description.
+     * @return task description.
      */
     public String toTaskDescriptionString() {
         return "[" + this.getStatusIcon() + "] " + this.getTaskDescription();
     }
 
     /**
-     * check user input.
-     * @return user input
-     */
-    String checkUserInput(String userInput, String baseTaskName) throws DukeEmptyCommandException {
-        if (userInput.isBlank()) {
-            throw new DukeEmptyCommandException(baseTaskName);
-        } else {
-            return userInput;
-        }
-    }
-
-    /**
-     * get task description.
-     * @return formatted date string
+     * Format date from file input.
+     * @param originalDate representation of date from file input.
+     * @return representation of date in terminal.
+     * @throws ParseException incorrect format of date.
      */
     String dateFormatter(String originalDate) throws ParseException {
         String pattern = "dd/MM/yyyy hhmm";
@@ -149,14 +166,16 @@ public class Task {
     }
 
     /**
-     * Show the formatted task string to show for deadlines.
+     * Add task.
+     * @param size number of tasks.
      */
     public void addTaskString(int size) {
         Ui.showTaskActionString("added: ", this.getTaskDescription());
     }
 
     /**
-     * Show the formatted task string to show for deadlines.
+     * Remove task.
+     * @param size number of tasks.
      */
     public void removeTaskString(int size) {
         Ui.showTaskActionString("removed: ", this.getTaskDescription());

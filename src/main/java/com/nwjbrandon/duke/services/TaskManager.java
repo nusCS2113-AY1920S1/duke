@@ -1,11 +1,15 @@
 package com.nwjbrandon.duke.services;
 
-import com.nwjbrandon.duke.constants.TaskNames;
+import com.nwjbrandon.duke.constants.TaskCommands;
 import com.nwjbrandon.duke.services.commands.AddCommand;
+import com.nwjbrandon.duke.services.commands.DoneCommand;
 import com.nwjbrandon.duke.services.commands.DeleteCommand;
 import com.nwjbrandon.duke.services.commands.SearchCommand;
-import com.nwjbrandon.duke.services.validations.Parser;
-import com.nwjbrandon.duke.services.tasks.*;
+import com.nwjbrandon.duke.services.tasks.Task;
+import com.nwjbrandon.duke.services.tasks.TaskList;
+import com.nwjbrandon.duke.services.tasks.Deadlines;
+import com.nwjbrandon.duke.services.tasks.Todos;
+import com.nwjbrandon.duke.services.tasks.Events;
 import com.nwjbrandon.duke.services.storage.Storage;
 import com.nwjbrandon.duke.services.interfaces.Ui;
 import com.nwjbrandon.duke.exceptions.DukeException;
@@ -14,20 +18,30 @@ import com.nwjbrandon.duke.exceptions.DukeTypeConversionException;
 import com.nwjbrandon.duke.exceptions.DukeOutOfBoundException;
 import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskManager {
 
+    /**
+     * Container for list of task.
+     */
     private TaskList tasksList;
 
+    /**
+     * Create task manager.
+     */
     public TaskManager() {
         tasksList = new TaskList();
     }
 
     /**
-     * Differentiate tasks.
+     * Load tasks from file input.
+     * @param taskDetails information of tasks from file input.
+     * @throws DukeEmptyCommandException empty command.
      */
-    private void loadTasksList(String taskDetails) throws Exception {
+    private void loadTasksList(String taskDetails) throws DukeEmptyCommandException {
         String[] details = taskDetails.split("\\s\\|\\s");
         Task task;
         if (details[0].equals("T")) {
@@ -45,8 +59,11 @@ public class TaskManager {
 
     /**
      * Load data from file.
+     * @param filePath file path.
+     * @throws FileNotFoundException file not found.
+     * @throws DukeEmptyCommandException empty command.
      */
-    public void loadData(String filePath) throws Exception {
+    public void loadData(String filePath) throws FileNotFoundException, DukeEmptyCommandException {
         ArrayList<String> inputList = Storage.loadData(filePath);
         for (String taskDetails: inputList) {
             loadTasksList(taskDetails);
@@ -79,8 +96,10 @@ public class TaskManager {
 
     /**
      * Save data to file.
+     * @param filePath file path.
+     * @throws IOException IO error.
      */
-    public void saveData(String filePath) throws Exception {
+    public void saveData(String filePath) throws IOException {
         Storage.saveData(filePath, this.saveTaskList());
     }
 
@@ -99,27 +118,27 @@ public class TaskManager {
         try {
             String userInput = Ui.readInput();
             int size = tasksList.numberOfTasks();
-            if (userInput.equals(TaskNames.LIST.toString())) {
+            if (userInput.equals(TaskCommands.LIST.toString())) {
                 this.showTasksList();
-            } else if (userInput.startsWith(TaskNames.DONE.toString())) {
-                DeleteCommand c = new DeleteCommand(userInput, TaskNames.DONE.toString(), size);
+            } else if (userInput.startsWith(TaskCommands.DONE.toString())) {
+                DoneCommand c = new DoneCommand(userInput, TaskCommands.DONE.toString(), size);
                 tasksList.markDone(c.getTaskIndex());
-            } else if (userInput.startsWith(TaskNames.TODO.toString())) {
-                AddCommand c = new AddCommand(userInput, TaskNames.TODO.toString(), size);
+            } else if (userInput.startsWith(TaskCommands.TODO.toString())) {
+                AddCommand c = new AddCommand(userInput, TaskCommands.TODO.toString(), size + 1);
                 tasksList.addTask(c.setTask());
-            } else if (userInput.startsWith(TaskNames.EVENT.toString())) {
-                AddCommand c = new AddCommand(userInput, TaskNames.EVENT.toString(), size);
+            } else if (userInput.startsWith(TaskCommands.EVENT.toString())) {
+                AddCommand c = new AddCommand(userInput, TaskCommands.EVENT.toString(), size + 1);
                 tasksList.addTask(c.setTask());
-            } else if (userInput.startsWith(TaskNames.DEADLINE.toString())) {
-                AddCommand c = new AddCommand(userInput, TaskNames.DEADLINE.toString(), size);
+            } else if (userInput.startsWith(TaskCommands.DEADLINE.toString())) {
+                AddCommand c = new AddCommand(userInput, TaskCommands.DEADLINE.toString(), size + 1);
                 tasksList.addTask(c.setTask());
-            } else if (userInput.startsWith(TaskNames.DELETE.toString())) {
-                DeleteCommand c = new DeleteCommand(userInput, TaskNames.DELETE.toString(), size);
+            } else if (userInput.startsWith(TaskCommands.DELETE.toString())) {
+                DeleteCommand c = new DeleteCommand(userInput, TaskCommands.DELETE.toString(), size);
                 tasksList.removeTask(c.getTaskIndex());
-            } else if (userInput.startsWith(TaskNames.FIND.toString())) {
-                SearchCommand c = new SearchCommand(userInput, TaskNames.FIND.toString());
+            } else if (userInput.startsWith(TaskCommands.FIND.toString())) {
+                SearchCommand c = new SearchCommand(userInput, TaskCommands.FIND.toString());
                 tasksList.searchTask(c.getTaskDescription());
-            } else if (userInput.equals(TaskNames.BYE.toString())) {
+            } else if (userInput.equals(TaskCommands.BYE.toString())) {
                 return false;
             } else {
                 throw new DukeWrongCommandException();

@@ -1,15 +1,16 @@
 package com.nwjbrandon.duke.services.validations;
 
 import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
-import com.nwjbrandon.duke.exceptions.DukeException;
 import com.nwjbrandon.duke.exceptions.DukeOutOfBoundException;
 import com.nwjbrandon.duke.exceptions.DukeTypeConversionException;
 
 public class Parser {
 
     /**
-     * Checks whether string can be converted to integer.
-     * @return integer
+     * Check whether string can convert to integer.
+     * @param taskIndexString task index in string.
+     * @return task index.
+     * @throws DukeTypeConversionException type conversion error.
      */
     public static Integer checkStringToIntegerConversion(String taskIndexString) throws DukeTypeConversionException {
         try {
@@ -20,8 +21,11 @@ public class Parser {
     }
 
     /**
-     * Checks whether index is within the list.
-     * @return integer
+     * Check whether index is within list.
+     * @param index task index.
+     * @param size number of tasks.
+     * @return task index.
+     * @throws DukeOutOfBoundException index falls outside of list.
      */
     public static Integer checkIndex(Integer index, int size) throws DukeOutOfBoundException {
         if (size <= index || index < 0) {
@@ -32,8 +36,8 @@ public class Parser {
     }
 
     /**
-     * Validates user input for done.
-     * @return string after checking
+     * Check whether the user input is blank.
+     * @return string if no blanks found.
      */
     private static String checkBlanksInUserInput(String userInput, String command) throws DukeEmptyCommandException {
         if (userInput.isBlank()) {
@@ -44,8 +48,11 @@ public class Parser {
     }
 
     /**
-     * Validates user input for instructions
-     * @return string for correct command input
+     * Check whether the instruction is found in the input.
+     * @param userInput input by user.
+     * @param command type of command.
+     * @return instruction in input if found.
+     * @throws DukeEmptyCommandException empty command.
      */
     private static String checkLengthOfCommandInput(String userInput, String command) throws DukeEmptyCommandException {
         try {
@@ -55,12 +62,13 @@ public class Parser {
         }
     }
 
-    public static int getIndexFromCommandInput(String userInput, String command, int size) throws DukeException {
-        String taskIndexString = Parser.checkBlanksInUserInput(checkLengthOfCommandInput(userInput, command), command) ;
-        Integer taskIndex = Parser.checkStringToIntegerConversion(taskIndexString);
-        return Parser.checkIndex(taskIndex - 1, size);
-    }
-
+    /**
+     * Validates user input before creating task.
+     * @param userInput input by user.
+     * @param command type of command.
+     * @return instructions in input
+     * @throws DukeEmptyCommandException empty command.
+     */
     public static String checkCommandInput(String userInput, String command) throws DukeEmptyCommandException {
         return checkBlanksInUserInput(checkLengthOfCommandInput(userInput, command), command);
     }

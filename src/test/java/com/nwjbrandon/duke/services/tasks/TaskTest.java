@@ -8,7 +8,7 @@ public class TaskTest extends TestExtender {
 
     @Test
     public void testTaskInit() throws Exception {
-        Task task = new Task("borrow book");
+        Task task = new Task("borrow book", 1);
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
         String output = getOutput();
@@ -21,21 +21,21 @@ public class TaskTest extends TestExtender {
 
     @Test
     public void testTaskName() throws Exception {
-        Task task = new Task("borrow book");
+        Task task = new Task("borrow book", 1);
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
     }
 
     @Test
     public void testTaskStatus() throws Exception {
-        Task task = new Task("added book");
+        Task task = new Task("added book", 1);
         boolean doneStatus = task.getIsDoneStatus();
         assertEquals(false, doneStatus);
     }
 
     @Test
     public void testsetTaskDone() throws Exception {
-        Task task = new Task("added book");
+        Task task = new Task("added book", 1);
         boolean doneStatus = task.getIsDoneStatus();
         assertEquals(false, doneStatus);
         task.setDoneStatus(true);

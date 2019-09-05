@@ -6,20 +6,29 @@ import java.util.Scanner;
 
 public class Ui {
 
-    public static String divider = "____________________________________________________________";
+    /**
+     * Divider for messages.
+     */
+    private static String divider = "____________________________________________________________";
 
+    /**
+     * Create user interface.
+     */
     public Ui() {
     }
 
     /**
-     * Read the console input.
-     * @return input value
+     * Read input.
+     * @return input.
      */
     public static String readInput() {
         Scanner scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
+    /**
+     * Show divider.
+     */
     private static void printDivider() {
         System.out.println("\t" + Ui.divider);
     }
@@ -45,6 +54,10 @@ public class Ui {
         Ui.printDivider();
     }
 
+    /**
+     * Show list of tasks.
+     * @param tasksList list of tasks.
+     */
     public static void showTasksList(TaskList tasksList) {
         int size = tasksList.numberOfTasks();
         StringBuilder output = new StringBuilder("\t Here are the tasks in your lists:\n");
@@ -59,7 +72,9 @@ public class Ui {
     }
 
     /**
-     * show the formatted task string to show for events.
+     * Show add task message.
+     * @param taskDescription description of task.
+     * @param numberOfTasks number of tasks.
      */
     public static void showAddTaskString(String taskDescription, int numberOfTasks) {
         String output =  "\t Got it. I've added this task:\n"
@@ -71,7 +86,9 @@ public class Ui {
     }
 
     /**
-     * show the formatted task string to show for deadlines.
+     * Show remove task message.
+     * @param taskDescription description of task.
+     * @param size number of task.
      */
     public static void showRemoveTaskString(String taskDescription, int size) {
         String output =  "\t Noted. I've removed this task:\n"
@@ -82,6 +99,11 @@ public class Ui {
         Ui.printDivider();
     }
 
+    /**
+     * Show added task message.
+     * @param command command.
+     * @param taskDescription description of task.
+     */
     public static void showTaskActionString(String command, String taskDescription) {
         Ui.printDivider();
         System.out.print(command + taskDescription + "\n");
@@ -94,10 +116,12 @@ public class Ui {
     public static void showSearchTask(TaskList tasksList, String keyword) {
         StringBuilder output = new StringBuilder("\t Here are the matching tasks in your list:\n");
         int size = tasksList.numberOfTasks();
+        int count = 1;
         for (int i = 0; i < size; i++) {
             if (tasksList.getTask(i).getTaskName().contains(keyword)) {
-                output.append("\t ").append(i + 1).append(".").append(tasksList.getTask(i)
+                output.append("\t ").append(count).append(".").append(tasksList.getTask(i)
                         .toTaskDescriptionString()).append("\n");
+                count++;
             }
         }
         Ui.printDivider();
@@ -106,7 +130,8 @@ public class Ui {
     }
 
     /**
-     * show the done status of the task.
+     * Show set status message.
+     * @param taskDescription description of task.
      */
     public static void showSetDoneStatus(String taskDescription) {
         String output = "\t Nice! I've marked this task as done:\n"
@@ -116,6 +141,10 @@ public class Ui {
         Ui.printDivider();
     }
 
+    /**
+     * Show error message.
+     * @param errorMessage error message.
+     */
     public static void showError(String errorMessage) {
         Ui.printDivider();
         System.out.print("\t " + errorMessage + "\n");

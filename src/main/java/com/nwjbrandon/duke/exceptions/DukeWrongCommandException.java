@@ -4,11 +4,14 @@ import com.nwjbrandon.duke.services.interfaces.Ui;
 
 public class DukeWrongCommandException extends DukeException {
 
+    /**
+     * Error message for wrong command.
+     */
     public DukeWrongCommandException() {
     }
 
     /**
-     * show the error message.
+     * Show the error message for wrong command.
      */
     @Override
     public void showError() {

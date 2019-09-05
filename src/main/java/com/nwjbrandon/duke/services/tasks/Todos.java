@@ -1,31 +1,41 @@
 package com.nwjbrandon.duke.services.tasks;
 
-import com.nwjbrandon.duke.constants.TaskNames;
 import com.nwjbrandon.duke.services.interfaces.Ui;
 
 public class Todos extends Task {
 
-    public Todos(String taskName, int numberOfTasks) throws Exception {
+    /**
+     * Create todos task from command line.
+     * @param taskName task name.
+     * @param numberOfTasks number of tasks.
+     */
+    public Todos(String taskName, int numberOfTasks) {
         super(taskName, numberOfTasks);
     }
 
-    public Todos(String[] taskDetails, int numberOfTasks) throws Exception {
+    /**
+     * Create event task from file input.
+     * @param taskDetails task information from file input.
+     * @param numberOfTasks number of tasks.
+     */
+    public Todos(String[] taskDetails, int numberOfTasks) {
         this(taskDetails[2], numberOfTasks);
     }
 
     /**
-     * get the formatted task name.
-     * @return formatted task name
+     * Format name of task before creating task.
+     * @param taskName task name
+     * @return formatted task name.
      */
     @Override
-    public String formatTaskName(String taskName) throws Exception {
-        String formattedTaskName = checkUserInput(taskName, TaskNames.TODO.toString());
-        this.taskName = formattedTaskName;
-        return formattedTaskName;
+    public String formatTaskName(String taskName) {
+        this.taskName = taskName;
+        return taskName;
     }
 
     /**
-     * get the formatted task string to show for deadlines.
+     * Add task.
+     * @param size number of tasks.
      */
     @Override
     public void addTaskString(int size) {
@@ -33,7 +43,7 @@ public class Todos extends Task {
     }
 
     /**
-     * get the formatted task string to show for deadlines.
+     * Remove task.
      */
     @Override
     public void removeTaskString(int size) {
@@ -41,8 +51,8 @@ public class Todos extends Task {
     }
 
     /**
-     * get the formatted task string to show for todos.
-     * @return formatted task string to show for todos
+     * Get task description.
+     * @return description of task.
      */
     @Override
     public String toTaskDescriptionString() {

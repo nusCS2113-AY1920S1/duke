@@ -5,25 +5,38 @@ import com.nwjbrandon.duke.services.interfaces.Ui;
 import java.util.ArrayList;
 
 public class TaskList {
+
+    /**
+     * Container for tasks.
+     */
     private ArrayList<Task> tasksList;
 
-    public TaskList () {
+    /**
+     * Create list of tasks.
+     */
+    public TaskList() {
         tasksList = new ArrayList<>();
     }
 
+    /**
+     * Get the list of tasks.
+     * @return list of tasks.
+     */
     public ArrayList<Task> getTasksList() {
         return tasksList;
     }
 
     /**
-     * Add tasks.
+     * Add task.
+     * @param task task.
      */
     public void addTask(Task task) {
         tasksList.add(task);
     }
 
     /**
-     * Remove task
+     * Remove task.
+     * @param taskIndex index of task.
      */
     public void removeTask(int taskIndex) {
         tasksList.get(taskIndex).removeTaskString(this.numberOfTasks());
@@ -31,22 +44,33 @@ public class TaskList {
     }
 
     /**
-     * Mark task as done.
+     * Set task as done.
+     * @param taskIndex index of task.
      */
     public void markDone(int taskIndex) {
         tasksList.get(taskIndex).setDoneStatus(true);
     }
 
+    /**
+     * Get number of tasks.
+     * @return number of tasks.
+     */
     public int numberOfTasks() {
         return tasksList.size();
     }
 
+    /**
+     * Get task.
+     * @param taskIndex task index.
+     * @return task.
+     */
     public Task getTask(int taskIndex) {
         return tasksList.get(taskIndex);
     }
 
     /**
-     * Show the list of tasks by keywords.
+     * Get tasks by keywords.
+     * @param keyword keyword by input.
      */
     public void searchTask(String keyword) {
         Ui.showSearchTask(this, keyword);
