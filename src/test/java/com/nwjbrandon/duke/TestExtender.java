@@ -13,7 +13,6 @@ public class TestExtender {
     private final InputStream systemIn = System.in;
     private final PrintStream systemOut = System.out;
 
-    private ByteArrayInputStream testIn;
     private ByteArrayOutputStream testOut;
 
     @BeforeEach
@@ -23,7 +22,7 @@ public class TestExtender {
     }
 
     protected void provideInput(String data) {
-        testIn = new ByteArrayInputStream(data.getBytes());
+        ByteArrayInputStream testIn = new ByteArrayInputStream(data.getBytes());
         System.setIn(testIn);
     }
 

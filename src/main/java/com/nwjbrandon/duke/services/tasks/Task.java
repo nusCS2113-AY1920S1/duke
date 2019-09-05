@@ -1,7 +1,6 @@
 package com.nwjbrandon.duke.services.tasks;
 
 import com.nwjbrandon.duke.services.interfaces.Ui;
-import com.nwjbrandon.duke.exceptions.DukeEmptyCommandException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,7 +55,7 @@ public class Task {
      * @return formatted task name.
      */
     public String formatTaskName(String taskDescription) {
-        return taskName;
+        return taskDescription;
     }
 
     /**
@@ -170,7 +169,7 @@ public class Task {
      * @param size number of tasks.
      */
     public void addTaskString(int size) {
-        Ui.showTaskActionString("added: ", this.getTaskDescription());
+        Ui.showTaskActionString("\t added: ", this.getTaskDescription());
     }
 
     /**
@@ -178,6 +177,6 @@ public class Task {
      * @param size number of tasks.
      */
     public void removeTaskString(int size) {
-        Ui.showTaskActionString("removed: ", this.getTaskDescription());
+        Ui.showTaskActionString("\t removed: ", this.getTaskDescription());
     }
 }
