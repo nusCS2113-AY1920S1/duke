@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class EventsTest extends TestExtender {
 
     @Test
-    void testTodoISODate() {
+    void testTodoIsoDate() {
         new Events("borrow book /at 2/2/2019 1900", 1);
         String output = getOutput();
         String expected = "\t____________________________________________________________\n"
@@ -40,7 +40,7 @@ class EventsTest extends TestExtender {
     }
 
     @Test
-    void testGetTaskNameISODate() {
+    void testGetTaskNameIsoDate() {
         Events task = new Events("borrow book /at 2/2/2019 1900",1);
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);

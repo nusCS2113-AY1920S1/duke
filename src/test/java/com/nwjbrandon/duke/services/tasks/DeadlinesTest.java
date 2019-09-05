@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class DeadlinesTest extends TestExtender {
 
     @Test
-    void testTodoISODate() {
+    void testTodoIsoDate() {
         new Deadlines("borrow book /by 2/2/2019 1900", 1);
         String output = getOutput();
         String expected = "\t____________________________________________________________\n"
@@ -40,7 +40,7 @@ class DeadlinesTest extends TestExtender {
     }
 
     @Test
-    void testGetTaskNameISODate() {
+    void testGetTaskNameIsoDate() {
         Deadlines task = new Deadlines("borrow book /by 2/2/2019 1900",1);
         String taskName = task.getTaskName();
         assertEquals("borrow book", taskName);
