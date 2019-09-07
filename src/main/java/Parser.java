@@ -1,3 +1,8 @@
+import duke.Deadline;
+import duke.Event;
+import duke.Task;
+import duke.ToDo;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
