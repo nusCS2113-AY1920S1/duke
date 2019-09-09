@@ -32,7 +32,7 @@ class Parser {
             if(!temp.hasNextLine())
                 throw new DukeException("☹ OOPS!!! The description of a " + command + " cannot be empty.");
             String input = temp.nextLine();
-            input = input.trim();
+            input = input.strip();
             //System.out.println("input is" + input + "\nCommand is" + command);
 
             if(input.isBlank())
