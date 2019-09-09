@@ -18,7 +18,6 @@ public class Duke {
     }
     private void run() {
         ui.showWelcome();
-        String command= "";
         boolean isExit = false;
         while(!isExit)
         {
@@ -28,13 +27,9 @@ public class Duke {
                 Command c = Parser.parse(line);
                 c.execute(this.taskList, this.ui, this.storage);
                 isExit = c.isExit();
-            }catch (DukeException e) {
+            }catch (DukeException | NullPointerException e) {
                 ui.showError(e.getLocalizedMessage());
-            }
-            catch(NullPointerException e){
-                ui.showError(e.getLocalizedMessage());
-            }
-            finally {
+            } finally {
                 ui.showLine();
             }
         }
@@ -48,7 +43,7 @@ public class Duke {
         }
     }
     public static void main(String[] args) {
-        /* I am using A collections */
+        /* Writing Level 1.... */
         new Duke("list.txt").run();
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
