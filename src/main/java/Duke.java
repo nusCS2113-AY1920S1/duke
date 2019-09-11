@@ -23,7 +23,6 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static java.lang.System.exit;
 
@@ -63,6 +62,7 @@ public class Duke extends Application {
     Ui ui;
     Storage storage;
     TaskList tasklist;
+    Parser parser;
 
 
     /**
@@ -82,8 +82,8 @@ public class Duke extends Application {
         storage = new Storage(saveFilePath);
         storage.loadDuke(tasklist.arrlist); //load from the file into the arraylist, if any thing to load at all
 
-        //start parsing commands (comment out when testing UI or execute loop on separate thread)
-        //new Parser(this);
+        //start parsing commands
+        parser = new Parser(this);
     }
 
 
@@ -92,14 +92,15 @@ public class Duke extends Application {
      * @param stage
      * @throws Exception
      * This function is for setting up the JavaFX(GUI) stage, overridden from javafx.application.Application
+     * @UsedIn: Launcher.java (indirect call)
      */
     @Override
     public void start(Stage stage) throws Exception {
 
+        //make GUI components
         scrollPane = new ScrollPane();
         dialogContainer = new VBox();
         scrollPane.setContent(dialogContainer);
-
         userInput = new TextField();
         sendButton = new Button("Send");
 
@@ -110,16 +111,16 @@ public class Duke extends Application {
         System.out.println("Displaying GUI!");
 
         stage.setTitle("Duke");
+
+        //Setting dimensions of components/stage
         stage.setResizable(true);
         stage.setMinHeight(400);
         stage.setMinWidth(400);
-
         mainLayout.setPrefSize(400,400);
 
         scrollPane.setPrefSize(385,385);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
         scrollPane.setVvalue(1.0);
         scrollPane.setFitToWidth(true);
 
@@ -128,14 +129,14 @@ public class Duke extends Application {
         userInput.setPrefWidth(325);
         sendButton.setPrefWidth(55);
 
-        AnchorPane.setTopAnchor(scrollPane,1.0);
-        AnchorPane.setBottomAnchor(sendButton,1.0);
-        AnchorPane.setRightAnchor(sendButton,1.0);
-        AnchorPane.setLeftAnchor(userInput,1.0);
-        AnchorPane.setBottomAnchor(userInput,1.0);
+        //set the constraints of the 3 UI elements to the parent (AnchorPane)
+        AnchorPane.setTopAnchor(scrollPane,userInput.getHeight()+30.0);
+        AnchorPane.setTopAnchor(userInput,1.0);
+        AnchorPane.setTopAnchor(sendButton,1.0);
+        AnchorPane.setRightAnchor(userInput,20.0);
 
 
-
+        //on clicking the send button
         sendButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -143,11 +144,10 @@ public class Duke extends Application {
             }
         });
 
+        //on user pressing enter while focus is on textfield
         userInput.setOnAction(actionEvent -> handleUserInput());
 
-
         dialogContainer.heightProperty().addListener(observable -> scrollPane.setVvalue(1.0));
-
 
         stage.setScene(scene);
         stage.show();
@@ -160,19 +160,20 @@ public class Duke extends Application {
      * @Function
      * This function creates 2 dialog boxes, 1 echoing user input and the other containing a processed reply
      * from Duke. Clears userinput box after processing
+     * @UsedIn: sendButton.setOnMouseClicked
      */
     private void handleUserInput(){
-        Label userText = getDialogLabel(userInput.getText());
-        Label responseText = getDialogLabel(getResponse(userInput.getText()));
+        String cmd = userInput.getText();
 
-        dialogContainer.getChildren().addAll(DialogBox.getUserDialog(userText,new ImageView(trump)),
-                                            DialogBox.getDukeDialog(responseText,new ImageView(kim)));
+        //send to parser to parse
+        parser.processCommands(cmd);
+
+        //show the command in the dialog container. todo: Just temporary. Remove as needed.
+        dialogContainer.getChildren().addAll(getDialogLabel(cmd));
+
         userInput.clear();
+
     }
-
-
-
-
 
 
     /**

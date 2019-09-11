@@ -8,20 +8,18 @@ public class Parser {
     public Parser(Duke d){
         this.d=d;
         sc = new Scanner(System.in);
-        processCommands();
     }
 
     /**
      * @Function
-     * No Params, No Return Value
-     * This function handles the main CLI parsing loop
-     * @UsedIn: Duke Constructor
+     * @param cmd
+     * No return value
+     * This function handles the main CLI parsing. Just pass in the cmd string and it will work its magic.
+     * It uses regex to understand the command entered.
+     * @UsedIn: Duke.handleUserInput()
+     * todo:Replace all console output with GUI output
      */
-    public void processCommands(){
-
-        //cli loop
-        while(true){
-            String cmd = sc.nextLine();
+    public void processCommands(String cmd){
 
             if(cmd.equals("bye")){
                 d.exitDuke();
@@ -36,7 +34,7 @@ public class Parser {
             else if(cmd.matches("delete ([0-9]+)")){
                 d.tasklist.deleteTask(cmd);
             }
-            else if (cmd.matches("(todo|event|deadline) .+")){  //use regex to make life easier
+            else if (cmd.matches("(todo|event|deadline) .+")){
                 d.tasklist.addTask(cmd);
             }
             else if (cmd.matches("find (.*)")){
@@ -56,7 +54,7 @@ public class Parser {
                     System.out.println(e);
                 }
             }
-        }
+
     }
 
 

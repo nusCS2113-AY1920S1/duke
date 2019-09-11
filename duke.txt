@@ -1,5 +1,4 @@
 T true hello
 T true meet friends
 E true lunch (at: 4pm)
-D false meet boss (by: 3pm)
-T false hei
+T true hei
