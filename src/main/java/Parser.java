@@ -64,6 +64,11 @@ public class Parser  {
             task_1.change_status(index-1,true);
         }   
     }
+      /**
+     * Creates a end message for the number items in the list. 
+     * @param int num, the number of items in the list.
+     * @return String 
+     */
     public static String get_end_message(int num){ 
         String task_num;
         if(num==1){ 
@@ -74,6 +79,11 @@ public class Parser  {
         }
         return "Now you have " + Integer.toString(num)+ " " + task_num+ " in the list.";
     }
+      /**
+     * Creates a new todo object and adds it to the array list through  task_1. 
+     * @param s String command
+     * @return void 
+     */
     public void create_todo(String command) throws DukeException{ 
         String[] command_list = command.split(" ",2);
         //System.out.println("inside create todo");
@@ -91,6 +101,11 @@ public class Parser  {
             throw new DukeException(message); 
         }
     }
+      /**
+     * Creates a new event object and adds it to the array list through  task_1. 
+     * @param s String work
+     * @return void 
+     */
     public void create_events(String work) throws DukeException{ 
         String[] tasks = work.split("\\/at");
         if(tasks.length >=2 && !(tasks[1].trim().equals("")) ){ 
@@ -135,6 +150,11 @@ public class Parser  {
         }
         
     }
+      /**
+     * Creates a new deadline and adds it to the array list through  task_1. 
+     * @param s String work
+     * @return void 
+     */
     public void create_deadline(String work) throws DukeException{ 
         String[] tasks = work.split("\\/by");
         //System.out.println(Arrays.toString(tasks)+tasks[1].trim());
@@ -162,6 +182,9 @@ public class Parser  {
         }
        
     }
+      /**
+     * Writes the data to the file 
+     */
     public void serial(){ 
         try{ 
             writer.serial(task_1.get_list());
